@@ -25,7 +25,7 @@ const sidebarItems = (() => {
 
     const getSidebarData = () => sidebarLog;
 
-    const addSidebarCategory = (title, items) => {
+    const addSidebarCategory = (title, items = []) => {
         if (typeof title !== 'string') {
             throw new Error('Title must be a string');
         }
@@ -111,7 +111,7 @@ const sidebar = () => {
 
 
     // Create sidebar items
-    sidebarItems.addSidebarCategory('Home', []);
+    sidebarItems.addSidebarCategory('Home');
     sidebarItems.addSidebarItem('Home', All, 'All');
     sidebarItems.addSidebarItem('Home', Today, 'Today');
     sidebarItems.addSidebarItem('Home', Week, 'Week');
