@@ -20,6 +20,95 @@ const createSidebarItems = (icon, text) => {
     return item;
 }
 
+const sidebarItems = () => {
+    let sidebarLog = [
+        {
+            title: 'Home',
+            items: [
+                {
+                    icon: All,
+                    text: 'All'
+                },
+                {
+                    icon: Today,
+                    text: 'Today'
+                },
+                {
+                    icon: Week,
+                    text: 'Week'
+                },
+                {
+                    icon: Important,
+                    text: 'Important'
+                },
+                {
+                    icon: Completed,
+                    text: 'Completed'
+                }
+            ]
+        },
+    ]
+
+    const getSidebarData = () => sidebarLog;
+
+    const addSidebarCategory = (title, items) => {
+        if (typeof title !== 'string') {
+            throw new Error('Title must be a string');
+        }
+        if (!Array.isArray(items)) {
+            throw new Error('Items must be an array');
+        }
+        sidebarLog.push({ title, items });
+    }
+
+    const addSidebarItem = (title, icon, text) => {
+        if (typeof title !== 'string') {
+            throw new Error('Title must be a string');
+        }
+        if (typeof icon !== 'string') {
+            throw new Error('Icon must be a string');
+        }
+        if (typeof text !== 'string') {
+            throw new Error('Text must be a string');
+        }
+        
+        const category = sidebarLog.find((category) => category.title === title);
+        if (!category) {
+            throw new Error('Category not found');
+        }
+        category.items.push({ icon, text });
+    }
+
+    return {getSidebarData, addSidebarCategory, addSidebarItem };
+
+}
+
+const createSidebarCategory = (data) => {
+
+    for (let i = 0; i < data.length; i++) {
+        const Box = document.createElement('div');
+        Box.classList.add('box');
+        const titleBox = document.createElement('div');
+        titleBox.classList.add('title-box');
+        const title = document.createElement('h2');
+        title.textContent = data[i].title;
+        titleBox.appendChild(title);
+        Box.appendChild(titleBox);
+        Box.appendChild(titleBox);
+
+        const Items = document.createElement('div');
+        Items.classList.add('items');
+        for (let j = 0; j < data[i].items.length; j++) {
+            const item = createSidebarItems(data[i].items[j].icon, data[i].items[j].text);
+            Items.appendChild(item);
+        }
+
+        Box.appendChild(Items);
+        return Box;
+    }
+
+}
+
 const sidebar = () => {
     // Create sidebar
     const sidebar = document.createElement('div');
@@ -39,50 +128,10 @@ const sidebar = () => {
     const logoLink2 = document.createElement('a');
     logoLink2.appendChild(logoText);
     logoBox.appendChild(logoLink2);
-
-    // Create Home Box
-    const homeBox = document.createElement('div');
-    homeBox.classList.add('home-box');
-
-    // Create Home Title
-    const titleBox = document.createElement('div');
-    titleBox.classList.add('title-box');
-    const title = document.createElement('h2');
-    title.textContent = 'Home';
-
-    // Create Home Items
-    const homeItems = document.createElement('div');
-    homeItems.classList.add('home-items');
-
-    // Create All
-    const all = createSidebarItems(All, 'All');
-
-    // Create Today
-    const today = createSidebarItems(Today, 'Today');
-
-    // Create Week
-    const week = createSidebarItems(Week, 'Week');
-
-    // Create Important
-    const important = createSidebarItems(Important, 'Important');
-
-    // Create Completed
-    const completed = createSidebarItems(Completed, 'Completed');
-
-    // add Header and Logo
-    titleBox.appendChild(title);
-    homeBox.appendChild(titleBox);
-    homeBox.appendChild(titleBox);
-
-    // add Home Items
-    homeItems.appendChild(all);
-    homeItems.appendChild(today);
-    homeItems.appendChild(week);
-    homeItems.appendChild(important);
-    homeBox.appendChild(homeItems);
+    createSidebarCategory(sidebarItems().getSidebarData())
 
     sidebar.appendChild(logoBox);
-    sidebar.appendChild(homeBox);
+    sidebar.appendChild(createSidebarCategory(sidebarItems().getSidebarData()));
 
     document.querySelector('#content').appendChild(sidebar);
 }
