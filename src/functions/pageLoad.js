@@ -59,6 +59,9 @@ const sidebarItems = (() => {
 
 const createSidebarCategory = (data) => {
 
+    const sidebarContent = document.createElement('div');
+    sidebarContent.classList.add('sidebar-content');
+
     for (let i = 0; i < data.length; i++) {
         const Box = document.createElement('div');
         Box.classList.add('box');
@@ -78,8 +81,9 @@ const createSidebarCategory = (data) => {
         }
 
         Box.appendChild(Items);
-        return Box;
+        sidebarContent.appendChild(Box);
     }
+    return sidebarContent;
 
 }
 
@@ -103,6 +107,8 @@ const sidebar = () => {
     logoLink2.appendChild(logoText);
     logoBox.appendChild(logoLink2);
     sidebar.appendChild(logoBox);
+
+
 
     // Create sidebar items
     sidebarItems.addSidebarCategory('Home', []);
