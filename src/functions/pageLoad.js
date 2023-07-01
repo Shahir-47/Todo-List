@@ -108,8 +108,6 @@ const sidebar = () => {
     logoBox.appendChild(logoLink2);
     sidebar.appendChild(logoBox);
 
-
-
     // Create sidebar items
     sidebarItems.addSidebarCategory('Home');
     sidebarItems.addSidebarItem('Home', All, 'All');
@@ -117,6 +115,10 @@ const sidebar = () => {
     sidebarItems.addSidebarItem('Home', Week, 'Week');
     sidebarItems.addSidebarItem('Home', Important, 'Important');
     sidebarItems.addSidebarItem('Home', Completed, 'Completed');
+
+    sidebarItems.addSidebarCategory('Projects');
+
+    sidebarItems.addSidebarCategory('Notes');  
 
     sidebar.appendChild(createSidebarCategory(sidebarItems.getSidebarData()));
 

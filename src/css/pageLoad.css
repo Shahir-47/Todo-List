@@ -125,3 +125,11 @@ div#content {
     margin: 0;
     cursor: pointer;
 }
+
+.sidebar-content{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: space-between;
+    height: 100%;
+}
