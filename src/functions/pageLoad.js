@@ -20,34 +20,8 @@ const createSidebarItems = (icon, text) => {
     return item;
 }
 
-const sidebarItems = () => {
-    let sidebarLog = [
-        {
-            title: 'Home',
-            items: [
-                {
-                    icon: All,
-                    text: 'All'
-                },
-                {
-                    icon: Today,
-                    text: 'Today'
-                },
-                {
-                    icon: Week,
-                    text: 'Week'
-                },
-                {
-                    icon: Important,
-                    text: 'Important'
-                },
-                {
-                    icon: Completed,
-                    text: 'Completed'
-                }
-            ]
-        },
-    ]
+const sidebarItems = (() => {
+    let sidebarLog = []
 
     const getSidebarData = () => sidebarLog;
 
@@ -79,9 +53,9 @@ const sidebarItems = () => {
         category.items.push({ icon, text });
     }
 
-    return {getSidebarData, addSidebarCategory, addSidebarItem };
+    return {getSidebarData, addSidebarCategory, addSidebarItem }
 
-}
+})();
 
 const createSidebarCategory = (data) => {
 
@@ -114,7 +88,7 @@ const sidebar = () => {
     const sidebar = document.createElement('div');
     sidebar.classList.add('sidebar');
 
-    // Create Logo Box
+    // Create Logo and Header Text
     const logoBox = document.createElement('div');
     logoBox.classList.add('logo-box');
     const logo = document.createElement('img');
@@ -128,10 +102,17 @@ const sidebar = () => {
     const logoLink2 = document.createElement('a');
     logoLink2.appendChild(logoText);
     logoBox.appendChild(logoLink2);
-    createSidebarCategory(sidebarItems().getSidebarData())
-
     sidebar.appendChild(logoBox);
-    sidebar.appendChild(createSidebarCategory(sidebarItems().getSidebarData()));
+
+    // Create sidebar items
+    sidebarItems.addSidebarCategory('Home', []);
+    sidebarItems.addSidebarItem('Home', All, 'All');
+    sidebarItems.addSidebarItem('Home', Today, 'Today');
+    sidebarItems.addSidebarItem('Home', Week, 'Week');
+    sidebarItems.addSidebarItem('Home', Important, 'Important');
+    sidebarItems.addSidebarItem('Home', Completed, 'Completed');
+
+    sidebar.appendChild(createSidebarCategory(sidebarItems.getSidebarData()));
 
     document.querySelector('#content').appendChild(sidebar);
 }
