@@ -20,7 +20,7 @@ const createSidebarItems = (icon, text) => {
     return item;
 }
 
-const sidebarItems = (() => {
+const sidebarData = (() => {
     let sidebarLog = []
 
     const getSidebarData = () => sidebarLog;
@@ -109,18 +109,18 @@ const sidebar = () => {
     sidebar.appendChild(logoBox);
 
     // Create sidebar items
-    sidebarItems.addSidebarCategory('Home');
-    sidebarItems.addSidebarItem('Home', All, 'All');
-    sidebarItems.addSidebarItem('Home', Today, 'Today');
-    sidebarItems.addSidebarItem('Home', Week, 'Week');
-    sidebarItems.addSidebarItem('Home', Important, 'Important');
-    sidebarItems.addSidebarItem('Home', Completed, 'Completed');
+    sidebarData.addSidebarCategory('Home');
+    sidebarData.addSidebarItem('Home', All, 'All');
+    sidebarData.addSidebarItem('Home', Today, 'Today');
+    sidebarData.addSidebarItem('Home', Week, 'Week');
+    sidebarData.addSidebarItem('Home', Important, 'Important');
+    sidebarData.addSidebarItem('Home', Completed, 'Completed');
 
-    sidebarItems.addSidebarCategory('Projects');
+    sidebarData.addSidebarCategory('Projects');
 
-    sidebarItems.addSidebarCategory('Notes');  
+    sidebarData.addSidebarCategory('Notes');  
 
-    sidebar.appendChild(createSidebarCategory(sidebarItems.getSidebarData()));
+    sidebar.appendChild(createSidebarCategory(sidebarData.getSidebarData()));
 
     document.querySelector('#content').appendChild(sidebar);
 }
