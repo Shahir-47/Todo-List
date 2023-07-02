@@ -1,5 +1,6 @@
 import Icon from '../assets/img/icon.svg';
 import menu from '../assets/img/menu.svg';
+import search from '../assets/img/search.svg';
 
 const header = () => {
     const bar = document.createElement('div');
@@ -32,6 +33,25 @@ const header = () => {
     leftBox.appendChild(logoBox);
 
     bar.appendChild(leftBox);
+
+    const searchBox = document.createElement('div');
+    searchBox.classList.add('search-box');
+    const searchInput = document.createElement('input');
+    searchInput.classList.add('search-input');
+    searchInput.type = 'text';
+    searchInput.placeholder = 'Search';
+    searchBox.appendChild(searchInput);
+    const searchButton = document.createElement('button');
+    searchButton.classList.add('search-button');
+    searchBox.appendChild(searchButton);
+    const searchIcon = document.createElement('img');
+    searchIcon.src = search;
+    searchIcon.alt = 'Search icon';
+    searchButton.appendChild(searchIcon);
+
+    bar.appendChild(searchBox);
+
+
     document.querySelector('div#content').appendChild(bar);
 }
 
