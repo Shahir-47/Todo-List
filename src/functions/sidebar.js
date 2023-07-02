@@ -12,9 +12,20 @@ import allNotes from '../assets/img/allNotes.svg';
 import starredNotes from '../assets/img/starredNote.svg';
 
 // Create a sidebar item
-const createSidebarItems = (icon, text) => { 
+const createSidebarItems = (icon, text, barType) => { 
     const item = document.createElement('div');
     item.classList.add('item');
+    if (barType === 'mini') {
+        item.classList.remove('item-row');
+        item.classList.add('item-column');
+        item.classList.add('item-mini');
+        item.classList.remove('item-reg')
+    } else {
+        item.classList.remove('item-column');
+        item.classList.add('item-row');
+        item.classList.add('item-reg');
+        item.classList.remove('item-mini');
+    }
     const itemIcon = document.createElement('img');
     itemIcon.src = icon;
     itemIcon.alt = text;
@@ -31,6 +42,31 @@ const sidebarData = (() => {
     let sidebarLog = []
 
     const getSidebarData = () => sidebarLog;
+
+    const removeAll = () => {
+        sidebarLog = [];
+    }
+
+    const removeSidebarCategory = (title) => {
+        if (typeof title !== 'string') {
+            throw new Error('Title must be a string');
+        }
+        sidebarLog = sidebarLog.filter((category) => category.title !== title);
+    }
+
+    const removeSidebarItem = (title, text) => {
+        if (typeof title !== 'string') {
+            throw new Error('Title must be a string');
+        }
+        if (typeof text !== 'string') {
+            throw new Error('Text must be a string');
+        }
+        const category = sidebarLog.find((category) => category.title === title);
+        if (!category) {
+            throw new Error('Category not found');
+        }
+        category.items = category.items.filter((item) => item.text !== text);
+    }
 
     const addSidebarCategory = (title, items = []) => {
         if (typeof title !== 'string') {
@@ -60,11 +96,11 @@ const sidebarData = (() => {
         category.items.push({ icon, text });
     }
 
-    return {getSidebarData, addSidebarCategory, addSidebarItem }
+    return {getSidebarData, addSidebarCategory, addSidebarItem, removeSidebarCategory, removeSidebarItem, removeAll }
 
 })();
 
-const createSidebarCategory = (data) => {
+const createSidebarCategory = (data, barType = "full") => {
     // find the height of the nav-bar
     const top = document.querySelector('.nav-bar').offsetHeight;
 
@@ -74,23 +110,39 @@ const createSidebarCategory = (data) => {
     sidebarContent.style.height = 'calc(100vh - ' + top + 'px)';
     sidebarContent.style.marginTop = top + 'px';
 
+    if (barType === 'mini') {
+        sidebarContent.classList.add('mini');
+        sidebarContent.classList.remove('full');
+        sidebarContent.style.padding = '0'
+        sidebarContent.style.width = '87px';
+    } else {
+        sidebarContent.classList.add('full');
+        sidebarContent.classList.remove('mini');
+        sidebarContent.style.padding = '0 1rem';
+        sidebarContent.style.width = '250px';
+    }
+
     //create a div for each category
     for (let i = 0; i < data.length; i++) {
+
         const Box = document.createElement('div');
         Box.classList.add('box');
-        const titleBox = document.createElement('div');
-        titleBox.classList.add('title-box');
-        const title = document.createElement('h2');
-        title.textContent = data[i].title;
-        titleBox.appendChild(title);
-        Box.appendChild(titleBox);
-        Box.appendChild(titleBox);
+
+        if (barType !== 'mini') {
+            const titleBox = document.createElement('div');
+            titleBox.classList.add('title-box');
+            const title = document.createElement('h2');
+            title.textContent = data[i].title;
+            titleBox.appendChild(title);
+            Box.appendChild(titleBox);
+            Box.appendChild(titleBox);
+        }
 
         const Items = document.createElement('div');
         Items.classList.add('items');
         // create an item for each item in the category
         for (let j = 0; j < data[i].items.length; j++) {
-            const item = createSidebarItems(data[i].items[j].icon, data[i].items[j].text);
+            const item = createSidebarItems(data[i].items[j].icon, data[i].items[j].text, barType);
             Items.appendChild(item);
         }
 
@@ -103,7 +155,15 @@ const createSidebarCategory = (data) => {
 
 const sidebar = () => {
 
+    if (document.querySelector('.sidebar-content')) {
+        if (document.querySelector('.sidebar-content').classList.contains('full')) {
+            return;
+        } else {
+            document.querySelector('.sidebar-content').remove();
+        }
+    }
     // Add home, projects, and notes to sidebar
+    sidebarData.removeAll();
     sidebarData.addSidebarCategory('Home');
     sidebarData.addSidebarItem('Home', All, 'All');
     sidebarData.addSidebarItem('Home', Today, 'Today');
@@ -125,4 +185,25 @@ const sidebar = () => {
     document.querySelector('#content').appendChild(createSidebarCategory(sidebarData.getSidebarData()));
 }
 
-export default sidebar;
+const miniSidebar = () => {
+
+    if (document.querySelector('.sidebar-content')) {
+        if (document.querySelector('.sidebar-content').classList.contains('mini')) {
+            return;
+        } else {
+            document.querySelector('.sidebar-content').remove();
+        }
+    }
+
+    sidebarData.removeAll();
+    sidebarData.addSidebarCategory('Home');
+    sidebarData.addSidebarItem('Home', All, 'All');
+    sidebarData.addSidebarItem('Home', Today, 'Today');
+    sidebarData.addSidebarItem('Home', Week, 'Week');
+    sidebarData.addSidebarItem('Home', Important, 'Important');
+    sidebarData.addSidebarItem('Home', Completed, 'Completed');
+    document.querySelector('#content').appendChild(createSidebarCategory(sidebarData.getSidebarData(), 'mini'));
+    
+}
+
+export {sidebar, miniSidebar};

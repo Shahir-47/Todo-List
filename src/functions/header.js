@@ -1,8 +1,20 @@
 import Icon from '../assets/img/icon.svg';
+import menu from '../assets/img/menu.svg';
 
 const header = () => {
     const bar = document.createElement('div');
     bar.classList.add('nav-bar');
+
+    const leftBox = document.createElement('div');
+    leftBox.classList.add('left-box');
+
+    const menuButton = document.createElement('button');
+    menuButton.classList.add('menu-button');
+    const menuIcon = document.createElement('img');
+    menuIcon.src = menu;
+    menuIcon.alt = 'Menu icon';
+    menuButton.appendChild(menuIcon);
+    leftBox.appendChild(menuButton);
 
     const logoBox = document.createElement('div');
     logoBox.classList.add('logo-box');
@@ -17,10 +29,10 @@ const header = () => {
     const logoLink2 = document.createElement('a');
     logoLink2.appendChild(logoText);
     logoBox.appendChild(logoLink2);
+    leftBox.appendChild(logoBox);
 
-    bar.appendChild(logoBox);
-    const content = document.querySelector('div#content');
-    content.appendChild(bar);
+    bar.appendChild(leftBox);
+    document.querySelector('div#content').appendChild(bar);
 }
 
 export default header;

@@ -84,13 +84,22 @@ div#content {
 }
 
 .item {
-    display: flex;
     align-items: center;
     gap: 1rem;
     padding: 0.5rem;
     transition: all 0.3s ease;
     border-radius: 0.25rem;
     margin: 0 0.25rem;
+}
+
+.item-row {
+    display:flex;
+    flex-direction:row;
+}
+
+.item-column {
+    display:flex;
+    flex-direction:column;
 }
 
 .item:hover {
@@ -123,10 +132,17 @@ div#content {
 }
 
 .item p {
-    font-size: 1.1rem;
     font-weight: 500;
     margin: 0;
     cursor: pointer;
+}
+
+.item-reg p {
+    font-size: 1.1rem;
+}
+
+.item-mini p {
+    font-size: 0.8rem;
 }
 
 .nav-bar {
@@ -152,7 +168,7 @@ div#content {
 }
 
 .logo-box img {
-    width: 2rem;
+    width: 2.5rem;
     height: auto;
     cursor: pointer;
 }
@@ -180,3 +196,35 @@ div#content {
     flex-direction: row;
     margin-top: 50px; /* adjust as needed to prevent content from being overlapped by the header */
   }
+
+.left-box {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.left-box .menu-button img{
+    width: 2rem;
+    height: auto;
+}
+
+
+.menu-button{
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    outline: none;
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+}
+
+.menu-button:hover,
+.menu-button:active {
+    filter: brightness(1.2);
+    background-color: #1f2937;
+}
