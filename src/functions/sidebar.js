@@ -1,12 +1,17 @@
-import Icon from '../assets/img/icon.svg';
+// import all the icons
 import All from '../assets/img/all.svg';
 import Today from '../assets/img/today.svg';
 import Week from '../assets/img/week.svg';
 import Important from '../assets/img/important.svg';
 import Completed from '../assets/img/completed.svg';
-// import GitHub from '../assets/img/git.svg';
+import newNote from '../assets/img/newNote.svg';
+import newProject from '../assets/img/newProject.svg';
+import allProjects from '../assets/img/allProjects.svg';
+import starredProjects from '../assets/img/starredProjects.svg';
+import allNotes from '../assets/img/allNotes.svg';
+import starredNotes from '../assets/img/starredNote.svg';
 
-
+// Create a sidebar item
 const createSidebarItems = (icon, text) => { 
     const item = document.createElement('div');
     item.classList.add('item');
@@ -20,7 +25,9 @@ const createSidebarItems = (icon, text) => {
     return item;
 }
 
+// All the data u want to display in the sidebar gets added and accessed from here
 const sidebarData = (() => {
+    
     let sidebarLog = []
 
     const getSidebarData = () => sidebarLog;
@@ -58,10 +65,16 @@ const sidebarData = (() => {
 })();
 
 const createSidebarCategory = (data) => {
+    // find the height of the nav-bar
+    const top = document.querySelector('.nav-bar').offsetHeight;
 
+    // adjust the height and position according to the header height
     const sidebarContent = document.createElement('div');
     sidebarContent.classList.add('sidebar-content');
+    sidebarContent.style.height = 'calc(100vh - ' + top + 'px)';
+    sidebarContent.style.marginTop = top + 'px';
 
+    //create a div for each category
     for (let i = 0; i < data.length; i++) {
         const Box = document.createElement('div');
         Box.classList.add('box');
@@ -75,6 +88,7 @@ const createSidebarCategory = (data) => {
 
         const Items = document.createElement('div');
         Items.classList.add('items');
+        // create an item for each item in the category
         for (let j = 0; j < data[i].items.length; j++) {
             const item = createSidebarItems(data[i].items[j].icon, data[i].items[j].text);
             Items.appendChild(item);
@@ -88,27 +102,8 @@ const createSidebarCategory = (data) => {
 }
 
 const sidebar = () => {
-    // Create sidebar
-    const sidebar = document.createElement('div');
-    sidebar.classList.add('sidebar');
 
-    // Create Logo and Header Text
-    const logoBox = document.createElement('div');
-    logoBox.classList.add('logo-box');
-    const logo = document.createElement('img');
-    logo.src = Icon;
-    logo.alt = 'Todo List logo';
-    const logoLink = document.createElement('a');
-    logoLink.appendChild(logo);
-    logoBox.appendChild(logoLink);
-    const logoText = document.createElement('h1');
-    logoText.textContent = 'Todo List';
-    const logoLink2 = document.createElement('a');
-    logoLink2.appendChild(logoText);
-    logoBox.appendChild(logoLink2);
-    sidebar.appendChild(logoBox);
-
-    // Create sidebar items
+    // Add home, projects, and notes to sidebar
     sidebarData.addSidebarCategory('Home');
     sidebarData.addSidebarItem('Home', All, 'All');
     sidebarData.addSidebarItem('Home', Today, 'Today');
@@ -117,12 +112,17 @@ const sidebar = () => {
     sidebarData.addSidebarItem('Home', Completed, 'Completed');
 
     sidebarData.addSidebarCategory('Projects');
+    sidebarData.addSidebarItem('Projects', newProject, 'New Project');
+    sidebarData.addSidebarItem('Projects', allProjects, 'All Projects');
+    sidebarData.addSidebarItem('Projects', starredProjects, 'Starred Projects');
 
-    sidebarData.addSidebarCategory('Notes');  
+    sidebarData.addSidebarCategory('Notes');
+    sidebarData.addSidebarItem('Notes', newNote, 'New Note');
+    sidebarData.addSidebarItem('Notes', allNotes, 'All Notes');
+    sidebarData.addSidebarItem('Notes', starredNotes, 'Starred Notes');  
 
-    sidebar.appendChild(createSidebarCategory(sidebarData.getSidebarData()));
-
-    document.querySelector('#content').appendChild(sidebar);
+    // Add sidebar to content
+    document.querySelector('#content').appendChild(createSidebarCategory(sidebarData.getSidebarData()));
 }
 
 export default sidebar;

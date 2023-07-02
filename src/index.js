@@ -1,7 +1,9 @@
 //import all css files
 //import required pics
 import './css/pageLoad.css';
-import pageLoad from './functions/pageLoad';
+import sidebar from './functions/sidebar.js';
+import header from './functions/header.js';
 console.log('I get called from print.js!');
 
-pageLoad();
+header();
+sidebar();
