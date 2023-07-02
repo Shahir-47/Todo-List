@@ -51,20 +51,31 @@ const header = () => {
 
     bar.appendChild(searchBox);
 
-    const slider = document.createElement('label');
-    slider.classList.add('switch');
-    const sliderInput = document.createElement('input');
-    sliderInput.type = 'checkbox';
-    sliderInput.classList.add('theme-toggle');
-    const sliderSpan = document.createElement('span');
-    sliderSpan.classList.add('slider');
+    const toggleBox = document.createElement('div');
+    toggleBox.classList.add('toggle-switch');
+    const checkBox = document.createElement('input');
+    checkBox.type = 'checkbox';
+    checkBox.setAttribute('id', 'theme-toggle');
+    const label = document.createElement('label');
+    label.setAttribute('for', 'theme-toggle');
+    const light = document.createElement('span');
+    light.classList.add('toggle-icon');
+    light.classList.add('toggle-icon-light');
+    const dark = document.createElement('span');
+    dark.classList.add('toggle-icon');
+    dark.classList.add('toggle-icon-dark');
+    const slider = document.createElement('span');
+    slider.classList.add('slider');
 
-    slider.appendChild(sliderInput);
-    slider.appendChild(sliderSpan);
+    label.appendChild(light);
+    label.appendChild(dark);
+    label.appendChild(slider);
 
-    bar.appendChild(slider);
+    toggleBox.appendChild(checkBox);
+    toggleBox.appendChild(label);
 
 
+    bar.appendChild(toggleBox);
 
     document.querySelector('div#content').appendChild(bar);
 }
