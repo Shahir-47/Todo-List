@@ -51,6 +51,20 @@ const header = () => {
 
     bar.appendChild(searchBox);
 
+    const slider = document.createElement('label');
+    slider.classList.add('switch');
+    const sliderInput = document.createElement('input');
+    sliderInput.type = 'checkbox';
+    sliderInput.classList.add('theme-toggle');
+    const sliderSpan = document.createElement('span');
+    sliderSpan.classList.add('slider');
+
+    slider.appendChild(sliderInput);
+    slider.appendChild(sliderSpan);
+
+    bar.appendChild(slider);
+
+
 
     document.querySelector('div#content').appendChild(bar);
 }
