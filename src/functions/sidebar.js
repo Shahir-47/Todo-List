@@ -118,7 +118,8 @@ const createSidebarCategory = (data, barType = "full") => {
     } else {
         sidebarContent.classList.add('full');
         sidebarContent.classList.remove('mini');
-        sidebarContent.style.padding = '0 1rem';
+        sidebarContent.style.padding = '0';
+        sidebarContent.style.paddingLeft = '1rem';
         sidebarContent.style.width = '250px';
     }
 
