@@ -11,6 +11,8 @@ body {
     --toggle-switch-border-color: #2ca9bc;
     --footer-color: #dddddd;
     --footer-active: #ffffff;
+    --add-btn-color: #3F51B5;
+    --add-btn-bg-color: #90CAF9;
     background-color: #15202b;
     margin: 0;
     padding: 0;
@@ -33,6 +35,9 @@ body.light-theme{
     --toggle-switch-border-color: #fb8a09;
     --footer-color: #000000;
     --footer-active: #898d91;
+    --add-btn-color: #90CAF9;
+    --add-btn-bg-color: #ffffff;
+
 }
 
 body.light-theme img:not(.logo-box img){
@@ -434,8 +439,4 @@ footer a:active img {
 footer img {
     width: 2rem;
     height: auto;
-}
-
-#page-content {
-    border: 1px solid #000000;
 }

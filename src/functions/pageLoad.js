@@ -8,7 +8,6 @@ const pageContent = () => {
     let width = sidebarContent.offsetWidth;
     console.log(width);
     let top = sidebarContent.style.marginTop;
-    let height = sidebarContent.style.height;
     const footerH = document.querySelector('footer');
     let bottom = footerH.offsetHeight;
 
@@ -18,6 +17,7 @@ const pageContent = () => {
     pageContent.style.marginTop = top;
     pageContent.style.minHeight = 'calc(100vh - ' + (top + bottom + 'px') + ')';
     pageContent.style.width = 'calc(100vw - ' + (width + 'px') + ')';
+    pageContent.style.paddingBottom = (bottom + 8) + 'px';
 
     document.querySelector('div#content').appendChild(pageContent);
 }

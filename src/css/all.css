@@ -1,0 +1,31 @@
+#page-content {
+    display: grid;
+    grid-template-rows: min-content 1fr min-content;
+    align-items: center;
+    padding-left: 1rem;
+    padding-right: 2rem;
+}
+
+.add-btn {
+    grid-row: 3;
+    justify-self: end;
+    border-radius: 50%;
+    width: 4rem;
+    height: 4rem;
+    font-size: 3rem;
+    font-weight: 900;
+    border: 5px double var(--add-btn-color);
+    background-color: var(--add-btn-bg-color);
+    color: var(--add-btn-color);
+    box-shadow: 0 0 0px var(--add-btn-bg-color), 0 0 0px var(--add-btn-color), 0 0 18px var(--add-btn-bg-color);
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.add-btn:active,
+.add-btn:hover {
+    box-shadow: 0 0 10px var(--add-btn-bg-color), 0 0 20px var(--add-btn-color), 0 0 30px var(--add-btn-bg-color);
+    border: 5px double var(--add-btn-bg-color);
+    background-color: var(--add-btn-color);
+    color: var(--add-btn-bg-color)
+}
