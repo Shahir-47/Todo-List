@@ -14,7 +14,10 @@ const formUI = () => {
     const formBody = document.createElement('div');
     formBody.classList.add('form-body');
 
+    const scrollBox = document.createElement('div');
+    scrollBox.classList.add('scroll-box');
 
+    formBody.appendChild(scrollBox);
     popupForm.appendChild(formBody);
     popupFormContainer.appendChild(popupForm);
 
