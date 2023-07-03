@@ -2,13 +2,12 @@
 //import required pics
 import './css/pageLoad.css';
 import {sidebar, miniSidebar} from './functions/sidebar.js';
-import header from './functions/header.js';
-import footer from './functions/footer';
+import pageLoad from './functions/pageLoad';
+import {adjustPageContent} from './functions/pageLoad';
 console.log('I get called from print.js!');
 
-header();
-sidebar();
-footer();
+// Load header, sidebar, and footer
+pageLoad();
 
 // Event listener to maximize/minimize sidebar
 document.querySelector('#content').addEventListener('click', (event) => {
@@ -17,8 +16,10 @@ document.querySelector('#content').addEventListener('click', (event) => {
         if (sidebarContent.classList.contains('full')) {
             console.log('full');
             miniSidebar();
+            adjustPageContent();
         } else if (sidebarContent.classList.contains('mini')) {
             sidebar();
+            adjustPageContent();
         }
     }
 });

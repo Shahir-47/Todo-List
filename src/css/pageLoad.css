@@ -435,3 +435,7 @@ footer img {
     width: 2rem;
     height: auto;
 }
+
+#page-content {
+    border: 1px solid #000000;
+}
