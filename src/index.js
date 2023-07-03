@@ -5,12 +5,15 @@ import './css/all.css';
 import {sidebar, miniSidebar} from './functions/sidebar.js';
 import pageLoad from './functions/pageLoad';
 import {adjustPageContent} from './functions/pageLoad';
+import { adjustFooter } from './functions/footer';
 import allUI from './pages/all';
+import formUI from './functions/form';
 console.log('I get called from print.js!');
 
 // Load header, sidebar, and footer
 pageLoad();
 allUI();
+formUI();
 
 // Event listener to maximize/minimize sidebar
 document.querySelector('#content').addEventListener('click', (event) => {
@@ -20,9 +23,11 @@ document.querySelector('#content').addEventListener('click', (event) => {
             console.log('full');
             miniSidebar();
             adjustPageContent();
+            adjustFooter();
         } else if (sidebarContent.classList.contains('mini')) {
             sidebar();
             adjustPageContent();
+            adjustFooter();
         }
     }
 });
@@ -33,4 +38,9 @@ themeToggle.addEventListener('change', () => {
     document.body.classList.toggle('light-theme');
     document.querySelector('.search-box').classList.toggle('light-theme');
     document.querySelector('footer').classList.toggle('light-theme');
+});
+
+const addBtn = document.querySelector('.add-btn');
+addBtn.addEventListener('click', () => {
+    document.getElementById('popupFormContainer').style.display = 'block';
 });

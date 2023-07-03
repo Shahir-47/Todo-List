@@ -36,6 +36,20 @@ const footer = () => {
     footer.appendChild(gitHubRepo);
 
     document.querySelector('div#content').appendChild(footer);
+    adjustFooter();
+}
+
+const adjustFooter = () => {
+    const sidebarContent = document.querySelector('.sidebar-content');
+    let width = sidebarContent.offsetWidth;
+
+    const footer = document.querySelector('footer');
+    footer.style.marginLeft = width + 'px';
+
+    footer.style.width = 'calc(100vw - ' + (width + 114 + 'px') + ')';
+    footer.style.paddingLeft = 16 + 'px';
+    footer.style.paddingRight = 32 + 'px';
 }
 
 export default footer;
+export {adjustFooter};
