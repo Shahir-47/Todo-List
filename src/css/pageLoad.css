@@ -399,9 +399,9 @@ footer{
 footer a {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.6rem;
     text-decoration: none;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     font-weight: 100;
     color: var(--footer-color);
 }
