@@ -1,4 +1,14 @@
 body {
+    --sidebar-bg-color: #15202b;
+    --content-text-color: #dddddd;
+    --title-box-color: #dddddd;
+    --item-focus-color: #1f2937;
+    --search-box-bg-color: #192734;
+    --search-input-color: #dddddd;
+    --search-btn-bg-color: #313e4b;
+    --logo-color: #dddddd;
+    --toggle-switch-bg-color: #6b757e;
+    --toggle-switch-border-color: #2ca9bc;
     background-color: #15202b;
     margin: 0;
     padding: 0;
@@ -6,20 +16,38 @@ body {
     color: #dddddd;
 }
 
+body.light-theme{
+    background-color: #ffffff;
+    --sidebar-bg-color: rgb(255, 255, 255);
+    --content-text-color: rgb(0, 0, 0);
+    color: #000000;
+    --title-box-color: #000000;
+    --item-focus-color: rgb(112 118 125 / 34%);
+    --search-box-bg-color: #ffffff;
+    --search-input-color: #000000;
+    --search-btn-bg-color: #e9e5e5;
+    --logo-color: #000000;
+    --toggle-switch-bg-color: #ffffff;
+    --toggle-switch-border-color: #fb8a09;
+}
+
+body.light-theme img:not(.logo-box img){
+    filter: invert(1);
+}
+
 div#content {
     display: flex;
     flex-direction: row;
     position: relative;
     min-height: 100vh;
-    color: #dddddd;
+    color: var(--content-text-color);
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .sidebar-content {
     width: 250px;
-    background-color: #15202b;
+    background-color: var(--sidebar-bg-color);
     /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
-    transition: all 0.3s ease-in-out;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
@@ -67,7 +95,7 @@ div#content {
 }
 
 .title-box {
-    border-bottom: 2px solid #dddddd;
+    border-bottom: 2px solid var(--title-box-color);
     margin-right: 1rem;
 }
 
@@ -92,6 +120,7 @@ div#content {
     transition: all 0.3s ease;
     border-radius: 0.25rem;
     margin: 0 0.25rem;
+    cursor: pointer;
 }
 
 .item-row {
@@ -105,12 +134,12 @@ div#content {
 }
 
 .item:hover {
-    background-color: #1f2937;
+    background-color: var(--item-focus-color);
     filter: brightness(1.2);
 }
 
 .active {
-    background-color: #1f2937;
+    background-color: var(--item-focus-color);
     filter: brightness(1.2);
 }
 
@@ -156,7 +185,7 @@ div#content {
     top: 0;
     left: 0;
     right: 0;
-    background-color: #15202b;
+    background-color: var(--sidebar-bg-color);
     width: calc(100% - 2rem);
     z-index: 2;
     display: flex;
@@ -175,8 +204,12 @@ div#content {
     gap: 1rem;
     padding: 0 1rem;
     padding-right: 0;
-    background-color: #192734;
+    background-color: var(--search-box-bg-color);
     border-radius: 3.9375rem;
+}
+
+.search-box.light-theme {
+   border: 1px solid #bcb8b8;
 }
 
 .search-box input {
@@ -185,7 +218,7 @@ div#content {
     border-radius: 3.9375rem; */
     background-color: transparent;
     border: hsl(0, 0%, 18.82%);
-    color: #dddddd;
+    color: var(--search-input-color);
     font-size: 1rem;
     font-weight: 500;
     padding: 0.5rem;
@@ -198,7 +231,7 @@ div#content {
 
 .search-box button {
     border: none;
-    background-color: #313e4b;
+    background-color: var(--search-btn-bg-color);
     color: #dddddd;
     font-size: 1rem;
     font-weight: 500;
@@ -241,7 +274,7 @@ div#content {
 .logo-box a h1 {
     font-size: 1.6rem;
     font-weight: 700;
-    color: #dddddd;
+    color: var(--logo-color);
     cursor: pointer;
     transition: all 0.3s ease;
     margin-top: 10px;
@@ -282,17 +315,17 @@ div#content {
 .menu-button:hover,
 .menu-button:active {
     filter: brightness(1.2);
-    background-color: #1f2937;
+    background-color: var(--item-focus-color);
 }
 
 .toggle-switch {
     position: relative;
     width: 65px;
     height: 30px;
-    background-color: #6b757e;
+    background-color: var(--toggle-switch-bg-color);
     border-radius: 26px;
     overflow: hidden;
-    border: 3px solid #2ca9bc;
+    border: 3px solid var(--toggle-switch-border-color);
   }
   
   .toggle-switch input {

@@ -22,7 +22,8 @@ document.querySelector('#content').addEventListener('click', (event) => {
 
 const themeToggle = document.getElementById('theme-toggle');
 themeToggle.addEventListener('change', () => {
-    document.body.classList.toggle('dark-theme');
+    document.body.classList.toggle('light-theme');
+    document.querySelector('.search-box').classList.toggle('light-theme');
 });
 
 

@@ -108,7 +108,7 @@ const createSidebarCategory = (data, barType = "full") => {
     const sidebarContent = document.createElement('div');
     sidebarContent.classList.add('sidebar-content');
     sidebarContent.style.height = 'calc(100vh - ' + top + 'px)';
-    sidebarContent.style.marginTop = top + 'px';
+    sidebarContent.style.marginTop = (top - 0.5) + 'px';
 
     if (barType === 'mini') {
         sidebarContent.classList.add('mini');
