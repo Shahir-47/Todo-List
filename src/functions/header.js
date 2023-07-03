@@ -40,6 +40,8 @@ const header = () => {
     searchInput.classList.add('search-input');
     searchInput.type = 'text';
     searchInput.placeholder = 'Search';
+    searchInput.id = 'search';
+    searchInput.name = 'search';
     searchBox.appendChild(searchInput);
     const searchButton = document.createElement('button');
     searchButton.classList.add('search-button');
