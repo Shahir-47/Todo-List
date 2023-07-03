@@ -107,7 +107,7 @@ const createSidebarCategory = (data, barType = "full") => {
     // adjust the height and position according to the header height
     const sidebarContent = document.createElement('div');
     sidebarContent.classList.add('sidebar-content');
-    sidebarContent.style.height = 'calc(100vh - ' + top + 'px)';
+    sidebarContent.style.height = 'calc(100vh - ' + (top - 0.5) + 'px)';
     sidebarContent.style.marginTop = (top - 0.5) + 'px';
 
     if (barType === 'mini') {

@@ -9,6 +9,8 @@ body {
     --logo-color: #dddddd;
     --toggle-switch-bg-color: #6b757e;
     --toggle-switch-border-color: #2ca9bc;
+    --footer-color: #dddddd;
+    --footer-active: #ffffff;
     background-color: #15202b;
     margin: 0;
     padding: 0;
@@ -22,13 +24,15 @@ body.light-theme{
     --content-text-color: rgb(0, 0, 0);
     color: #000000;
     --title-box-color: #000000;
-    --item-focus-color: rgb(112 118 125 / 34%);
+    --item-focus-color: rgb(131 131 131 / 30%);
     --search-box-bg-color: #ffffff;
     --search-input-color: #000000;
     --search-btn-bg-color: #e9e5e5;
     --logo-color: #000000;
     --toggle-switch-bg-color: #ffffff;
     --toggle-switch-border-color: #fb8a09;
+    --footer-color: #000000;
+    --footer-active: #898d91;
 }
 
 body.light-theme img:not(.logo-box img){
@@ -326,45 +330,45 @@ div#content {
     border-radius: 26px;
     overflow: hidden;
     border: 3px solid var(--toggle-switch-border-color);
-  }
+}
   
-  .toggle-switch input {
+.toggle-switch input {
     display: none;
-  }
+}
   
-  .toggle-switch label {
+.toggle-switch label {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     cursor: pointer;
-  }
+}
   
-  .toggle-icon {
+.toggle-icon {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     width: 20px;
     height: 20px;
     transition: transform 0.3s ease;
-  }
+}
   
-  .toggle-icon-light {
+.toggle-icon-light {
     background: url('../assets/img/sun.svg') center/cover no-repeat;
     right: 6px;
     top: 4.5px;
     transform: translateX(0%);
-  }
+}
   
-  .toggle-icon-dark {
+.toggle-icon-dark {
     background: url('../assets/img/moon.svg') center/cover no-repeat;
     left: 5px;
     top: 5px;
     transform: translateX(0%);
-  }
+}
   
-  .slider {
+.slider {
     position: absolute;
     top: 3px;
     left: 5px;
@@ -374,10 +378,60 @@ div#content {
     border-radius: 50%;
     transition: transform 0.3s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
+}
   
-  input:checked + label .slider {
+input:checked + label .slider {
     transform: translateX(33px);
     background-color: #fb8a09;
-  }
-  
+}
+
+footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    position: absolute;
+    bottom: 0.5rem; 
+    width: 100%;
+    height: 2.5rem;     
+}
+
+footer a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    font-size: 1.3rem;
+    font-weight: 100;
+    color: var(--footer-color);
+}
+
+footer p {
+    margin: 0.5rem 0;
+}
+
+footer a:hover,
+footer a:active {
+    color: var(--footer-active);
+}
+
+footer.light-theme a:hover img,
+footer.light-theme a:active img {
+    filter: invert(0.4);
+}
+
+
+footer a:hover img,
+footer a:active img {
+    filter: brightness(1.2);
+}
+
+.at-symbol {
+    font-weight: 900;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+footer img {
+    width: 2rem;
+    height: auto;
+}
