@@ -2,6 +2,8 @@ import { id } from 'date-fns/locale';
 import New from '../assets/img/new.svg';
 import newNote from '../assets/img/newNote.svg';
 import newProject from '../assets/img/newProject.svg';
+import { project } from '../pages/all';
+
 
 const newItem  = (text, img, imgText) => {
     const newTodoBox = document.createElement('div');
@@ -28,6 +30,12 @@ const formUI = () => {
     const formTitle = document.createElement('h2');
     formTitle.textContent = 'Create a new...';
     formHeader.appendChild(formTitle);
+
+    const closeBtn = document.createElement('button');
+    closeBtn.classList.add('close-btn');
+    closeBtn.textContent = 'X';
+    formHeader.appendChild(closeBtn);
+
     popupForm.appendChild(formHeader);
 
     const formBody = document.createElement('div');
@@ -41,7 +49,7 @@ const formUI = () => {
     scrollBox.appendChild(newItem('Note', newNote, 'New Note icon'));
     formBody.appendChild(scrollBox);
 
-    const todoForm = document.createElement('div');
+    const todoForm = document.createElement('form');
     todoForm.classList.add('todo-form');
 
     const titleInput = document.createElement('input');
@@ -72,6 +80,7 @@ const formUI = () => {
     dueDateInput.type = 'date';
     dueDateInput.id = 'due-date';
     dueDateInput.name = 'due-date';
+    dueDateInput.setAttribute('required', 'true');
     const today = new Date().toISOString().split('T')[0];
     dueDateInput.setAttribute('min', today);
     dueDateContainer.appendChild(dueDateLabel);
@@ -93,6 +102,7 @@ const formUI = () => {
     low.id = 'low';
     low.name = 'priority';
     low.value = 'low';
+    low.checked = true;
     const lowLabel = document.createElement('label');
     lowLabel.setAttribute('for', 'low');
     lowLabel.textContent = 'Low';
@@ -153,4 +163,22 @@ const formUI = () => {
     document.querySelector('div#content').appendChild(popupFormContainer);
 }
 
+const formValidation = (event) => {
+
+    // Prevent form from submitting to the server
+    event.preventDefault();
+    
+    let form = event.target;
+  
+    // Get the form fields
+  if (form.checkValidity()) {
+    let formData = new FormData(form);
+    project.addTodoItem(formData.get('title'), formData.get('details'), formData.get('due-date'), formData.get('priority'));
+    form.reset();
+    document.getElementById('popupFormContainer').style.display = 'none';
+    console.log(project.getTodoList());
+  }
+}
+
 export default formUI;
+export { formValidation };
