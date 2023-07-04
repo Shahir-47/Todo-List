@@ -31,3 +31,12 @@
     background-color: var(--add-btn-color);
     color: var(--add-btn-bg-color)
 }
+
+.todo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    overflow-y: auto;
+    align-items: stretch;
+}
