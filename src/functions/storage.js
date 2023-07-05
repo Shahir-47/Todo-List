@@ -1,64 +1,88 @@
 import { add } from "date-fns";
 import { project } from "../pages/all";
 
-function storageAvailable(type) {
-    let storage;
-    try {
-      storage = window[type];
-      const x = "__storage_test__";
-      storage.setItem(x, x);
-      storage.removeItem(x);
-      return true;
-    } catch (e) {
-      return (
-        e instanceof DOMException &&
-        // everything except Firefox
-        (e.code === 22 ||
-          // Firefox
-          e.code === 1014 ||
-          // test name field too, because code might not be present
-          // everything except Firefox
-          e.name === "QuotaExceededError" ||
-          // Firefox
-          e.name === "NS_ERROR_DOM_QUOTA_REACHED") &&
-        // acknowledge QuotaExceededError only if there's something already stored
-        storage &&
-        storage.length !== 0
-      );
-    }
-}
 
-const checkLocalStorage = () => {
-    let storage;
-    if (storageAvailable("localStorage")) {
-        // Yippee! We can use localStorage awesomeness
-        storage = true;
-    } else {
-        // Too bad, no localStorage for us
-        storage = false;
+const storage = (() => {
+
+    function storageAvailable(type) {
+        let storage;
+        try {
+        storage = window[type];
+        const x = "__storage_test__";
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+        } catch (e) {
+        return (
+            e instanceof DOMException &&
+            // everything except Firefox
+            (e.code === 22 ||
+            // Firefox
+            e.code === 1014 ||
+            // test name field too, because code might not be present
+            // everything except Firefox
+            e.name === "QuotaExceededError" ||
+            // Firefox
+            e.name === "NS_ERROR_DOM_QUOTA_REACHED") &&
+            // acknowledge QuotaExceededError only if there's something already stored
+            storage &&
+            storage.length !== 0
+        );
+        }
     }
 
-    return storage;
-}
+    const checkLocalStorage = () => {
+        let storage;
+        if (storageAvailable("localStorage")) {
+            // Yippee! We can use localStorage awesomeness
+            storage = true;
+        } else {
+            // Too bad, no localStorage for us
+            storage = false;
+        }
 
-const saveToLocalStorage = (projectList) => {
-    if (checkLocalStorage()) {
-        let projectListString = JSON.stringify(projectList);
-        localStorage.setItem('projectList', projectListString);
-        console.log(JSON.parse(localStorage.getItem('projectList')));
-        console.log('Local storage available');
-    } else {
-        console.log('Local storage not available');
+        return storage;
     }
-}
 
-const getFromLocalStorage = () => {
-    // Retrieve the projectListString from localStorage
-    let projectListString = localStorage.getItem('projectList');
+    const saveToLocalStorage = (projectList) => {
+        if (checkLocalStorage()) {
+            // Check if projectList exists in localStorage{
+            // Convert the projectList array to a string
+            let projectListString = JSON.stringify(projectList);
+            localStorage.setItem('projectList', projectListString);
+        } else {
+            console.log('Local storage not available');
+        }
+    }   
 
-    // Convert the projectListString back to an array
-    let projectList = JSON.parse(projectListString);
-    return projectList;
-}
+    const getFromLocalStorage = () => {
+        // Get the projectList string from localStorage    
+        let projectListString = localStorage.getItem('projectList');
 
-export { saveToLocalStorage, getFromLocalStorage };
+        // Convert the projectListString back to an array
+        let projectList = JSON.parse(projectListString);
+        return projectList;
+    }
+
+    const createLocalStorage = () => {
+        if (checkLocalStorage()) {
+            if (localStorage.getItem('projectList') !== null) {
+                console.log('projectList already exists in localStorage');
+                return;
+            }
+            console.log('Creating projectList in localStorage');
+            let projectList = [{
+                name: 'default',
+                todoList: []
+            }];
+            saveToLocalStorage(projectList);
+        } else {
+            console.log('Local storage not available');
+        }
+    }
+
+    return { createLocalStorage, saveToLocalStorage, getFromLocalStorage };
+
+})();
+
+export { storage };

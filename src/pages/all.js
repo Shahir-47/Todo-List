@@ -2,11 +2,14 @@ import edit from '../assets/img/edit.svg';
 import del from '../assets/img/del.svg';
 import { formatDistanceToNow, isSameDay, addDays, set } from 'date-fns';
 import { it } from 'date-fns/locale';
-import { saveToLocalStorage, getFromLocalStorage } from '../functions/storage';
+import { storage } from '../functions/storage';
+
 
 
 const displayAllItems = (name = 'default') => {
-    const projectList = getFromLocalStorage();
+    console.log(storage.getFromLocalStorage())
+    const projectList = storage.getFromLocalStorage();
+    console.log(projectList);
     let defaultProject = projectList.find(project => project.name == name);
 
     // Access the todoList property of the default project
@@ -22,7 +25,8 @@ const displayTodoItem = (item) => {
     let dueDate = item.dueDate;
     let dueTime = item.dueTime;
     let priority = item.priority;
-    let done =  item.done;
+    let done =  item.done.flag;
+    let index = item.index;
 
     const todoList = document.querySelector('.todo-list');
 
@@ -64,10 +68,7 @@ const displayTodoItem = (item) => {
         let day = dueDate.slice(8, 10);
 
         const relDueDate = new Date(year, month-1, day);
-        console.log(relDueDate);
-
         new Date(year, month, day)
-        console.log(dueDate);
         const today = new Date();
         let distanceToDueDate = '';
 
@@ -75,7 +76,6 @@ const displayTodoItem = (item) => {
             // Check if the due date is today
             if (isSameDay(relDueDate, today)) {
                 distanceToDueDate = 'Today';
-                console.log('Task is due today');
             } else {
                 // Calculate the distance to the due date
                 distanceToDueDate = formatDistanceToNow(relDueDate, { addSuffix: true, includeSeconds: false });
@@ -83,7 +83,6 @@ const displayTodoItem = (item) => {
                 // Check if the due date is tomorrow
                 const tomorrow = addDays(today, 1);
                 if (isSameDay(relDueDate, tomorrow)) {
-                    console.log('Task is due tomorrow');
                     distanceToDueDate = 'Tomorrow';
                 }
             }
@@ -98,15 +97,13 @@ const displayTodoItem = (item) => {
             taskDueDate.setMinutes(minutes);
             // Calculate the time difference between the current date/time and the task due date
             distanceToDueDate = formatDistanceToNow(taskDueDate, { addSuffix: true });
-        }
+        }    
 
-    const project = getFromLocalStorage().find(project => project.name === item.name);
-    const itemSync = project.todoList.find(item => item.index === item.index);      
-
-        if (itemSync.done == false) {
+        const itemSync = project.getProjectTodoList().find(item => item.index == index);
+        if (itemSync.done.flag == false) {
             todoDueDate.textContent = 'Due ' + distanceToDueDate;
         } else {
-            distanceToDueDate = formatDistanceToNow(new Date(), { addSuffix: true });
+            distanceToDueDate = formatDistanceToNow(new Date(itemSync.done.timestamp), { addSuffix: true });
             todoDueDate.textContent = 'Completed ' + distanceToDueDate;
         }
     }
@@ -146,13 +143,18 @@ const displayTodoItem = (item) => {
 
     colorPane.classList.add('color-pane');
 
+    if (done) {
+        todoItem.classList.add('checked-item');
+        completed.classList.add('checked');
+        completed.textContent = '✓';
+        todoTitle.classList.add('checked-text');
+    }
+
 }
 
 const taskDoneUI = (id) => {
     const item = document.getElementById(id);
     const box = item.querySelector('.completed');
-    const time = item.querySelector('.todo-right .todo-due-date')
-    let completedInterval = null;
 
     if (box.classList.contains('checked')) {
         box.textContent = '';
@@ -188,23 +190,18 @@ const allUI = () => {
 
 const project = ((name = 'default') => {
 
-    let projectList = [
-        {
-            name: 'default',
-            todoList: []
-        }
-    ];
+    let projectList = storage.getFromLocalStorage();
 
     const addToProjectList = (name) => {
         projectList.push({
             name,
             todoList: []
         });
-        saveToLocalStorage(projectList);
+        storage.saveToLocalStorage(projectList);
     }
 
-    const addToProjectItem = (title, details, dueDate, dueTime, priority, done = false, name = 'default') => {
-
+    const addToProjectItem = (title, details, dueDate, dueTime, priority, done = { flag: false, timestamp: null }, name = 'default') => {
+        console.log(projectList);
         let defaultProject = projectList.find(project => project.name == name);
 
         // Access the todoList property of the default project
@@ -212,7 +209,7 @@ const project = ((name = 'default') => {
         let index =  defaultProject.todoList.length;
         let item = { name, index, title, details, dueDate, dueTime, priority, done };
         defaultProject.todoList.push(item);
-        saveToLocalStorage(projectList);
+        storage.saveToLocalStorage(projectList);
         displayTodoItem(item);
     }
 
@@ -225,10 +222,14 @@ const project = ((name = 'default') => {
     }
 
     const projectItemCompleted = (index) => {
-        let [name, i] = index.split('-');
+        let name = index.split('-')[0];
+        let i = index.split('-')[1];
         let completedProj = projectList.find(project => project.name === name);
-        completedProj.todoList[i].done = !completedProj.todoList[i].done;
-        saveToLocalStorage(projectList);
+        console.log(completedProj);
+        completedProj.todoList[i].done.flag = !completedProj.todoList[i].done.flag;
+        completedProj.todoList[i].done.timestamp = new Date();
+        console.log(completedProj.todoList[i].done);
+        storage.saveToLocalStorage(projectList);
         taskDoneUI(index);
     }
 
@@ -241,8 +242,8 @@ const project = ((name = 'default') => {
     return {addToProjectList, addToProjectItem, getProjectTodoList, projectItemCompleted};
 })();
 
-console.log(project.getProjectTodoList());
-console.log(getFromLocalStorage());
+// console.log(project.getProjectTodoList());
+// console.log(getFromLocalStorage());
 
 export default allUI;
 
