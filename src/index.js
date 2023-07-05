@@ -60,3 +60,26 @@ cancelBtn.addEventListener('click', () => {
     document.querySelector('.todo-form').reset();
     document.getElementById('popupFormContainer').style.display = 'none';
 });
+
+const newTodoBoxes = document.querySelectorAll('.todo-item .completed');
+newTodoBoxes.forEach((box) => {
+    box.addEventListener('click', () => {
+        console.log('clicked');
+        if (box.classList.contains('checked')) {
+            box.textContent = '';
+        } else {
+            box.textContent = '✓';
+        }
+        box.classList.toggle('checked');
+        
+        // if (box.classList.contains('todo-title')) {
+        //     document.querySelector('.todo-form').removeChild(document.querySelector('.todo-form .form-body .third-row'));
+        // } else if (box.classList.contains('todo-details')) {
+        //     document.querySelector('.todo-form').removeChild(document.querySelector('.todo-form .form-body .third-row'));
+        //     document.querySelector('.todo-form').appendChild(document.querySelector('.todo-form .form-body .third-row'));
+        // } else if (box.classList.contains('todo-date')) {
+        //     document.querySelector('.todo-form').removeChild(document.querySelector('.todo-form .form-body .third-row'));
+        //     document.querySelector('.todo-form').appendChild(document.querySelector('.todo-form .form-body .third-row'));
+        // }
+    });
+});

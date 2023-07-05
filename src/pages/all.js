@@ -2,14 +2,13 @@ import edit from '../assets/img/edit.svg';
 import del from '../assets/img/del.svg';
 import { formatDistanceToNow, isSameDay, addDays } from 'date-fns';
 
-const displayTodoItem = (title, details, dueDate, priority) => {
+const displayTodoItem = (title, details, dueDate, dueTime, priority) => {
     const todoList = document.querySelector('.todo-list');
 
     const todoItem = document.createElement('div');
     todoItem.classList.add('todo-item');
 
     const colorPane = document.createElement('div');
-    colorPane.classList.add('color-pane');
     let color = priority === 'low' ? 'green' : priority === 'medium' ? 'orange' : 'red';
     colorPane.style.backgroundColor = color;
 
@@ -19,10 +18,8 @@ const displayTodoItem = (title, details, dueDate, priority) => {
     const todoLeft = document.createElement('div');
     todoLeft.classList.add('todo-left');
 
-    const completed = document.createElement('input');
-    completed.type = 'checkbox';
-    completed.id = 'completed';
-    completed.name = 'completed';
+    const completed = document.createElement('div');
+    completed.classList.add('completed');
 
     const todoTitle = document.createElement('h2');
     todoTitle.textContent = title;
@@ -39,34 +36,39 @@ const displayTodoItem = (title, details, dueDate, priority) => {
     const today = new Date();
     let distanceToDueDate = '';
 
-    const isOverdue = relDueDate < today;
-    if (isOverdue) {;
-        distanceToDueDate = 'Overdue';
-    }
+    if (dueTime == '') {
+        // Check if the due date is today
+        if (isSameDay(relDueDate, today)) {
+            distanceToDueDate = 'Today';
+        } else {
+            // Calculate the distance to the due date
+            distanceToDueDate = formatDistanceToNow(relDueDate, { addSuffix: true, includeSeconds: false });
 
-    // Check if the due date is today
-    if (isSameDay(relDueDate, today)) {
-        distanceToDueDate = 'Today';
-    } else {
-        // Calculate the distance to the due date
-        distanceToDueDate = formatDistanceToNow(relDueDate, { addSuffix: true, includeSeconds: false });
-
-        // Check if the due date is tomorrow
-        const tomorrow = addDays(today, 1);
-        if (isSameDay(relDueDate, tomorrow)) {
-            console.log('Task is due tomorrow');
-            distanceToDueDate = 'Tomorrow';
+            // Check if the due date is tomorrow
+            const tomorrow = addDays(today, 1);
+            if (isSameDay(relDueDate, tomorrow)) {
+                console.log('Task is due tomorrow');
+                distanceToDueDate = 'Tomorrow';
+            }
         }
+    } else {
+        const [year, month, day] =  dueDate.split('-');
+        const taskDueDate = new Date(year, month - 1, day);
+
+        // Parse the time input value
+        const [hours, minutes] = dueTime.split(':');
+
+        taskDueDate.setHours(hours);
+        taskDueDate.setMinutes(minutes);
+        // Calculate the time difference between the current date/time and the task due date
+        distanceToDueDate = formatDistanceToNow(taskDueDate, { addSuffix: true });
     }
+
+
 
     const todoDueDate = document.createElement('p');
     todoDueDate.classList.add('todo-due-date');
-    if (isOverdue) {
-        todoDueDate.classList.add('overdue');
-        todoDueDate.textContent = 'Overdue';
-    } else {
-        todoDueDate.textContent = 'Due ' + distanceToDueDate;
-    }
+    todoDueDate.textContent = 'Due ' + distanceToDueDate;
 
     // Display the due time in words
     console.log(`Task is due ${distanceToDueDate}`);
@@ -101,6 +103,8 @@ const displayTodoItem = (title, details, dueDate, priority) => {
 
     todoList.appendChild(todoItem);
 
+    colorPane.classList.add('color-pane');
+
 }
 
 const allUI = () => {
@@ -118,15 +122,19 @@ const allUI = () => {
     todoList.style.marginRight = addBtn.offsetWidth + 64 + 'px';
     pageContent.appendChild(todoList);    
 
-    displayTodoItem('Pay bills', 'Pay the bills for the month', '2023-07-5', 'low');
+    displayTodoItem('Pay bills', 'Pay the bills for the month', '2023-08-4', '', 'low');
+    displayTodoItem('Pay bills', 'Pay the bills for the month', '2023-06-13', '', 'high');
+    displayTodoItem('Pay bills', 'Pay the bills for the month', '2023-07-4', '', 'medium');
+    displayTodoItem('Pay bills', 'Pay the bills for the month', '2023-05-4', '', 'high');
+    displayTodoItem('Pay bills', 'Pay the bills for the month', '2023-06-4', '', 'low');
 };
 
 
 const project = ((title = 'default') => {
     let todoList = [];
 
-    const addTodoItem = (title, details, dueDate, priority) => {
-        todoList.push({ title, details, dueDate, priority });
+    const addTodoItem = (title, details, dueDate, dueTime, priority) => {
+        todoList.push({ title, details, dueDate, dueTime, priority });
     }
 
     const removeTodoItem = (title) => {

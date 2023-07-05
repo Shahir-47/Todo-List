@@ -62,7 +62,7 @@ const formUI = () => {
 
     const detailsInput = document.createElement('textarea');
     detailsInput.classList.add('details-input');
-    detailsInput.placeholder = 'Details: Rent, Electricity, Water, Internet, etc...';
+    detailsInput.placeholder = `Details (Optional):\n\nRent, Electricity, Water, Internet, etc...`;
     detailsInput.id = 'details';
     detailsInput.name = 'details';
 
@@ -70,6 +70,8 @@ const formUI = () => {
     const thirdRow = document.createElement('div');
     thirdRow.classList.add('third-row');
 
+    const thirdRowUpper = document.createElement('div');
+    thirdRowUpper.classList.add('third-row-upper');
     const dueDateContainer = document.createElement('div');
     dueDateContainer.classList.add('due-date-container');
     const dueDateLabel = document.createElement('label');
@@ -81,10 +83,28 @@ const formUI = () => {
     dueDateInput.id = 'due-date';
     dueDateInput.name = 'due-date';
     dueDateInput.setAttribute('required', 'true');
-    const today = new Date().toISOString().split('T')[0];
+    let now = new Date();
+    const today = now.toISOString().split('T')[0];
     dueDateInput.setAttribute('min', today);
     dueDateContainer.appendChild(dueDateLabel);
     dueDateContainer.appendChild(dueDateInput);
+    thirdRowUpper.appendChild(dueDateContainer);
+
+
+    const dueTimeContainer = document.createElement('div');
+    dueTimeContainer.classList.add('due-date-container');
+    const dueTimeLabel = document.createElement('label');
+    dueTimeLabel.setAttribute('for', 'due-time');
+    dueTimeLabel.textContent = 'Due Date: (Optional) ';
+    const dueTimeInput = document.createElement('input');
+    dueTimeInput.classList.add('due-date-input');
+    dueTimeInput.type = 'time';
+    dueTimeInput.id = 'due-time';
+    dueTimeInput.name = 'due-time';
+    dueTimeContainer.appendChild(dueTimeLabel);
+    dueTimeContainer.appendChild(dueTimeInput);
+    thirdRowUpper.appendChild(dueTimeContainer);
+
 
     const selectionContainer = document.createElement('div');
     selectionContainer.classList.add('selection-container');
@@ -149,7 +169,7 @@ const formUI = () => {
     selectionContainer.appendChild(priorityContainer);
     selectionContainer.appendChild(okBtn);
 
-    thirdRow.appendChild(dueDateContainer);
+    thirdRow.appendChild(thirdRowUpper);
     thirdRow.appendChild(selectionContainer);
 
     todoForm.appendChild(titleInput);
@@ -173,11 +193,19 @@ const formValidation = (event) => {
     // Get the form fields
   if (form.checkValidity()) {
     let formData = new FormData(form);
-    project.addTodoItem(formData.get('title'), formData.get('details'), formData.get('due-date'), formData.get('priority'));
+    project.addTodoItem(formData.get('title'), formData.get('details'), formData.get('due-date'), formData.get('due-time'), formData.get('priority'));
     form.reset();
     document.getElementById('popupFormContainer').style.display = 'none';
     console.log(project.getTodoList());
   }
+  
+}
+
+// Function to check if two dates are the same day
+function isSameDay(date1, date2) {
+    return date1.getFullYear() === date2.getFullYear() &&
+           date1.getMonth() === date2.getMonth() &&
+           date1.getDate() === date2.getDate();
 }
 
 export default formUI;
