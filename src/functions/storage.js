@@ -56,7 +56,10 @@ const storage = (() => {
     }   
 
     const getFromLocalStorage = () => {
-        // Get the projectList string from localStorage    
+        // Get the projectList string from localStorage
+        if (localStorage.getItem('projectList') === null) {
+            createLocalStorage();
+        }    
         let projectListString = localStorage.getItem('projectList');
 
         // Convert the projectListString back to an array
