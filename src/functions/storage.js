@@ -1,3 +1,6 @@
+import { add } from "date-fns";
+import { project } from "../pages/all";
+
 function storageAvailable(type) {
     let storage;
     try {
@@ -37,3 +40,25 @@ const checkLocalStorage = () => {
 
     return storage;
 }
+
+const saveToLocalStorage = (projectList) => {
+    if (checkLocalStorage()) {
+        let projectListString = JSON.stringify(projectList);
+        localStorage.setItem('projectList', projectListString);
+        console.log(JSON.parse(localStorage.getItem('projectList')));
+        console.log('Local storage available');
+    } else {
+        console.log('Local storage not available');
+    }
+}
+
+const getFromLocalStorage = () => {
+    // Retrieve the projectListString from localStorage
+    let projectListString = localStorage.getItem('projectList');
+
+    // Convert the projectListString back to an array
+    let projectList = JSON.parse(projectListString);
+    return projectList;
+}
+
+export { saveToLocalStorage, getFromLocalStorage };

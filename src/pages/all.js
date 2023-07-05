@@ -2,6 +2,18 @@ import edit from '../assets/img/edit.svg';
 import del from '../assets/img/del.svg';
 import { formatDistanceToNow, isSameDay, addDays, set } from 'date-fns';
 import { it } from 'date-fns/locale';
+import { saveToLocalStorage, getFromLocalStorage } from '../functions/storage';
+
+
+const displayAllItems = (name = 'default') => {
+    const projectList = getFromLocalStorage();
+    let defaultProject = projectList.find(project => project.name == name);
+
+    // Access the todoList property of the default project
+    for (let i = 0; i < defaultProject.todoList.length; i++) {
+        displayTodoItem(defaultProject.todoList[i]);
+    }
+}
 
 
 const displayTodoItem = (item) => {
@@ -79,7 +91,10 @@ const displayTodoItem = (item) => {
             distanceToDueDate = formatDistanceToNow(taskDueDate, { addSuffix: true });
         }
 
-        if (project.getProjectTodoList(item.name)[item.index].done == false) {
+    const project = getFromLocalStorage().find(project => project.name === item.name);
+    const itemSync = project.todoList.find(item => item.index === item.index);      
+
+        if (itemSync.done == false) {
             if (distanceToDueDate.includes('ago')) {
                 todoDueDate.textContent = 'Overdue by ' + distanceToDueDate.slice(0, distanceToDueDate.length - 4);
             } else if (distanceToDueDate.includes('in')) {
@@ -180,6 +195,7 @@ const project = ((name = 'default') => {
             name,
             todoList: []
         });
+        saveToLocalStorage(projectList);
     }
 
     const addToProjectItem = (title, details, dueDate, dueTime, priority, done = false, name = 'default') => {
@@ -188,10 +204,11 @@ const project = ((name = 'default') => {
 
         // Access the todoList property of the default project
 
-        projectList.forEach(project => console.log(project.name == name));
         let index =  defaultProject.todoList.length;
         let item = { name, index, title, details, dueDate, dueTime, priority, done };
         defaultProject.todoList.push(item);
+        saveToLocalStorage(projectList);
+        console.log(getFromLocalStorage());
         displayTodoItem(item);
     }
 
@@ -207,6 +224,7 @@ const project = ((name = 'default') => {
         let [name, i] = index.split('-');
         let completedProj = projectList.find(project => project.name === name);
         completedProj.todoList[i].done = !completedProj.todoList[i].done;
+        saveToLocalStorage(projectList);
         taskDoneUI(index);
     }
 
@@ -219,8 +237,9 @@ const project = ((name = 'default') => {
     return {addToProjectList, addToProjectItem, getProjectTodoList, projectItemCompleted};
 })();
 
+
 export default allUI;
 
-export { project, displayTodoItem, taskDoneUI };
+export { project, displayTodoItem, taskDoneUI, displayAllItems };
 
 // const addTodoItemUI = () => {
