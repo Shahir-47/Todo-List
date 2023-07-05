@@ -9,6 +9,7 @@ import { adjustFooter } from './functions/footer';
 import allUI from './pages/all';
 import formUI from './functions/form';
 import { formValidation } from './functions/form';
+import { project, displayTodoItem, taskDoneUI } from './pages/all';
 console.log('I get called from print.js!');
 
 // Load header, sidebar, and footer
@@ -63,14 +64,12 @@ cancelBtn.addEventListener('click', () => {
 
 const newTodoBoxes = document.querySelectorAll('.todo-item .completed');
 newTodoBoxes.forEach((box) => {
-    box.addEventListener('click', () => {
-        console.log('clicked');
-        if (box.classList.contains('checked')) {
-            box.textContent = '';
-        } else {
-            box.textContent = '✓';
-        }
-        box.classList.toggle('checked');
+    box.addEventListener('click', (e) => {
+        console.log(e)
+        console.log(e.target.closest('.todo-item'));
+        // project.itemCompleted( e.target.closest('.todo-item').id );
+        // taskDoneUI(e.target);
+
         
         // if (box.classList.contains('todo-title')) {
         //     document.querySelector('.todo-form').removeChild(document.querySelector('.todo-form .form-body .third-row'));

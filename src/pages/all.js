@@ -2,7 +2,14 @@ import edit from '../assets/img/edit.svg';
 import del from '../assets/img/del.svg';
 import { formatDistanceToNow, isSameDay, addDays } from 'date-fns';
 
-const displayTodoItem = (title, details, dueDate, dueTime, priority) => {
+const displayTodoItem = (item) => {
+    let title = item.title;
+    let details = item.details;
+    let dueDate = item.dueDate;
+    let dueTime = item.dueTime;
+    let priority = item.priority;
+    let done = item.done;
+
     const todoList = document.querySelector('.todo-list');
 
     const todoItem = document.createElement('div');
@@ -107,6 +114,19 @@ const displayTodoItem = (title, details, dueDate, dueTime, priority) => {
 
 }
 
+const taskDoneUI = (item) => {
+    const box = item.closest
+    if (event.classList.contains('checked')) {
+        event.textContent = '';
+    } else {
+        event.textContent = '✓';
+    }
+    event.classList.toggle('checked');
+    document.querySelector('.todo-item').classList.toggle('checked-item');
+    document.querySelector('.todo-left h2').classList.toggle('checked-text');
+    document.querySelector('.todo-right .todo-due-date').textContent = 'Completed ' + formatDistanceToNow(new Date(), { addSuffix: true });
+}
+
 const allUI = () => {
     const pageContent = document.querySelector('#page-content');
     const footer = document.querySelector('footer');
@@ -120,21 +140,21 @@ const allUI = () => {
     todoList.classList.add('todo-list');
     todoList.style.maxHeight = pageContent.offsetHeight - (footer.offsetHeight * 2) - 16 + 'px';
     todoList.style.marginRight = addBtn.offsetWidth + 64 + 'px';
-    pageContent.appendChild(todoList);    
+    pageContent.appendChild(todoList);
 
-    displayTodoItem('Pay bills', 'Pay the bills for the month', '2023-08-4', '', 'low');
-    displayTodoItem('Pay bills', 'Pay the bills for the month', '2023-06-13', '', 'high');
-    displayTodoItem('Pay bills', 'Pay the bills for the month', '2023-07-4', '', 'medium');
-    displayTodoItem('Pay bills', 'Pay the bills for the month', '2023-05-4', '', 'high');
-    displayTodoItem('Pay bills', 'Pay the bills for the month', '2023-06-4', '', 'low');
+    const todoListCopy = project.getTodoList();
+    for (let i = 0; i < todoListCopy.length; i++) {
+        displayTodoItem(i ,todoListCopy[i].title, todoListCopy[i].details, todoListCopy[i].dueDate, todoListCopy[i].dueTime, todoListCopy[i].priority, todoListCopy[i].done);
+    }
 };
 
 
 const project = ((title = 'default') => {
     let todoList = [];
 
-    const addTodoItem = (title, details, dueDate, dueTime, priority) => {
-        todoList.push({ title, details, dueDate, dueTime, priority });
+    const addTodoItem = (title, details, dueDate, dueTime, priority, done = false) => {
+        todoList.push({title, details, dueDate, dueTime, priority, done });
+        displayTodoItem({title, details, dueDate, dueTime, priority, done });
     }
 
     const removeTodoItem = (title) => {
@@ -143,11 +163,20 @@ const project = ((title = 'default') => {
 
     const getTodoList = () => todoList;
 
-    return {addTodoItem, removeTodoItem, getTodoList };
+    const itemCompleted = (title) => {
+        todoList.forEach((item) => {
+            if (item.title === title) {
+                item.done = true;
+                console.log(item);
+            }
+        });
+    }
+
+    return {addTodoItem, removeTodoItem, getTodoList, itemCompleted};
 })();
 
 export default allUI;
 
-export { project };
+export { project, displayTodoItem, taskDoneUI };
 
 // const addTodoItemUI = () => {

@@ -2,7 +2,7 @@ import { id } from 'date-fns/locale';
 import New from '../assets/img/new.svg';
 import newNote from '../assets/img/newNote.svg';
 import newProject from '../assets/img/newProject.svg';
-import { project } from '../pages/all';
+import { project, displayTodoItem } from '../pages/all';
 
 
 const newItem  = (text, img, imgText) => {
@@ -199,13 +199,6 @@ const formValidation = (event) => {
     console.log(project.getTodoList());
   }
   
-}
-
-// Function to check if two dates are the same day
-function isSameDay(date1, date2) {
-    return date1.getFullYear() === date2.getFullYear() &&
-           date1.getMonth() === date2.getMonth() &&
-           date1.getDate() === date2.getDate();
 }
 
 export default formUI;

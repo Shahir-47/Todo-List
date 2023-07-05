@@ -140,7 +140,6 @@
 }
 
 .checked {
-    font-family: Wingdings, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -152,4 +151,12 @@
     width: 2rem;
     height: 2rem;
     font-size: 1.7rem;
+}
+
+.checked-text {
+    text-decoration: line-through;
+}
+
+.checked-item {
+    opacity: 0.5;
 }
