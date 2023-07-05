@@ -59,7 +59,15 @@ const displayTodoItem = (item) => {
     function updateTime() {
 
         // Get the due date of the task
-        const relDueDate = new Date(dueDate);
+        let year = dueDate.slice(0, 4);
+        let month = dueDate.slice(5, 7);
+        let day = dueDate.slice(8, 10);
+
+        const relDueDate = new Date(year, month-1, day);
+        console.log(relDueDate);
+
+        new Date(year, month, day)
+        console.log(dueDate);
         const today = new Date();
         let distanceToDueDate = '';
 
@@ -67,6 +75,7 @@ const displayTodoItem = (item) => {
             // Check if the due date is today
             if (isSameDay(relDueDate, today)) {
                 distanceToDueDate = 'Today';
+                console.log('Task is due today');
             } else {
                 // Calculate the distance to the due date
                 distanceToDueDate = formatDistanceToNow(relDueDate, { addSuffix: true, includeSeconds: false });
@@ -95,11 +104,7 @@ const displayTodoItem = (item) => {
     const itemSync = project.todoList.find(item => item.index === item.index);      
 
         if (itemSync.done == false) {
-            if (distanceToDueDate.includes('ago')) {
-                todoDueDate.textContent = 'Overdue by ' + distanceToDueDate.slice(0, distanceToDueDate.length - 4);
-            } else if (distanceToDueDate.includes('in')) {
-                todoDueDate.textContent = 'Due ' + distanceToDueDate;
-            }
+            todoDueDate.textContent = 'Due ' + distanceToDueDate;
         } else {
             distanceToDueDate = formatDistanceToNow(new Date(), { addSuffix: true });
             todoDueDate.textContent = 'Completed ' + distanceToDueDate;
@@ -208,7 +213,6 @@ const project = ((name = 'default') => {
         let item = { name, index, title, details, dueDate, dueTime, priority, done };
         defaultProject.todoList.push(item);
         saveToLocalStorage(projectList);
-        console.log(getFromLocalStorage());
         displayTodoItem(item);
     }
 
@@ -237,6 +241,8 @@ const project = ((name = 'default') => {
     return {addToProjectList, addToProjectItem, getProjectTodoList, projectItemCompleted};
 })();
 
+console.log(project.getProjectTodoList());
+console.log(getFromLocalStorage());
 
 export default allUI;
 
