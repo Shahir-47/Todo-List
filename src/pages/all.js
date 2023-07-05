@@ -1,7 +1,6 @@
 import edit from '../assets/img/edit.svg';
 import del from '../assets/img/del.svg';
 import { formatDistanceToNow, isSameDay, addDays, set } from 'date-fns';
-import { it } from 'date-fns/locale';
 import { storage } from '../functions/storage';
 
 
@@ -180,11 +179,6 @@ const allUI = () => {
     todoList.style.maxHeight = pageContent.offsetHeight - (footer.offsetHeight * 2) - 16 + 'px';
     todoList.style.marginRight = addBtn.offsetWidth + 64 + 'px';
     pageContent.appendChild(todoList);
-
-    // const todoListCopy = project.getTodoList();
-    // for (let i = 0; i < todoListCopy.length; i++) {
-    //     displayTodoItem(i, ,todoListCopy[i].title, todoListCopy[i].details, todoListCopy[i].dueDate, todoListCopy[i].dueTime, todoListCopy[i].priority, todoListCopy[i].done);
-    // }
 };
 
 
