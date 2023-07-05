@@ -1,6 +1,8 @@
 import edit from '../assets/img/edit.svg';
 import del from '../assets/img/del.svg';
-import { formatDistanceToNow, isSameDay, addDays } from 'date-fns';
+import { formatDistanceToNow, isSameDay, addDays, set } from 'date-fns';
+import { it } from 'date-fns/locale';
+
 
 const displayTodoItem = (item) => {
     let title = item.title;
@@ -8,12 +10,13 @@ const displayTodoItem = (item) => {
     let dueDate = item.dueDate;
     let dueTime = item.dueTime;
     let priority = item.priority;
-    let done = item.done;
+    let done =  `item-num-${item.index}`;
 
     const todoList = document.querySelector('.todo-list');
 
     const todoItem = document.createElement('div');
     todoItem.classList.add('todo-item');
+    todoItem.id = item.index;
 
     const colorPane = document.createElement('div');
     let color = priority === 'low' ? 'green' : priority === 'medium' ? 'orange' : 'red';
@@ -38,47 +41,57 @@ const displayTodoItem = (item) => {
     todoDetails.classList.add('todo-details');
     todoDetails.textContent = 'Details';
 
-    // Get the due date of the task
-    const relDueDate = new Date(dueDate);
-    const today = new Date();
-    let distanceToDueDate = '';
-
-    if (dueTime == '') {
-        // Check if the due date is today
-        if (isSameDay(relDueDate, today)) {
-            distanceToDueDate = 'Today';
-        } else {
-            // Calculate the distance to the due date
-            distanceToDueDate = formatDistanceToNow(relDueDate, { addSuffix: true, includeSeconds: false });
-
-            // Check if the due date is tomorrow
-            const tomorrow = addDays(today, 1);
-            if (isSameDay(relDueDate, tomorrow)) {
-                console.log('Task is due tomorrow');
-                distanceToDueDate = 'Tomorrow';
-            }
-        }
-    } else {
-        const [year, month, day] =  dueDate.split('-');
-        const taskDueDate = new Date(year, month - 1, day);
-
-        // Parse the time input value
-        const [hours, minutes] = dueTime.split(':');
-
-        taskDueDate.setHours(hours);
-        taskDueDate.setMinutes(minutes);
-        // Calculate the time difference between the current date/time and the task due date
-        distanceToDueDate = formatDistanceToNow(taskDueDate, { addSuffix: true });
-    }
-
-
-
     const todoDueDate = document.createElement('p');
     todoDueDate.classList.add('todo-due-date');
-    todoDueDate.textContent = 'Due ' + distanceToDueDate;
 
-    // Display the due time in words
-    console.log(`Task is due ${distanceToDueDate}`);
+    function updateTime() {
+
+        // Get the due date of the task
+        const relDueDate = new Date(dueDate);
+        const today = new Date();
+        let distanceToDueDate = '';
+
+        if (dueTime == '') {
+            // Check if the due date is today
+            if (isSameDay(relDueDate, today)) {
+                distanceToDueDate = 'Today';
+            } else {
+                // Calculate the distance to the due date
+                distanceToDueDate = formatDistanceToNow(relDueDate, { addSuffix: true, includeSeconds: false });
+
+                // Check if the due date is tomorrow
+                const tomorrow = addDays(today, 1);
+                if (isSameDay(relDueDate, tomorrow)) {
+                    console.log('Task is due tomorrow');
+                    distanceToDueDate = 'Tomorrow';
+                }
+            }
+        } else {
+            const [year, month, day] =  dueDate.split('-');
+            const taskDueDate = new Date(year, month - 1, day);
+
+            // Parse the time input value
+            const [hours, minutes] = dueTime.split(':');
+
+            taskDueDate.setHours(hours);
+            taskDueDate.setMinutes(minutes);
+            // Calculate the time difference between the current date/time and the task due date
+            distanceToDueDate = formatDistanceToNow(taskDueDate, { addSuffix: true });
+        }
+
+        if (!item.done) {
+            if (distanceToDueDate.includes('ago')) {
+                todoDueDate.textContent = 'Overdue by ' + distanceToDueDate.slice(0, distanceToDueDate.length - 4);
+            } else if (distanceToDueDate.includes('in')) {
+                todoDueDate.textContent = 'Due ' + distanceToDueDate;
+            }
+        } else {
+            todoDueDate.textContent = 'Completed ' + distanceToDueDate;
+        }
+    }
+
+    // Update the time displayed every second
+    setInterval(updateTime, 1000);
 
     const todoEdit = document.createElement('button');
     todoEdit.classList.add('todo-edit');
@@ -114,17 +127,20 @@ const displayTodoItem = (item) => {
 
 }
 
-const taskDoneUI = (item) => {
-    const box = item.closest
-    if (event.classList.contains('checked')) {
-        event.textContent = '';
+const taskDoneUI = (id) => {
+    const item = document.getElementById(id);
+    const box = item.querySelector('.completed');
+    const time = item.querySelector('.todo-right .todo-due-date')
+    let completedInterval = null;
+
+    if (box.classList.contains('checked')) {
+        box.textContent = '';
     } else {
-        event.textContent = '✓';
+        box.textContent = '✓';
     }
-    event.classList.toggle('checked');
-    document.querySelector('.todo-item').classList.toggle('checked-item');
-    document.querySelector('.todo-left h2').classList.toggle('checked-text');
-    document.querySelector('.todo-right .todo-due-date').textContent = 'Completed ' + formatDistanceToNow(new Date(), { addSuffix: true });
+    box.classList.toggle('checked');
+    item.classList.toggle('checked-item');
+    item.querySelector('.todo-left h2').classList.toggle('checked-text');
 }
 
 const allUI = () => {
@@ -153,23 +169,22 @@ const project = ((title = 'default') => {
     let todoList = [];
 
     const addTodoItem = (title, details, dueDate, dueTime, priority, done = false) => {
-        todoList.push({title, details, dueDate, dueTime, priority, done });
-        displayTodoItem({title, details, dueDate, dueTime, priority, done });
+        let index = todoList.length;
+        let item = { index, title, details, dueDate, dueTime, priority, done };
+        todoList.push(item);
+        displayTodoItem(item);
     }
 
-    const removeTodoItem = (title) => {
-        todoList = todoList.filter((item) => item.title !== title);
+    const removeTodoItem = (index) => {
+        todoList.splice(index, 1);
     }
 
     const getTodoList = () => todoList;
 
-    const itemCompleted = (title) => {
-        todoList.forEach((item) => {
-            if (item.title === title) {
-                item.done = true;
-                console.log(item);
-            }
-        });
+    const itemCompleted = (index) => {
+        let i = index.split('-')[2];
+        todoList[index].done = !todoList[index].done;
+        taskDoneUI(index);
     }
 
     return {addTodoItem, removeTodoItem, getTodoList, itemCompleted};

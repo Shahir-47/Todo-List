@@ -62,12 +62,22 @@ cancelBtn.addEventListener('click', () => {
     document.getElementById('popupFormContainer').style.display = 'none';
 });
 
-const newTodoBoxes = document.querySelectorAll('.todo-item .completed');
-newTodoBoxes.forEach((box) => {
-    box.addEventListener('click', (e) => {
+
+document.querySelector('#content').addEventListener('click', (e) => {
+    if (e.target.closest('.todo-item .completed')) {
         console.log(e)
         console.log(e.target.closest('.todo-item'));
-        // project.itemCompleted( e.target.closest('.todo-item').id );
+        project.itemCompleted( e.target.closest('.todo-item').id);
+    }
+});
+
+// const newTodoBoxes = document.querySelectorAll('.todo-item .completed');
+// newTodoBoxes.forEach((box) => {
+//     console.log("box");
+//     box.addEventListener('click', (e) => {
+//         console.log(e)
+//         console.log(e.target.closest('.todo-item'));
+//         project.itemCompleted( e.target.closest('.todo-item').id);
         // taskDoneUI(e.target);
 
         
@@ -80,5 +90,5 @@ newTodoBoxes.forEach((box) => {
         //     document.querySelector('.todo-form').removeChild(document.querySelector('.todo-form .form-body .third-row'));
         //     document.querySelector('.todo-form').appendChild(document.querySelector('.todo-form .form-body .third-row'));
         // }
-    });
-});
+//     });
+// });
