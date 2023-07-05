@@ -193,10 +193,10 @@ const formValidation = (event) => {
     // Get the form fields
   if (form.checkValidity()) {
     let formData = new FormData(form);
-    project.addTodoItem(formData.get('title'), formData.get('details'), formData.get('due-date'), formData.get('due-time'), formData.get('priority'));
+    project.addToProjectItem(formData.get('title'), formData.get('details'), formData.get('due-date'), formData.get('due-time'), formData.get('priority'));
     form.reset();
     document.getElementById('popupFormContainer').style.display = 'none';
-    console.log(project.getTodoList());
+    // console.log(project.getTodoList());
   }
   
 }

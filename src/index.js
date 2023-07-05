@@ -67,7 +67,7 @@ document.querySelector('#content').addEventListener('click', (e) => {
     if (e.target.closest('.todo-item .completed')) {
         console.log(e)
         console.log(e.target.closest('.todo-item'));
-        project.itemCompleted( e.target.closest('.todo-item').id);
+        project.projectItemCompleted( e.target.closest('.todo-item').id);
     }
 });
 

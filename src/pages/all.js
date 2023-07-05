@@ -10,13 +10,13 @@ const displayTodoItem = (item) => {
     let dueDate = item.dueDate;
     let dueTime = item.dueTime;
     let priority = item.priority;
-    let done =  `item-num-${item.index}`;
+    let done =  item.done;
 
     const todoList = document.querySelector('.todo-list');
 
     const todoItem = document.createElement('div');
     todoItem.classList.add('todo-item');
-    todoItem.id = item.index;
+    todoItem.id = item.name + '-' + item.index;
 
     const colorPane = document.createElement('div');
     let color = priority === 'low' ? 'green' : priority === 'medium' ? 'orange' : 'red';
@@ -79,13 +79,14 @@ const displayTodoItem = (item) => {
             distanceToDueDate = formatDistanceToNow(taskDueDate, { addSuffix: true });
         }
 
-        if (!item.done) {
+        if (project.getProjectTodoList(item.name)[item.index].done == false) {
             if (distanceToDueDate.includes('ago')) {
                 todoDueDate.textContent = 'Overdue by ' + distanceToDueDate.slice(0, distanceToDueDate.length - 4);
             } else if (distanceToDueDate.includes('in')) {
                 todoDueDate.textContent = 'Due ' + distanceToDueDate;
             }
         } else {
+            distanceToDueDate = formatDistanceToNow(new Date(), { addSuffix: true });
             todoDueDate.textContent = 'Completed ' + distanceToDueDate;
         }
     }
@@ -158,36 +159,64 @@ const allUI = () => {
     todoList.style.marginRight = addBtn.offsetWidth + 64 + 'px';
     pageContent.appendChild(todoList);
 
-    const todoListCopy = project.getTodoList();
-    for (let i = 0; i < todoListCopy.length; i++) {
-        displayTodoItem(i ,todoListCopy[i].title, todoListCopy[i].details, todoListCopy[i].dueDate, todoListCopy[i].dueTime, todoListCopy[i].priority, todoListCopy[i].done);
-    }
+    // const todoListCopy = project.getTodoList();
+    // for (let i = 0; i < todoListCopy.length; i++) {
+    //     displayTodoItem(i, ,todoListCopy[i].title, todoListCopy[i].details, todoListCopy[i].dueDate, todoListCopy[i].dueTime, todoListCopy[i].priority, todoListCopy[i].done);
+    // }
 };
 
 
-const project = ((title = 'default') => {
-    let todoList = [];
+const project = ((name = 'default') => {
 
-    const addTodoItem = (title, details, dueDate, dueTime, priority, done = false) => {
-        let index = todoList.length;
-        let item = { index, title, details, dueDate, dueTime, priority, done };
-        todoList.push(item);
+    let projectList = [
+        {
+            name: 'default',
+            todoList: []
+        }
+    ];
+
+    const addToProjectList = (name) => {
+        projectList.push({
+            name,
+            todoList: []
+        });
+    }
+
+    const addToProjectItem = (title, details, dueDate, dueTime, priority, done = false, name = 'default') => {
+
+        let defaultProject = projectList.find(project => project.name == name);
+
+        // Access the todoList property of the default project
+
+        projectList.forEach(project => console.log(project.name == name));
+        let index =  defaultProject.todoList.length;
+        let item = { name, index, title, details, dueDate, dueTime, priority, done };
+        defaultProject.todoList.push(item);
         displayTodoItem(item);
     }
 
-    const removeTodoItem = (index) => {
-        todoList.splice(index, 1);
+    // const removeTodoItem = (index) => {
+    //     todoList.splice(index, 1);
+    // }
+
+    const getProjectTodoList = (name = 'default') => {
+        return projectList.find(project => project.name === name).todoList;
     }
 
-    const getTodoList = () => todoList;
-
-    const itemCompleted = (index) => {
-        let i = index.split('-')[2];
-        todoList[index].done = !todoList[index].done;
+    const projectItemCompleted = (index) => {
+        let [name, i] = index.split('-');
+        let completedProj = projectList.find(project => project.name === name);
+        completedProj.todoList[i].done = !completedProj.todoList[i].done;
         taskDoneUI(index);
     }
 
-    return {addTodoItem, removeTodoItem, getTodoList, itemCompleted};
+    // const itemCompleted = (index) => {
+    //     let i = index.split('-')[2];
+    //     todoList[index].done = !todoList[index].done;
+    //     taskDoneUI(index);
+    // }
+
+    return {addToProjectList, addToProjectItem, getProjectTodoList, projectItemCompleted};
 })();
 
 export default allUI;
