@@ -10,11 +10,9 @@ import allUI from './pages/all';
 import formUI from './functions/form';
 import { formValidation } from './functions/form';
 import { project, displayTodoItem, taskDoneUI, displayAllItems } from './pages/all';
-import { storage } from './functions/storage';
 console.log('I get called from print.js!');
 
 // Load header, sidebar, and footer
-storage.createLocalStorage();
 pageLoad();
 allUI();
 formUI();
@@ -69,6 +67,10 @@ cancelBtn.addEventListener('click', () => {
 document.querySelector('#content').addEventListener('click', (e) => {
     if (e.target.closest('.todo-item .completed')) {
         project.projectItemCompleted( e.target.closest('.todo-item').id);
+    }
+    if (e.target.closest('.todo-item .todo-delete')) {
+        project.projectItemDeleted( e.target.closest('.todo-item').id);
+        
     }
 });
 

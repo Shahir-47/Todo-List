@@ -1,6 +1,6 @@
 import edit from '../assets/img/edit.svg';
 import del from '../assets/img/del.svg';
-import { formatDistanceToNow, isSameDay, addDays, set } from 'date-fns';
+import { formatDistanceToNow, isSameDay, addDays, differenceInCalendarDays } from 'date-fns';
 import { storage } from '../functions/storage';
 
 
@@ -16,7 +16,6 @@ const displayAllItems = (name = 'default') => {
         displayTodoItem(defaultProject.todoList[i]);
     }
 }
-
 
 const displayTodoItem = (item) => {
     let title = item.title;
@@ -59,6 +58,8 @@ const displayTodoItem = (item) => {
     const todoDueDate = document.createElement('p');
     todoDueDate.classList.add('todo-due-date');
 
+    let interval;
+
     function updateTime() {
 
         // Get the due date of the task
@@ -75,15 +76,17 @@ const displayTodoItem = (item) => {
             // Check if the due date is today
             if (isSameDay(relDueDate, today)) {
                 distanceToDueDate = 'Today';
-            } else {
-                // Calculate the distance to the due date
-                distanceToDueDate = formatDistanceToNow(relDueDate, { addSuffix: true, includeSeconds: false });
-
-                // Check if the due date is tomorrow
-                const tomorrow = addDays(today, 1);
-                if (isSameDay(relDueDate, tomorrow)) {
-                    distanceToDueDate = 'Tomorrow';
+            } else if (isSameDay(relDueDate, addDays(today, 1))) {
+                distanceToDueDate = 'Tomorrow';
+            } else  {
+                // Calculate the time difference between the current date/time and the task due date
+                const distanceInDays = differenceInCalendarDays(relDueDate, today);
+                if (distanceInDays < 0) {
+                    distanceToDueDate = `${Math.abs(distanceInDays)} day(s) ago`;
+                } else  if (distanceInDays > 0) {
+                    distanceToDueDate = `${distanceInDays} day(s) from now`;
                 }
+                
             }
         } else {
             const [year, month, day] =  dueDate.split('-');
@@ -99,6 +102,12 @@ const displayTodoItem = (item) => {
         }    
 
         const itemSync = project.getProjectTodoList().find(item => item.index == index);
+
+        if (!itemSync) {
+            clearInterval(interval); // Stop the interval
+            return;
+        }
+
         if (itemSync.done.flag == false) {
             todoDueDate.textContent = 'Due ' + distanceToDueDate;
         } else {
@@ -108,7 +117,7 @@ const displayTodoItem = (item) => {
     }
 
     // Update the time displayed every second
-    setInterval(updateTime, 1000);
+    interval = setInterval(updateTime, 1000);
 
     const todoEdit = document.createElement('button');
     todoEdit.classList.add('todo-edit');
@@ -165,6 +174,11 @@ const taskDoneUI = (id) => {
     item.querySelector('.todo-left h2').classList.toggle('checked-text');
 }
 
+const removeTodoItemUI = (id) => {
+    const item = document.getElementById(id);
+    item.parentNode.removeChild(item);
+}
+
 const allUI = () => {
     const pageContent = document.querySelector('#page-content');
     const footer = document.querySelector('footer');
@@ -185,6 +199,10 @@ const allUI = () => {
 const project = ((name = 'default') => {
 
     let projectList = storage.getFromLocalStorage();
+    
+    const updateProjectList = () => {
+        projectList = storage.getFromLocalStorage();
+    }
 
     const addToProjectList = (name) => {
         projectList.push({
@@ -192,6 +210,7 @@ const project = ((name = 'default') => {
             todoList: []
         });
         storage.saveToLocalStorage(projectList);
+        updateProjectList();
     }
 
     const addToProjectItem = (title, details, dueDate, dueTime, priority, done = { flag: false, timestamp: null }, name = 'default') => {
@@ -204,6 +223,7 @@ const project = ((name = 'default') => {
         let item = { name, index, title, details, dueDate, dueTime, priority, done };
         defaultProject.todoList.push(item);
         storage.saveToLocalStorage(projectList);
+        updateProjectList();
         displayTodoItem(item);
     }
 
@@ -224,7 +244,21 @@ const project = ((name = 'default') => {
         completedProj.todoList[i].done.timestamp = new Date();
         console.log(completedProj.todoList[i].done);
         storage.saveToLocalStorage(projectList);
+        updateProjectList();
         taskDoneUI(index);
+    }
+
+    const projectItemDeleted = (index) => {
+        let name = index.split('-')[0];
+        let i = index.split('-')[1];
+        let deletedProj = projectList.find(project => project.name === name);
+        removeTodoItemUI(index);
+        console.log(deletedProj.todoList.findIndex(item => item.index == i));
+        let deleteIndex = deletedProj.todoList.findIndex(item => item.index == i);
+        deletedProj.todoList.splice(deleteIndex, 1);
+        console.log(deletedProj.todoList);
+        storage.saveToLocalStorage(projectList);
+        updateProjectList();
     }
 
     // const itemCompleted = (index) => {
@@ -233,7 +267,7 @@ const project = ((name = 'default') => {
     //     taskDoneUI(index);
     // }
 
-    return {addToProjectList, addToProjectItem, getProjectTodoList, projectItemCompleted};
+    return {addToProjectList, addToProjectItem, getProjectTodoList, projectItemCompleted, projectItemDeleted};
 })();
 
 // console.log(project.getProjectTodoList());
