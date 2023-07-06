@@ -9,7 +9,7 @@ import { adjustFooter } from './functions/footer';
 import allUI from './pages/all';
 import formUI from './functions/form';
 import { formValidation } from './functions/form';
-import { project, displayTodoItem, taskDoneUI, displayAllItems } from './pages/all';
+import { project, displayTodoItem, taskDoneUI, displayAllItems, createDetailContainer, displayDetail } from './pages/all';
 console.log('I get called from print.js!');
 
 // Load header, sidebar, and footer
@@ -17,6 +17,7 @@ pageLoad();
 allUI();
 formUI();
 displayAllItems();
+createDetailContainer();
 
 // Event listener to maximize/minimize sidebar
 document.querySelector('#content').addEventListener('click', (event) => {
@@ -70,8 +71,15 @@ document.querySelector('#content').addEventListener('click', (e) => {
     }
     if (e.target.closest('.todo-item .todo-delete')) {
         project.projectItemDeleted( e.target.closest('.todo-item').id);
-
     }
+    if (e.target.closest('.todo-item .todo-details') || e.target.closest('.todo-item')) {
+        document.getElementById('detailFormContainer').style.display = 'block';
+        displayDetail(e.target.closest('.todo-item').id);
+        document.querySelector('#closeDetailsBtn').addEventListener('click', () => {
+            document.getElementById('detailFormContainer').style.display = 'none';
+        });
+    }
+    //todo-details
 });
 
 // const newTodoBoxes = document.querySelectorAll('.todo-item .completed');
