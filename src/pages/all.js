@@ -2,6 +2,7 @@ import edit from '../assets/img/edit.svg';
 import del from '../assets/img/del.svg';
 import { formatDistanceToNow, isSameDay, addDays, differenceInCalendarDays } from 'date-fns';
 import { storage } from '../functions/storage';
+import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -30,7 +31,7 @@ const displayTodoItem = (item) => {
 
     const todoItem = document.createElement('div');
     todoItem.classList.add('todo-item');
-    todoItem.id = item.name + '-' + item.index;
+    todoItem.id = item.index;
 
     const colorPane = document.createElement('div');
     let color = priority === 'low' ? 'green' : priority === 'medium' ? 'orange' : 'red';
@@ -219,13 +220,19 @@ const project = ((name = 'default') => {
 
         // Access the todoList property of the default project
 
-        let index =  defaultProject.todoList.length;
+        let index =  name + '~' + uuidv4();
         let item = { name, index, title, details, dueDate, dueTime, priority, done };
         defaultProject.todoList.push(item);
         storage.saveToLocalStorage(projectList);
         updateProjectList();
         displayTodoItem(item);
     }
+
+    // const generateUniqueID = () => {
+    //     const timestamp = Date.now().toString();
+    //     const randomChars = Math.random().toString(36).substr(2, 5);
+    //     return timestamp + '-' + randomChars;
+    // }
 
     // const removeTodoItem = (index) => {
     //     todoList.splice(index, 1);
@@ -236,25 +243,24 @@ const project = ((name = 'default') => {
     }
 
     const projectItemCompleted = (index) => {
-        let name = index.split('-')[0];
-        let i = index.split('-')[1];
+        let name = index.split('~')[0];
         let completedProj = projectList.find(project => project.name === name);
         console.log(completedProj);
-        completedProj.todoList[i].done.flag = !completedProj.todoList[i].done.flag;
-        completedProj.todoList[i].done.timestamp = new Date();
-        console.log(completedProj.todoList[i].done);
+        let completeIndex = completedProj.todoList.findIndex(item => item.index == index);
+        completedProj.todoList[completeIndex].done.flag = !completedProj.todoList[completeIndex].done.flag;
+        completedProj.todoList[completeIndex].done.timestamp = new Date();
+        console.log(completedProj.todoList[completeIndex].done);
         storage.saveToLocalStorage(projectList);
         updateProjectList();
         taskDoneUI(index);
     }
 
     const projectItemDeleted = (index) => {
-        let name = index.split('-')[0];
-        let i = index.split('-')[1];
+        let name = index.split('~')[0];
         let deletedProj = projectList.find(project => project.name === name);
         removeTodoItemUI(index);
-        console.log(deletedProj.todoList.findIndex(item => item.index == i));
-        let deleteIndex = deletedProj.todoList.findIndex(item => item.index == i);
+        console.log(deletedProj.todoList.findIndex(item => item.index == index));
+        let deleteIndex = deletedProj.todoList.findIndex(item => item.index == index);
         deletedProj.todoList.splice(deleteIndex, 1);
         console.log(deletedProj.todoList);
         storage.saveToLocalStorage(projectList);

@@ -22,6 +22,7 @@ module.exports = {
           filename: 'assets/img/[name][ext]',
         },
       },
+      
     ],
   },
 };

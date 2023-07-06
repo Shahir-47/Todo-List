@@ -70,7 +70,7 @@ document.querySelector('#content').addEventListener('click', (e) => {
     }
     if (e.target.closest('.todo-item .todo-delete')) {
         project.projectItemDeleted( e.target.closest('.todo-item').id);
-        
+
     }
 });
 
