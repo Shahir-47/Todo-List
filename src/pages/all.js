@@ -200,8 +200,15 @@ const displayTodoItem = (item) => {
     const completed = document.createElement('div');
     completed.classList.add('completed');
 
+    const wordContainer = document.createElement('div');
+    wordContainer.classList.add('word-container');
     const todoTitle = document.createElement('h2');
-    todoTitle.textContent = title;
+    if (title.length > 55) {
+        todoTitle.textContent = title.slice(0, 55) + '...';
+    } else {
+        todoTitle.textContent = title;
+    }
+    wordContainer.appendChild(todoTitle);
 
     const todoRight = document.createElement('div');
     todoRight.classList.add('todo-right');
@@ -294,7 +301,7 @@ const displayTodoItem = (item) => {
     todoRight.appendChild(todoDelete);
 
     todoLeft.appendChild(completed);
-    todoLeft.appendChild(todoTitle);
+    todoLeft.appendChild(wordContainer);
 
     todoText.appendChild(todoLeft);
     todoText.appendChild(todoRight);

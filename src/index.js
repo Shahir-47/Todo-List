@@ -72,7 +72,7 @@ document.querySelector('#content').addEventListener('click', (e) => {
     if (e.target.closest('.todo-item .todo-delete')) {
         project.projectItemDeleted( e.target.closest('.todo-item').id);
     }
-    if (e.target.closest('.todo-item .todo-details') || e.target.closest('.todo-item')) {
+    if (e.target.closest('.todo-item') && !e.target.closest('.todo-item .todo-delete') && !e.target.closest('.todo-item .completed') && !e.target.closest('.todo-item .todo-edit')) {
         document.getElementById('detailFormContainer').style.display = 'block';
         displayDetail(e.target.closest('.todo-item').id);
         document.querySelector('#closeDetailsBtn').addEventListener('click', () => {
