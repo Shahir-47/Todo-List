@@ -86,9 +86,6 @@ const createEditContainer = () => {
     dueDateInput.id = 'due-date';
     dueDateInput.name = 'due-date';
     dueDateInput.setAttribute('required', 'true');
-    let now = new Date();
-    const today = now.toISOString().split('T')[0];
-    dueDateInput.setAttribute('min', today);
     dueDateContainer.appendChild(dueDateLabel);
     dueDateContainer.appendChild(dueDateInput);
     thirdRowUpper.appendChild(dueDateContainer);
@@ -122,11 +119,11 @@ const createEditContainer = () => {
 
     const low = document.createElement('input');
     low.type = 'radio';
-    low.id = 'low';
-    low.name = 'priority';
+    low.id = 'edit-low';
+    low.name = 'edit-priority';
     low.value = 'low';
     const lowLabel = document.createElement('label');
-    lowLabel.setAttribute('for', 'low');
+    lowLabel.setAttribute('for', 'edit-low');
     lowLabel.textContent = 'Low';
     prioritySelection1.appendChild(low);
     prioritySelection1.appendChild(lowLabel);
@@ -136,11 +133,11 @@ const createEditContainer = () => {
 
     const medium = document.createElement('input');
     medium.type = 'radio';
-    medium.id = 'medium';
-    medium.name = 'priority';
+    medium.id = 'edit-medium';
+    medium.name = 'edit-priority';
     medium.value = 'medium';
     const mediumLabel = document.createElement('label');
-    mediumLabel.setAttribute('for', 'medium');
+    mediumLabel.setAttribute('for', 'edit-medium');
     mediumLabel.textContent = 'Medium';
     prioritySelection2.appendChild(medium);
     prioritySelection2.appendChild(mediumLabel);
@@ -150,11 +147,11 @@ const createEditContainer = () => {
 
     const high = document.createElement('input');
     high.type = 'radio';
-    high.id = 'high';
-    high.name = 'priority';
+    high.id = 'edit-high';
+    high.name = 'edit-priority';
     high.value = 'high';
     const highLabel = document.createElement('label');
-    highLabel.setAttribute('for', 'high');
+    highLabel.setAttribute('for', 'edit-high');
     highLabel.textContent = 'High';
     prioritySelection3.appendChild(high);
     prioritySelection3.appendChild(highLabel);
@@ -199,14 +196,15 @@ const editItems = (index) => {
     dueDate.value = item.dueDate;
     dueTime.value = item.dueTime;
     if (item.priority == 'low') {
-        document.querySelector('#editForm #low').checked = true;
+        document.querySelector('#editForm #edit-low').checked = true;
     }
     if (item.priority == 'medium') {
-        document.querySelector('#editForm #medium').checked = true;
+        document.querySelector('#editForm #edit-medium').checked = true;
     }
     if (item.priority == 'high') {
-        document.querySelector('#editForm #high').checked = true;
+        document.querySelector('#editForm #edit-high').checked = true;
     }
+
 }
 
 const displayDetail = (index) => {
@@ -588,6 +586,7 @@ const project = ((name = 'default') => {
         console.log(item);
         storage.saveToLocalStorage(projectList);
         updateProjectList();
+        removeTodoItemUI(index);
         displayTodoItem(item);
     }
 
