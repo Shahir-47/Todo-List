@@ -8,13 +8,12 @@ import {adjustPageContent} from './functions/pageLoad';
 import { adjustFooter } from './functions/footer';
 import allUI from './pages/all';
 import formValidation from './functions/form';
-import { project, displayTodoItem, taskDoneUI, displayAllItems, displayDetail, editItems } from './pages/all';
+import { project, displayTodoItem, taskDoneUI, displayDetail, editItems, itemsEventHandler } from './pages/all';
 console.log('I get called from print.js!');
 
 // Load header, sidebar, and footer
 pageLoad();
 allUI();
-displayAllItems();
 
 // Event listener to maximize/minimize sidebar
 document.querySelector('#content').addEventListener('click', (event) => {
@@ -64,57 +63,8 @@ cancelBtn.addEventListener('click', () => {
 
 
 document.querySelector('#content').addEventListener('click', (e) => {
-    if (e.target.closest('.todo-item .completed')) {
-        project.projectItemCompleted( e.target.closest('.todo-item').id);
-    }
-    if (e.target.closest('.todo-item .todo-delete')) {
-        project.projectItemDeleted( e.target.closest('.todo-item').id);
-    }
 
-    if (e.target.closest('.todo-item .todo-edit')) {
-        document.getElementById('editFormContainer').style.display = 'block';
-        let editItem = e.target.closest('.todo-item').id;
-        console.log(editItem);
-        editItems(editItem);
-
-        document.querySelector('#closeEditBtn').addEventListener('click', () => {
-            document.getElementById('editFormContainer').style.display = 'none';
-        });
-
-        document.querySelector('#edit-form').addEventListener('submit', (e) => {
-            console.log(editItem);
-            formValidation(e, editItem);
-        });
+    if (e.target.closest('.todo-item')) {
+        itemsEventHandler(e);
     }
-
-    if (e.target.closest('.todo-item') && !e.target.closest('.todo-item .todo-delete') && !e.target.closest('.todo-item .completed') && !e.target.closest('.todo-item .todo-edit')) {
-        document.getElementById('detailFormContainer').style.display = 'block';
-        displayDetail(e.target.closest('.todo-item').id);
-        document.querySelector('#closeDetailsBtn').addEventListener('click', () => {
-            document.getElementById('detailFormContainer').style.display = 'none';
-        });
-    }
-    //todo-details
 });
-
-// const newTodoBoxes = document.querySelectorAll('.todo-item .completed');
-// newTodoBoxes.forEach((box) => {
-//     console.log("box");
-//     box.addEventListener('click', (e) => {
-//         console.log(e)
-//         console.log(e.target.closest('.todo-item'));
-//         project.itemCompleted( e.target.closest('.todo-item').id);
-        // taskDoneUI(e.target);
-
-        
-        // if (box.classList.contains('todo-title')) {
-        //     document.querySelector('.todo-form').removeChild(document.querySelector('.todo-form .form-body .third-row'));
-        // } else if (box.classList.contains('todo-details')) {
-        //     document.querySelector('.todo-form').removeChild(document.querySelector('.todo-form .form-body .third-row'));
-        //     document.querySelector('.todo-form').appendChild(document.querySelector('.todo-form .form-body .third-row'));
-        // } else if (box.classList.contains('todo-date')) {
-        //     document.querySelector('.todo-form').removeChild(document.querySelector('.todo-form .form-body .third-row'));
-        //     document.querySelector('.todo-form').appendChild(document.querySelector('.todo-form .form-body .third-row'));
-        // }
-//     });
-// });

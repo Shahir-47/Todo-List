@@ -1,9 +1,47 @@
 import edit from '../assets/img/edit.svg';
 import del from '../assets/img/del.svg';
+import formValidation from '../functions/form';
 import { formatDistanceToNow, isSameDay, addDays, differenceInCalendarDays, format, parseISO, parse } from 'date-fns';
 import { storage } from '../functions/storage';
 import { v4 as uuidv4 } from 'uuid';
 
+// const handle todo item events
+const itemsEventHandler = (event) => {
+    // if event target is the completed checkbox
+    if (event.target.closest('.todo-item .completed')) {
+        project.projectItemCompleted(event.target.closest('.todo-item').id);
+    }
+    // if event target is the delete button
+    if (event.target.closest('.todo-item .todo-delete')) {
+        project.projectItemDeleted( event.target.closest('.todo-item').id);
+    }
+    // if event target is the edit button
+    if (event.target.closest('.todo-item .todo-edit')) {
+        // show the edit form
+        document.getElementById('editFormContainer').style.display = 'block';
+        let editItem = event.target.closest('.todo-item').id;
+        editItems(editItem);
+        // close the edit form
+        document.querySelector('#closeEditBtn').addEventListener('click', () => {
+            document.getElementById('editFormContainer').style.display = 'none';
+        });
+        // submit the edit form
+        document.querySelector('#edit-form').addEventListener('submit', (e) => {
+            formValidation(e, editItem);
+        });
+    }
+    // if clicked anywhere on the todo item but the buttons, show details
+    if (event.target.closest('.todo-item') && !event.target.closest('.todo-item .todo-delete') && !event.target.closest('.todo-item .completed') && !event.target.closest('.todo-item .todo-edit')) {
+        // show the details form
+        document.getElementById('detailFormContainer').style.display = 'block';
+        displayDetail(event.target.closest('.todo-item').id);
+        // close the details form
+        document.querySelector('#closeDetailsBtn').addEventListener('click', () => {
+            document.getElementById('detailFormContainer').style.display = 'none';
+        });
+    }
+
+}
 
 const editItems = (index) => {
     let name = index.split('~')[0];
@@ -361,6 +399,8 @@ const allUI = () => {
     todoList.style.maxHeight = pageContent.offsetHeight - (footer.offsetHeight * 2) - 16 + 'px';
     todoList.style.marginRight = addBtn.offsetWidth + 64 + 'px';
     pageContent.appendChild(todoList);
+
+    displayAllItems();
 };
 
 
@@ -466,6 +506,6 @@ const project = ((name = 'default') => {
 
 export default allUI;
 
-export { project, displayTodoItem, taskDoneUI, displayAllItems, displayDetail, editItems };
+export { project, displayTodoItem, taskDoneUI, displayDetail, editItems, itemsEventHandler };
 
 // const addTodoItemUI = () => {
