@@ -47,5 +47,12 @@ const pageLoad = () => {
     pageContent();
 }
 
+// Change color theme
+const changeTheme = () => {
+    document.body.classList.toggle('light-theme');
+    document.querySelector('.search-box').classList.toggle('light-theme');
+    document.querySelector('footer').classList.toggle('light-theme');
+}
+
 export default pageLoad;
-export {adjustPageContent};
+export {adjustPageContent, changeTheme};

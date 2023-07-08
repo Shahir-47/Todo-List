@@ -10,6 +10,8 @@ import allProjects from '../assets/img/allProjects.svg';
 import starredProjects from '../assets/img/starredProjects.svg';
 import allNotes from '../assets/img/allNotes.svg';
 import starredNotes from '../assets/img/starredNote.svg';
+import { adjustPageContent } from './pageLoad';
+import { adjustFooter } from './footer';
 
 // Create a sidebar item
 const createSidebarItems = (icon, text, barType) => { 
@@ -207,4 +209,17 @@ const miniSidebar = () => {
     
 }
 
-export {sidebar, miniSidebar};
+const handleSidebar = () => {
+    const sidebarContent = document.querySelector('.sidebar-content');
+    if (sidebarContent.classList.contains('full')) {
+        miniSidebar();
+        adjustPageContent();
+        adjustFooter();
+    } else if (sidebarContent.classList.contains('mini')) {
+        sidebar();
+        adjustPageContent();
+        adjustFooter();
+    }
+}
+
+export {sidebar, handleSidebar};

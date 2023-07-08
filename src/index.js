@@ -2,44 +2,22 @@
 //import required pics
 import './css/pageLoad.css';
 import './css/all.css';
-import {sidebar, miniSidebar} from './functions/sidebar.js';
+import {handleSidebar} from './functions/sidebar.js';
 import pageLoad from './functions/pageLoad';
-import {adjustPageContent} from './functions/pageLoad';
-import { adjustFooter } from './functions/footer';
+import { changeTheme } from './functions/pageLoad';
 import allUI from './pages/all';
 import formValidation from './functions/form';
-import { project, displayTodoItem, taskDoneUI, displayDetail, editItems, itemsEventHandler } from './pages/all';
+import { itemsEventHandler } from './pages/all';
 console.log('I get called from print.js!');
+
 
 // Load header, sidebar, and footer
 pageLoad();
 allUI();
 
-// Event listener to maximize/minimize sidebar
-document.querySelector('#content').addEventListener('click', (event) => {
-    if (event.target.closest('.menu-button')) {
-        const sidebarContent = document.querySelector('.sidebar-content');
-        if (sidebarContent.classList.contains('full')) {
-            console.log('full');
-            miniSidebar();
-            adjustPageContent();
-            adjustFooter();
-        } else if (sidebarContent.classList.contains('mini')) {
-            sidebar();
-            adjustPageContent();
-            adjustFooter();
-        }
-    }
-});
-
 // Event listener to change color theme
 const themeToggle = document.getElementById('theme-toggle');
-themeToggle.addEventListener('change', () => {
-    document.body.classList.toggle('light-theme');
-    document.querySelector('.search-box').classList.toggle('light-theme');
-    document.querySelector('footer').classList.toggle('light-theme');
-});
-
+themeToggle.addEventListener('change', changeTheme);
 
 // Event listener to add todo item
 const addBtn = document.querySelector('.add-btn');
@@ -63,8 +41,10 @@ cancelBtn.addEventListener('click', () => {
 
 
 document.querySelector('#content').addEventListener('click', (e) => {
-
     if (e.target.closest('.todo-item')) {
         itemsEventHandler(e);
+    }
+    if (e.target.closest('.menu-button')) {
+        handleSidebar();
     }
 });
