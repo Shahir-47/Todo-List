@@ -1,6 +1,7 @@
 import {sidebar} from './sidebar.js';
 import header from './header.js';
-import footer from './footer';
+import footer from './footer.js';
+import createPopupContainers from './popup.js';
 
 
 const pageContent = () => {
@@ -42,6 +43,7 @@ const pageLoad = () => {
     header();
     sidebar();
     footer();
+    createPopupContainers();
     pageContent();
 }
 

@@ -7,18 +7,14 @@ import pageLoad from './functions/pageLoad';
 import {adjustPageContent} from './functions/pageLoad';
 import { adjustFooter } from './functions/footer';
 import allUI from './pages/all';
-import formUI from './functions/form';
-import { formValidation } from './functions/form';
-import { project, displayTodoItem, taskDoneUI, displayAllItems, createDetailContainer, displayDetail, createEditContainer, editItems } from './pages/all';
+import formValidation from './functions/form';
+import { project, displayTodoItem, taskDoneUI, displayAllItems, displayDetail, editItems } from './pages/all';
 console.log('I get called from print.js!');
 
 // Load header, sidebar, and footer
 pageLoad();
 allUI();
-formUI();
 displayAllItems();
-createDetailContainer();
-createEditContainer();
 
 // Event listener to maximize/minimize sidebar
 document.querySelector('#content').addEventListener('click', (event) => {
@@ -54,7 +50,8 @@ addBtn.addEventListener('click', () => {
     document.querySelector('.new-todo-box:nth-of-type(2)').classList.remove('active');
     document.querySelector('.new-todo-box:nth-of-type(3)').classList.remove('active');
 
-    document.querySelector('.todo-form').addEventListener('submit', (e) => {
+    document.querySelector('#todo-form').addEventListener('submit', (e) => {
+        console.log('submit');
         formValidation(e);
     });
 });
