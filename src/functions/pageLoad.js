@@ -54,5 +54,17 @@ const changeTheme = () => {
     document.querySelector('footer').classList.toggle('light-theme');
 }
 
+const showForm = () => {
+    document.getElementById('popupFormContainer').style.display = 'block';
+    document.querySelector('.new-todo-box:nth-of-type(1)').classList.add('active');
+    document.querySelector('.new-todo-box:nth-of-type(2)').classList.remove('active');
+    document.querySelector('.new-todo-box:nth-of-type(3)').classList.remove('active');
+}
+
+const closeForm = () => {
+    document.querySelector('.todo-form').reset();
+    document.getElementById('popupFormContainer').style.display = 'none';
+}
+
 export default pageLoad;
-export {adjustPageContent, changeTheme};
+export {adjustPageContent, changeTheme, showForm, closeForm};

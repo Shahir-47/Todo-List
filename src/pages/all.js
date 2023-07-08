@@ -3,7 +3,8 @@ import del from '../assets/img/del.svg';
 import formValidation from '../functions/form';
 import { formatDistanceToNow, isSameDay, addDays, differenceInCalendarDays, format, parseISO, parse } from 'date-fns';
 import { storage } from '../functions/storage';
-import { v4 as uuidv4 } from 'uuid';
+import { project } from '../functions/project';
+
 
 // const handle todo item events
 const itemsEventHandler = (event) => {
@@ -386,6 +387,13 @@ const removeTodoItemUI = (id) => {
 }
 
 const allUI = () => {
+
+    const allSidebarItems = document.querySelectorAll('.item');
+    allSidebarItems.forEach(item => {
+        item.classList.remove('active');
+    });
+    document.querySelector('.item:nth-of-type(1)').classList.add('active');
+
     const pageContent = document.querySelector('#page-content');
     const footer = document.querySelector('footer');
 
@@ -403,109 +411,6 @@ const allUI = () => {
     displayAllItems();
 };
 
-
-const project = ((name = 'default') => {
-
-    let projectList = storage.getFromLocalStorage();
-    
-    const updateProjectList = () => {
-        projectList = storage.getFromLocalStorage();
-    }
-
-    const addToProjectList = (name) => {
-        projectList.push({
-            name,
-            todoList: []
-        });
-        storage.saveToLocalStorage(projectList);
-        updateProjectList();
-    }
-
-    const addToProjectItem = (title, details, dueDate, dueTime, priority, done = { flag: false, timestamp: null }, name = 'default') => {
-        console.log(projectList);
-        let defaultProject = projectList.find(project => project.name == name);
-
-        // Access the todoList property of the default project
-
-        let index =  name + '~' + uuidv4();
-        let item = { name, index, title, details, dueDate, dueTime, priority, done };
-        defaultProject.todoList.push(item);
-        storage.saveToLocalStorage(projectList);
-        updateProjectList();
-        displayTodoItem(item);
-    }
-
-    const editProjectItem = (index, title, details, dueDate, dueTime, priority) => {
-        let name = index.split('~')[0];
-        let defaultProject = projectList.find(project => project.name == name);
-
-        // Access the todoList property of the default project
-        let item = defaultProject.todoList.find(item => item.index == index);
-        item.title = title;
-        item.details = details;
-        item.dueDate = dueDate;
-        item.dueTime = dueTime;
-        item.priority = priority;
-        console.log(item);
-        storage.saveToLocalStorage(projectList);
-        updateProjectList();
-        removeTodoItemUI(index);
-        displayTodoItem(item);
-    }
-
-    // const generateUniqueID = () => {
-    //     const timestamp = Date.now().toString();
-    //     const randomChars = Math.random().toString(36).substr(2, 5);
-    //     return timestamp + '-' + randomChars;
-    // }
-
-    // const removeTodoItem = (index) => {
-    //     todoList.splice(index, 1);
-    // }
-
-    const getProjectTodoList = (name = 'default') => {
-        return projectList.find(project => project.name === name).todoList;
-    }
-
-    const projectItemCompleted = (index) => {
-        let name = index.split('~')[0];
-        let completedProj = projectList.find(project => project.name === name);
-        console.log(completedProj);
-        let completeIndex = completedProj.todoList.findIndex(item => item.index == index);
-        completedProj.todoList[completeIndex].done.flag = !completedProj.todoList[completeIndex].done.flag;
-        completedProj.todoList[completeIndex].done.timestamp = new Date();
-        console.log(completedProj.todoList[completeIndex].done);
-        storage.saveToLocalStorage(projectList);
-        updateProjectList();
-        taskDoneUI(index);
-    }
-
-    const projectItemDeleted = (index) => {
-        let name = index.split('~')[0];
-        let deletedProj = projectList.find(project => project.name === name);
-        removeTodoItemUI(index);
-        console.log(deletedProj.todoList.findIndex(item => item.index == index));
-        let deleteIndex = deletedProj.todoList.findIndex(item => item.index == index);
-        deletedProj.todoList.splice(deleteIndex, 1);
-        console.log(deletedProj.todoList);
-        storage.saveToLocalStorage(projectList);
-        updateProjectList();
-    }
-
-    // const itemCompleted = (index) => {
-    //     let i = index.split('-')[2];
-    //     todoList[index].done = !todoList[index].done;
-    //     taskDoneUI(index);
-    // }
-
-    return {addToProjectList, addToProjectItem, getProjectTodoList, projectItemCompleted, projectItemDeleted, editProjectItem};
-})();
-
-// console.log(project.getProjectTodoList());
-// console.log(getFromLocalStorage());
-
 export default allUI;
 
-export { project, displayTodoItem, taskDoneUI, displayDetail, editItems, itemsEventHandler };
-
-// const addTodoItemUI = () => {
+export { displayTodoItem, taskDoneUI, itemsEventHandler, removeTodoItemUI };

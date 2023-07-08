@@ -1,4 +1,4 @@
-import { project } from '../pages/all';
+import { project } from './project';
 
 const formValidation = (event, id = null) => {
 
