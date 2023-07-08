@@ -9,7 +9,7 @@ import { adjustFooter } from './functions/footer';
 import allUI from './pages/all';
 import formUI from './functions/form';
 import { formValidation } from './functions/form';
-import { project, displayTodoItem, taskDoneUI, displayAllItems, createDetailContainer, displayDetail } from './pages/all';
+import { project, displayTodoItem, taskDoneUI, displayAllItems, createDetailContainer, displayDetail, createEditContainer, editItems } from './pages/all';
 console.log('I get called from print.js!');
 
 // Load header, sidebar, and footer
@@ -18,6 +18,7 @@ allUI();
 formUI();
 displayAllItems();
 createDetailContainer();
+createEditContainer();
 
 // Event listener to maximize/minimize sidebar
 document.querySelector('#content').addEventListener('click', (event) => {
@@ -72,6 +73,23 @@ document.querySelector('#content').addEventListener('click', (e) => {
     if (e.target.closest('.todo-item .todo-delete')) {
         project.projectItemDeleted( e.target.closest('.todo-item').id);
     }
+
+    if (e.target.closest('.todo-item .todo-edit')) {
+        document.getElementById('editFormContainer').style.display = 'block';
+        let editItem = e.target.closest('.todo-item').id;
+        console.log(editItem);
+        editItems(editItem);
+
+        document.querySelector('#closeEditBtn').addEventListener('click', () => {
+            document.getElementById('editFormContainer').style.display = 'none';
+        });
+
+        document.querySelector('#edit-form').addEventListener('submit', (e) => {
+            console.log(editItem);
+            formValidation(e, editItem);
+        });
+    }
+
     if (e.target.closest('.todo-item') && !e.target.closest('.todo-item .todo-delete') && !e.target.closest('.todo-item .completed') && !e.target.closest('.todo-item .todo-edit')) {
         document.getElementById('detailFormContainer').style.display = 'block';
         displayDetail(e.target.closest('.todo-item').id);

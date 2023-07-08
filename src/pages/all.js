@@ -32,6 +32,183 @@ const createDetailContainer = () => {
 
 }
 
+const createEditContainer = () => {
+    const popupFormContainer = document.createElement('div');
+    popupFormContainer.setAttribute('id', 'editFormContainer');
+    const popupForm = document.createElement('div');
+    popupForm.setAttribute('id', 'editForm');
+
+    const formHeader = document.createElement('div');
+    formHeader.classList.add('edit-header');
+    const formTitle = document.createElement('h2');
+    formTitle.textContent = 'Edit Todo';
+    formHeader.appendChild(formTitle);
+
+    const closeBtn = document.createElement('button');
+    closeBtn.classList.add('close-btn');
+    closeBtn.id = 'closeEditBtn';
+    closeBtn.textContent = 'X';
+    formHeader.appendChild(closeBtn);
+    popupForm.appendChild(formHeader);
+
+    const todoForm = document.createElement('form');
+    todoForm.classList.add('todo-form');
+    todoForm.setAttribute('id', 'edit-form');
+
+    const titleInput = document.createElement('input');
+    titleInput.classList.add('title-input');
+    titleInput.type = 'text';
+    titleInput.setAttribute('required', 'true');
+    titleInput.id = 'title';
+    titleInput.name = 'title';
+    titleInput.maxLength = 100;
+
+    const detailsInput = document.createElement('textarea');
+    detailsInput.classList.add('details-input');
+    detailsInput.id = 'details';
+    detailsInput.name = 'details';
+    detailsInput.maxLength = 500;
+
+
+    const thirdRow = document.createElement('div');
+    thirdRow.classList.add('third-row');
+
+    const thirdRowUpper = document.createElement('div');
+    thirdRowUpper.classList.add('third-row-upper');
+    const dueDateContainer = document.createElement('div');
+    dueDateContainer.classList.add('due-date-container');
+    const dueDateLabel = document.createElement('label');
+    dueDateLabel.setAttribute('for', 'due-date');
+    dueDateLabel.textContent = 'Due Date: ';
+    const dueDateInput = document.createElement('input');
+    dueDateInput.classList.add('due-date-input');
+    dueDateInput.type = 'date';
+    dueDateInput.id = 'due-date';
+    dueDateInput.name = 'due-date';
+    dueDateInput.setAttribute('required', 'true');
+    let now = new Date();
+    const today = now.toISOString().split('T')[0];
+    dueDateInput.setAttribute('min', today);
+    dueDateContainer.appendChild(dueDateLabel);
+    dueDateContainer.appendChild(dueDateInput);
+    thirdRowUpper.appendChild(dueDateContainer);
+
+
+    const dueTimeContainer = document.createElement('div');
+    dueTimeContainer.classList.add('due-date-container');
+    const dueTimeLabel = document.createElement('label');
+    dueTimeLabel.setAttribute('for', 'due-time');
+    dueTimeLabel.textContent = 'Due Date: (Optional) ';
+    const dueTimeInput = document.createElement('input');
+    dueTimeInput.classList.add('due-date-input');
+    dueTimeInput.type = 'time';
+    dueTimeInput.id = 'due-time';
+    dueTimeInput.name = 'due-time';
+    dueTimeContainer.appendChild(dueTimeLabel);
+    dueTimeContainer.appendChild(dueTimeInput);
+    thirdRowUpper.appendChild(dueTimeContainer);
+
+
+    const selectionContainer = document.createElement('div');
+    selectionContainer.classList.add('selection-container');
+
+    const priorityContainer = document.createElement('div');
+    priorityContainer.classList.add('priority-container');
+    const priorityLabel = document.createElement('p');
+    priorityLabel.textContent = 'Priority: ';
+
+    const prioritySelection1 = document.createElement('div');
+    prioritySelection1.classList.add('priority-selection');
+
+    const low = document.createElement('input');
+    low.type = 'radio';
+    low.id = 'low';
+    low.name = 'priority';
+    low.value = 'low';
+    const lowLabel = document.createElement('label');
+    lowLabel.setAttribute('for', 'low');
+    lowLabel.textContent = 'Low';
+    prioritySelection1.appendChild(low);
+    prioritySelection1.appendChild(lowLabel);
+
+    const prioritySelection2 = document.createElement('div');
+    prioritySelection2.classList.add('priority-selection');
+
+    const medium = document.createElement('input');
+    medium.type = 'radio';
+    medium.id = 'medium';
+    medium.name = 'priority';
+    medium.value = 'medium';
+    const mediumLabel = document.createElement('label');
+    mediumLabel.setAttribute('for', 'medium');
+    mediumLabel.textContent = 'Medium';
+    prioritySelection2.appendChild(medium);
+    prioritySelection2.appendChild(mediumLabel);
+
+    const prioritySelection3 = document.createElement('div');
+    prioritySelection3.classList.add('priority-selection');
+
+    const high = document.createElement('input');
+    high.type = 'radio';
+    high.id = 'high';
+    high.name = 'priority';
+    high.value = 'high';
+    const highLabel = document.createElement('label');
+    highLabel.setAttribute('for', 'high');
+    highLabel.textContent = 'High';
+    prioritySelection3.appendChild(high);
+    prioritySelection3.appendChild(highLabel);
+
+    priorityContainer.appendChild(priorityLabel);
+    priorityContainer.appendChild(prioritySelection1);
+    priorityContainer.appendChild(prioritySelection2);
+    priorityContainer.appendChild(prioritySelection3);
+
+    const okBtn = document.createElement('button');
+    okBtn.classList.add('ok-btn');
+    okBtn.textContent = 'Edit Todo';
+    
+    selectionContainer.appendChild(priorityContainer);
+    selectionContainer.appendChild(okBtn);
+
+    thirdRow.appendChild(thirdRowUpper);
+    thirdRow.appendChild(selectionContainer);
+
+    todoForm.appendChild(titleInput);
+    todoForm.appendChild(detailsInput);
+    todoForm.appendChild(thirdRow);
+
+    popupForm.appendChild(todoForm);
+    popupFormContainer.appendChild(popupForm);
+
+    document.querySelector('div#content').appendChild(popupFormContainer);
+
+}
+
+const editItems = (index) => {
+    let name = index.split('~')[0];
+
+    const item = project.getProjectTodoList(name).find(item => item.index == index);
+    const title = document.querySelector('#editForm #title');
+    const details = document.querySelector('#editForm #details');
+    const dueDate = document.querySelector('#editForm #due-date');
+    const dueTime = document.querySelector('#editForm #due-time');
+
+    title.value = item.title;
+    details.value = item.details;
+    dueDate.value = item.dueDate;
+    dueTime.value = item.dueTime;
+    if (item.priority == 'low') {
+        document.querySelector('#editForm #low').checked = true;
+    }
+    if (item.priority == 'medium') {
+        document.querySelector('#editForm #medium').checked = true;
+    }
+    if (item.priority == 'high') {
+        document.querySelector('#editForm #high').checked = true;
+    }
+}
+
 const displayDetail = (index) => {
 
     const detailBody = document.querySelector('.detail-body');
@@ -41,10 +218,13 @@ const displayDetail = (index) => {
     let proj = project.getProjectTodoList(name);
     let item = proj.find(item => item.index == index);
 
+    const wrapper = document.createElement('div');
+    wrapper.classList.add('wrapper');
     const titleInput = document.createElement('p');
     titleInput.classList.add('detail-title');
     titleInput.textContent = item.title; 
-    detailBody.appendChild(titleInput);
+    wrapper.appendChild(titleInput);
+    detailBody.appendChild(wrapper);
 
 
     const priorityContainer = document.createElement('div');
@@ -98,6 +278,8 @@ const displayDetail = (index) => {
         detailBody.appendChild(dueDateContainer);
     }
 
+    let ans = item.done.flag ? 'Yes' : 'No';
+
     if (item.done.flag) {
         const completeContainer = document.createElement('div');
         completeContainer.classList.add('due-container');
@@ -109,7 +291,7 @@ const displayDetail = (index) => {
         completed.textContent = "Completed: ";
 
         const completedInput = document.createElement('p');
-        completedInput.textContent = item.done.flag;
+        completedInput.textContent = ans;
 
         container.appendChild(completed);
         container.appendChild(completedInput);
@@ -138,7 +320,7 @@ const displayDetail = (index) => {
         completed.textContent = "Completed: ";
 
         const completedInput = document.createElement('p');
-        completedInput.textContent = item.done.flag;
+        completedInput.textContent = ans;
 
         container.appendChild(completed);
         container.appendChild(completedInput);
@@ -151,10 +333,13 @@ const displayDetail = (index) => {
         detailsContainer.classList.add('title-container');
         const details = document.createElement('p');
         details.textContent = "Details: ";
+        const detail = document.createElement('div');
+        detail.classList.add('wrapper');
         const detailsInput = document.createElement('p');
         detailsInput.textContent = item.details;
+        detail.appendChild(detailsInput);
         detailsContainer.appendChild(details);
-        detailsContainer.appendChild(detailsInput);
+        detailsContainer.appendChild(detail);
 
         detailBody.appendChild(detailsContainer);
     }
@@ -389,6 +574,23 @@ const project = ((name = 'default') => {
         displayTodoItem(item);
     }
 
+    const editProjectItem = (index, title, details, dueDate, dueTime, priority) => {
+        let name = index.split('~')[0];
+        let defaultProject = projectList.find(project => project.name == name);
+
+        // Access the todoList property of the default project
+        let item = defaultProject.todoList.find(item => item.index == index);
+        item.title = title;
+        item.details = details;
+        item.dueDate = dueDate;
+        item.dueTime = dueTime;
+        item.priority = priority;
+        console.log(item);
+        storage.saveToLocalStorage(projectList);
+        updateProjectList();
+        displayTodoItem(item);
+    }
+
     // const generateUniqueID = () => {
     //     const timestamp = Date.now().toString();
     //     const randomChars = Math.random().toString(36).substr(2, 5);
@@ -434,7 +636,7 @@ const project = ((name = 'default') => {
     //     taskDoneUI(index);
     // }
 
-    return {addToProjectList, addToProjectItem, getProjectTodoList, projectItemCompleted, projectItemDeleted};
+    return {addToProjectList, addToProjectItem, getProjectTodoList, projectItemCompleted, projectItemDeleted, editProjectItem};
 })();
 
 // console.log(project.getProjectTodoList());
@@ -442,6 +644,6 @@ const project = ((name = 'default') => {
 
 export default allUI;
 
-export { project, displayTodoItem, taskDoneUI, displayAllItems, createDetailContainer, displayDetail };
+export { project, displayTodoItem, taskDoneUI, displayAllItems, createDetailContainer, displayDetail, createEditContainer, editItems };
 
 // const addTodoItemUI = () => {

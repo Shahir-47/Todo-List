@@ -51,6 +51,7 @@ const formUI = () => {
 
     const todoForm = document.createElement('form');
     todoForm.classList.add('todo-form');
+    todoForm.setAttribute('id', 'todo-form');
 
     const titleInput = document.createElement('input');
     titleInput.classList.add('title-input');
@@ -59,12 +60,14 @@ const formUI = () => {
     titleInput.setAttribute('required', 'true');
     titleInput.id = 'title';
     titleInput.name = 'title';
+    titleInput.maxLength = 100;
 
     const detailsInput = document.createElement('textarea');
     detailsInput.classList.add('details-input');
     detailsInput.placeholder = `Details (Optional):\n\nRent, Electricity, Water, Internet, etc...`;
     detailsInput.id = 'details';
     detailsInput.name = 'details';
+    detailsInput.maxLength = 500;
 
 
     const thirdRow = document.createElement('div');
@@ -183,7 +186,7 @@ const formUI = () => {
     document.querySelector('div#content').appendChild(popupFormContainer);
 }
 
-const formValidation = (event) => {
+const formValidation = (event, id = null) => {
 
     // Prevent form from submitting to the server
     event.preventDefault();
@@ -193,13 +196,19 @@ const formValidation = (event) => {
     // Get the form fields
   if (form.checkValidity()) {
     let formData = new FormData(form);
-    project.addToProjectItem(formData.get('title'), formData.get('details'), formData.get('due-date'), formData.get('due-time'), formData.get('priority'));
+    if (form.id == 'todo-form') {
+      project.addToProjectItem(formData.get('title'), formData.get('details'), formData.get('due-date'), formData.get('due-time'), formData.get('priority'));
+    } else if (form.id == 'edit-form') {
+      project.editProjectItem(id, formData.get('title'), formData.get('details'), formData.get('due-date'), formData.get('due-time'), formData.get('priority'));
+    }
     form.reset();
     document.getElementById('popupFormContainer').style.display = 'none';
+    document.getElementById('editFormContainer').style.display = 'none';
     // console.log(project.getTodoList());
   }
   
 }
+
 
 export default formUI;
 export { formValidation };
