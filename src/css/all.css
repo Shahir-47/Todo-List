@@ -137,7 +137,12 @@
     height: 2rem;
 }
 
-.star,
+.star{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.125s ease;
+}
 .todo-edit,
 .todo-delete {
     background-color: transparent;
@@ -146,6 +151,10 @@
     transition: all 0.3s ease;
 }
 
+.star:hover {
+    transform: scale(1.2);
+    filter: brightness(1.5);
+}
 .todo-edit:hover,
 .todo-delete:hover{
     transform: scale(1.1);

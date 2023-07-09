@@ -17,6 +17,11 @@ const itemsEventHandler = (event) => {
     if (event.target.closest('.todo-item .todo-delete')) {
         project.projectItemDeleted( event.target.closest('.todo-item').id);
     }
+    if (event.target.closest('.todo-item .star img')) {
+        const starImg = event.target.closest('.todo-item .star img');
+        starImg.src = star ? fullStar : star;
+        project.projectItemStarred(event.target.closest('.todo-item').id);
+    }
     // if event target is the edit button
     if (event.target.closest('.todo-item .todo-edit')) {
         // show the edit form
@@ -225,6 +230,7 @@ const displayTodoItem = (item) => {
     let priority = item.priority;
     let done =  item.done.flag;
     let index = item.index;
+    let starred = item.starred;
 
     const todoList = document.querySelector('.todo-list');
 
@@ -329,7 +335,11 @@ const displayTodoItem = (item) => {
     const starBtn = document.createElement('button');
     starBtn.classList.add('star');
     const starIcon = document.createElement('img');
-    starIcon.src = star;
+    if (starred) {
+        starIcon.src = fullStar;
+    } else {
+        starIcon.src = star;
+    }
     starIcon.alt = 'Star icon';
     starBtn.appendChild(starIcon);
 

@@ -23,7 +23,7 @@ const project = ((name = 'default') => {
         console.log(projectList);
         let defaultProject = projectList.find(project => project.name == name);
         let index =  name + '~' + uuidv4();
-        let item = { name, index, title, details, dueDate, dueTime, priority, done: { flag: false, timestamp: null } };
+        let item = { name, index, title, details, dueDate, dueTime, priority, done: { flag: false, timestamp: null }, starred: false };
         defaultProject.todoList.push(item);
         storage.saveToLocalStorage(projectList);
         updateProjectList();
@@ -71,7 +71,18 @@ const project = ((name = 'default') => {
         updateProjectList();
     }
 
-    return {addToProjectList, addToProjectItem, getProjectTodoList, projectItemCompleted, projectItemDeleted, editProjectItem};
+    const projectItemStarred = (index) => {
+        let name = index.split('~')[0];
+        let starredProj = projectList.find(project => project.name === name);
+        let starredIndex = starredProj.todoList.findIndex(item => item.index == index);
+        starredProj.todoList[starredIndex].starred = !starredProj.todoList[starredIndex].starred;
+        storage.saveToLocalStorage(projectList);
+        updateProjectList();
+        removeTodoItemUI(index);
+        displayTodoItem(starredProj.todoList[starredIndex]);
+    }
+
+    return {addToProjectList, addToProjectItem, getProjectTodoList, projectItemCompleted, projectItemDeleted, editProjectItem, projectItemStarred};
 })();
 
 export { project };
