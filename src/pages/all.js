@@ -1,10 +1,11 @@
 import edit from '../assets/img/edit.svg';
 import del from '../assets/img/del.svg';
+import star from '../assets/img/star.svg';
+import fullStar from '../assets/img/fullStar.svg';
 import formValidation from '../functions/form';
 import { formatDistanceToNow, isSameDay, addDays, differenceInCalendarDays, format, parseISO, parse } from 'date-fns';
 import { storage } from '../functions/storage';
 import { project } from '../functions/project';
-
 
 // const handle todo item events
 const itemsEventHandler = (event) => {
@@ -32,7 +33,7 @@ const itemsEventHandler = (event) => {
         });
     }
     // if clicked anywhere on the todo item but the buttons, show details
-    if (event.target.closest('.todo-item') && !event.target.closest('.todo-item .todo-delete') && !event.target.closest('.todo-item .completed') && !event.target.closest('.todo-item .todo-edit')) {
+    if (event.target.closest('.todo-item') && !event.target.closest('.todo-item .todo-delete') && !event.target.closest('.todo-item .completed') && !event.target.closest('.todo-item .todo-edit') && !event.target.closest('.todo-item .star')) {
         // show the details form
         document.getElementById('detailFormContainer').style.display = 'block';
         displayDetail(event.target.closest('.todo-item').id);
@@ -41,7 +42,6 @@ const itemsEventHandler = (event) => {
             document.getElementById('detailFormContainer').style.display = 'none';
         });
     }
-
 }
 
 const editItems = (index) => {
@@ -326,6 +326,13 @@ const displayTodoItem = (item) => {
     // Update the time displayed every second
     interval = setInterval(updateTime, 1000);
 
+    const starBtn = document.createElement('button');
+    starBtn.classList.add('star');
+    const starIcon = document.createElement('img');
+    starIcon.src = star;
+    starIcon.alt = 'Star icon';
+    starBtn.appendChild(starIcon);
+
     const todoEdit = document.createElement('button');
     todoEdit.classList.add('todo-edit');
     const todoEditIcon = document.createElement('img');
@@ -342,6 +349,7 @@ const displayTodoItem = (item) => {
 
     todoRight.appendChild(todoDetails);
     todoRight.appendChild(todoDueDate);
+    todoRight.appendChild(starBtn);
     todoRight.appendChild(todoEdit);
     todoRight.appendChild(todoDelete);
 

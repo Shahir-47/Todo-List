@@ -108,7 +108,7 @@
 
 .todo-right {
     display: grid;
-    grid-template-columns: min-content 200px repeat(2, min-content);
+    grid-template-columns: min-content 200px repeat(3, min-content);
     gap: 2rem;
     align-items: center;
 }
@@ -130,12 +130,14 @@
     color: var(--add-btn-color);
 }
 
+.star img,
 .todo-edit img,
 .todo-delete img {
     width: 2rem;
     height: 2rem;
 }
 
+.star,
 .todo-edit,
 .todo-delete {
     background-color: transparent;
