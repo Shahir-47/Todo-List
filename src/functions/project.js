@@ -84,6 +84,7 @@ const project = ((name = 'default') => {
     }
 
     const sortProjectList = (name = 'default') => {
+        let last = [];
         let defaultProject = projectList.find(project => project.name == name);
         defaultProject.todoList.sort((a, b) => {
             if (a.dueTime && !b.dueTime && isSameDay(new Date(b.dueDate.slice(0, 4), b.dueDate.slice(5, 7)-1, b.dueDate.slice(8, 10)), new Date())) {
@@ -96,7 +97,7 @@ const project = ((name = 'default') => {
                 // Calculate the time difference between the current date/time and the task due date
                 let distance = formatDistanceToNow(aDueDate, { addSuffix: true });
                 if (distance.includes('ago')) {
-                    return 1;
+                    last.push(a);
                 }
                 distance = distance.split(' ');
                 if (((parseInt(distance[2]) <= 24 && (distance[3] == 'hour' || distance[3] == 'hours')) || (distance.includes('minute') || distance.includes('minutes'))) && !distance.includes('ago')) {
@@ -114,7 +115,7 @@ const project = ((name = 'default') => {
                 // Calculate the time difference between the current date/time and the task due date
                 let distance = formatDistanceToNow(bDueDate, { addSuffix: true });
                 if (distance.includes('ago')) {
-                    return -1;
+                    last.push(b);
                 }
                 distance = distance.split(' ');
                 if (((parseInt(distance[2]) <= 24 && (distance[3] == 'hour' || distance[3] == 'hours')) || (distance.includes('minute') || distance.includes('minutes'))) && !distance.includes('ago')) {
@@ -137,10 +138,10 @@ const project = ((name = 'default') => {
                 let aDistance = formatDistanceToNow(aDueDate, { addSuffix: true });
                 let bDistance = formatDistanceToNow(bDueDate, { addSuffix: true });
                 if (aDistance.includes('ago')) {
-                    return 1;
+                    last.push(a);
                 }
                 if (bDistance.includes('ago')) {
-                    return -1;
+                    last.push(b);
                 }
                 aDistance = aDistance.split(' ');
                 bDistance = bDistance.split(' ');
@@ -155,7 +156,19 @@ const project = ((name = 'default') => {
                     return 1;
                 }
             }
+
+            if (last.includes(a) && last.includes(b)) {
                 return compareAsc(new Date(a.dueDate), new Date(b.dueDate));
+            }
+            else if (last.includes(a)) {
+                return 1;
+            }
+            else if (last.includes(b)) {
+                return -1;
+            }
+            else {
+                return compareAsc(new Date(a.dueDate), new Date(b.dueDate));
+            }
     });
     storage.saveToLocalStorage(projectList);
     updateProjectList();
