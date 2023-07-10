@@ -14,9 +14,11 @@ import { project } from './functions/project';
 console.log('I get called from print.js!');
 
 
+
 // Load header, sidebar, and footer
 pageLoad();
 allUI();
+
 
 // Event listener to change color theme
 const themeToggle = document.getElementById('theme-toggle');

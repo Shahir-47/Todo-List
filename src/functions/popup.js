@@ -288,7 +288,6 @@ const formUI = () => {
     low.id = 'low';
     low.name = 'priority';
     low.value = 'low';
-    low.checked = true;
     const lowLabel = document.createElement('label');
     lowLabel.setAttribute('for', 'low');
     lowLabel.textContent = 'Low';

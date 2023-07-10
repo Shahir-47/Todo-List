@@ -1,6 +1,7 @@
 import { storage } from '../functions/storage';
 import { v4 as uuidv4 } from 'uuid';
 import { displayTodoItem, removeTodoItemUI, taskDoneUI } from '../pages/all';
+import {compareAsc, format} from 'date-fns';
 
 const project = ((name = 'default') => {
 
@@ -82,7 +83,49 @@ const project = ((name = 'default') => {
         displayTodoItem(starredProj.todoList[starredIndex]);
     }
 
-    return {addToProjectList, addToProjectItem, getProjectTodoList, projectItemCompleted, projectItemDeleted, editProjectItem, projectItemStarred};
+    const sortProjectList = (name = 'default') => {
+        let defaultProject = projectList.find(project => project.name == name);
+        defaultProject.todoList.sort((a, b) => {
+
+            if (a.dueTime || b.dueTime) {
+                if (a.dueTime && !b.dueTime) {
+                    return -1;
+                }
+                if (!a.dueTime && b.dueTime) {
+                    return 1;
+                }
+                if (a.dueTime && b.dueTime) {
+                    return a.dueTime.localeCompare(b.dueTime);
+                }
+            }
+
+            // // Check if both tasks have the same due date
+            // if (a.dueDate === b.dueDate) {
+            //     // Compare if tasks have due time
+            //     if (a.dueTime && !b.dueTime) {
+            //     return -1; // Task 'a' has due time, so it goes on top
+            //     }
+            //     if (!a.dueTime && b.dueTime) {
+            //     return 1; // Task 'b' has due time, so it goes on top
+            //     }
+            //     if (a.dueTime && b.dueTime) {
+            //         return a.dueTime.localeCompare(b.dueTime);
+            //     }
+            //     // Tasks have the same due date and no due time
+            //     const priorityOrder = { high: 0, medium: 1, low: 2 };
+            //     return priorityOrder[a.priority] - priorityOrder[b.priority];
+            // }
+        
+            // Sort by due date for other tasks
+            return compareAsc(new Date(a.dueDate), new Date(b.dueDate));
+    });
+    storage.saveToLocalStorage(projectList);
+    updateProjectList();
+}
+
+    return {addToProjectList, addToProjectItem, getProjectTodoList, projectItemCompleted, projectItemDeleted, editProjectItem, projectItemStarred, sortProjectList};
 })();
+
+
 
 export { project };

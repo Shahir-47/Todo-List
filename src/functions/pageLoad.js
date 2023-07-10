@@ -55,6 +55,7 @@ const changeTheme = () => {
 }
 
 const showForm = () => {
+    document.querySelector('.priority-container #low').checked = true;
     document.getElementById('popupFormContainer').style.display = 'block';
     document.querySelector('.new-todo-box:nth-of-type(1)').classList.add('active');
     document.querySelector('.new-todo-box:nth-of-type(2)').classList.remove('active');

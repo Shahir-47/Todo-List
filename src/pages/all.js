@@ -211,9 +211,9 @@ const displayDetail = (index) => {
 }
 
 const displayAllItems = (name = 'default') => {
-    console.log(storage.getFromLocalStorage())
+    project.sortProjectList(name);
+    console.log(project.getProjectTodoList(name));
     const projectList = storage.getFromLocalStorage();
-    console.log(projectList);
     let defaultProject = projectList.find(project => project.name == name);
 
     // Access the todoList property of the default project
