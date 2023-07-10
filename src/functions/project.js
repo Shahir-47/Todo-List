@@ -1,7 +1,7 @@
 import { storage } from '../functions/storage';
 import { v4 as uuidv4 } from 'uuid';
 import { displayTodoItem, removeTodoItemUI, taskDoneUI } from '../pages/all';
-import {compareAsc, format} from 'date-fns';
+import {compareAsc, formatDistanceToNow, isSameDay} from 'date-fns';
 
 const project = ((name = 'default') => {
 
@@ -86,38 +86,76 @@ const project = ((name = 'default') => {
     const sortProjectList = (name = 'default') => {
         let defaultProject = projectList.find(project => project.name == name);
         defaultProject.todoList.sort((a, b) => {
-
-            if (a.dueTime || b.dueTime) {
-                if (a.dueTime && !b.dueTime) {
-                    return -1;
-                }
-                if (!a.dueTime && b.dueTime) {
+            if (a.dueTime && !b.dueTime && isSameDay(new Date(b.dueDate.slice(0, 4), b.dueDate.slice(5, 7)-1, b.dueDate.slice(8, 10)), new Date())) {
+                console.log('a');
+                let [aYear, aMonth, aDay] =  a.dueDate.split('-');
+                let aDueDate = new Date(aYear, aMonth - 1, aDay);
+                let [aHours, aMinutes] = a.dueTime.split(':');
+                aDueDate.setHours(aHours);
+                aDueDate.setMinutes(aMinutes);
+                // Calculate the time difference between the current date/time and the task due date
+                let distance = formatDistanceToNow(aDueDate, { addSuffix: true });
+                if (distance.includes('ago')) {
                     return 1;
                 }
-                if (a.dueTime && b.dueTime) {
-                    return a.dueTime.localeCompare(b.dueTime);
+                distance = distance.split(' ');
+                if (((parseInt(distance[2]) <= 24 && (distance[3] == 'hour' || distance[3] == 'hours')) || (distance.includes('minute') || distance.includes('minutes'))) && !distance.includes('ago')) {
+                    return -1;
+                }
+                return 1;
+            }
+            if (!a.dueTime && b.dueTime && isSameDay(new Date(a.dueDate.slice(0, 4), a.dueDate.slice(5, 7)-1, a.dueDate.slice(8, 10)), new Date())) {
+                console.log('b');
+                let [bYear, bMonth, bDay] =  b.dueDate.split('-');
+                let bDueDate = new Date(bYear, bMonth - 1, bDay);
+                let [bHours, bMinutes] = b.dueTime.split(':');
+                bDueDate.setHours(bHours);
+                bDueDate.setMinutes(bMinutes);
+                // Calculate the time difference between the current date/time and the task due date
+                let distance = formatDistanceToNow(bDueDate, { addSuffix: true });
+                if (distance.includes('ago')) {
+                    return -1;
+                }
+                distance = distance.split(' ');
+                if (((parseInt(distance[2]) <= 24 && (distance[3] == 'hour' || distance[3] == 'hours')) || (distance.includes('minute') || distance.includes('minutes'))) && !distance.includes('ago')) {
+                    return 1;
+                }
+                return -1;
+            }
+            if (a.dueTime && b.dueTime) {
+                console.log('c');
+                let [aYear, aMonth, aDay] =  a.dueDate.split('-');
+                let aDueDate = new Date(aYear, aMonth - 1, aDay);
+                let [aHours, aMinutes] = a.dueTime.split(':');
+                aDueDate.setHours(aHours);
+                aDueDate.setMinutes(aMinutes);
+                let [bYear, bMonth, bDay] =  b.dueDate.split('-');
+                let bDueDate = new Date(bYear, bMonth - 1, bDay);
+                let [bHours, bMinutes] = b.dueTime.split(':');
+                bDueDate.setHours(bHours);
+                bDueDate.setMinutes(bMinutes);
+                let aDistance = formatDistanceToNow(aDueDate, { addSuffix: true });
+                let bDistance = formatDistanceToNow(bDueDate, { addSuffix: true });
+                if (aDistance.includes('ago')) {
+                    return 1;
+                }
+                if (bDistance.includes('ago')) {
+                    return -1;
+                }
+                aDistance = aDistance.split(' ');
+                bDistance = bDistance.split(' ');
+                if (((parseInt(aDistance[2]) <= 24 && (aDistance[3] == 'hour' || aDistance[3] == 'hours')) || (aDistance.includes('minute') || aDistance.includes('minutes'))) && ((parseInt(bDistance[2]) <= 24 && (bDistance[3] == 'hour' || bDistance[3] == 'hours')) || (bDistance.includes('minute') || bDistance.includes('minutes'))) && (!aDistance.includes('ago') && !bDistance.includes('ago'))) {
+                    console.log(compareAsc(aDueDate, bDueDate));
+                    return compareAsc(aDueDate, bDueDate);
+                }
+                else if (((parseInt(aDistance[2]) <= 24 && (aDistance[3] == 'hour' || aDistance[3] == 'hours')) || (aDistance.includes('minute') || aDistance.includes('minutes'))) && !aDistance.includes('ago')) {
+                    return -1;
+                }
+                else if (((parseInt(bDistance[2]) <= 24 && (bDistance[3] == 'hour' || bDistance[3] == 'hours')) || (bDistance.includes('minute') || bDistance.includes('minutes'))) && !bDistance.includes('ago')) {
+                    return 1;
                 }
             }
-
-            // // Check if both tasks have the same due date
-            // if (a.dueDate === b.dueDate) {
-            //     // Compare if tasks have due time
-            //     if (a.dueTime && !b.dueTime) {
-            //     return -1; // Task 'a' has due time, so it goes on top
-            //     }
-            //     if (!a.dueTime && b.dueTime) {
-            //     return 1; // Task 'b' has due time, so it goes on top
-            //     }
-            //     if (a.dueTime && b.dueTime) {
-            //         return a.dueTime.localeCompare(b.dueTime);
-            //     }
-            //     // Tasks have the same due date and no due time
-            //     const priorityOrder = { high: 0, medium: 1, low: 2 };
-            //     return priorityOrder[a.priority] - priorityOrder[b.priority];
-            // }
-        
-            // Sort by due date for other tasks
-            return compareAsc(new Date(a.dueDate), new Date(b.dueDate));
+                return compareAsc(new Date(a.dueDate), new Date(b.dueDate));
     });
     storage.saveToLocalStorage(projectList);
     updateProjectList();
