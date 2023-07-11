@@ -24,17 +24,19 @@ const itemsEventHandler = (event) => {
     }
     // if event target is the edit button
     if (event.target.closest('.todo-item .todo-edit')) {
-        // show the edit form
+        event.target.closest('.todo-item').id;
+        document.querySelector('#edit-form').setAttribute('data-id', event.target.closest('.todo-item').id);
+        console.log(event.target.closest('.todo-item').id)
         document.getElementById('editFormContainer').style.display = 'block';
-        let editItem = event.target.closest('.todo-item').id;
-        editItems(editItem);
+        editItems(event.target.closest('.todo-item').id);
         // close the edit form
         document.querySelector('#closeEditBtn').addEventListener('click', () => {
             document.getElementById('editFormContainer').style.display = 'none';
         });
         // submit the edit form
         document.querySelector('#edit-form').addEventListener('submit', (e) => {
-            formValidation(e, editItem);
+            console.log(e.target.getAttribute('data-id'));
+            formValidation(e, e.target.getAttribute('data-id'));
         });
     }
     // if clicked anywhere on the todo item but the buttons, show details

@@ -33,6 +33,7 @@ const project = ((name = 'default') => {
 
     const editProjectItem = (index, title, details, dueDate, dueTime, priority) => {
         let name = index.split('~')[0];
+        console.log(index.split('~')[1]);
         let defaultProject = projectList.find(project => project.name == name);
         let item = defaultProject.todoList.find(item => item.index == index);
         item.title = title;
@@ -108,6 +109,23 @@ const project = ((name = 'default') => {
         list.sort((a, b) => new Date(b.done.timestamp) - new Date(a.done.timestamp));
     }
 
+    const comparePriority = (a, b) => {
+        if (a.priority == 'high' && b.priority == 'medium') {
+            return -1;
+        } else if (a.priority == 'high' && b.priority == 'low') {
+            return -1;
+        } else if (a.priority == 'medium' && b.priority == 'high') {
+            return 1;
+        } else if (a.priority == 'medium' && b.priority == 'low') {
+            return -1;
+        } else if (a.priority == 'low' && b.priority == 'high') {
+            return 1;
+        } else if (a.priority == 'low' && b.priority == 'medium') {
+            return 1;
+        }
+        return 0;
+    }
+
     const sortDelayItems = (list) => {
         list.sort((a, b) => {
 
@@ -129,6 +147,9 @@ const project = ((name = 'default') => {
                 bDistance = bDistance.split(' ');
                 if (((parseInt(aDistance[1]) <= 24 && (aDistance[2] == 'hour' || aDistance[2] == 'hours')) || (aDistance.includes('minute') || aDistance.includes('minutes'))) && ((parseInt(bDistance[1]) <= 24 && (bDistance[2] == 'hour' || bDistance[2] == 'hours')) || (bDistance.includes('minute') || bDistance.includes('minutes')))) {
                     console.log(compareDesc(aDueDate, bDueDate));
+                    if (compareDesc(aDueDate, bDueDate) == 0) {
+                        return comparePriority(a, b);
+                    }
                     return compareDesc(aDueDate, bDueDate);
                 }
                 else if (((parseInt(aDistance[1]) <= 24 && (aDistance[2] == 'hour' || aDistance[2] == 'hours')) || (aDistance.includes('minute') || aDistance.includes('minutes')))) {
@@ -149,6 +170,8 @@ const project = ((name = 'default') => {
                 distance = distance.split(' ');
                 if ((parseInt(distance[1]) <= 24 && (distance[2] == 'hour' || distance[2] == 'hours')) || (distance.includes('minute') || distance.includes('minutes'))) {
                     return -1;
+                } else if (compareDesc(new Date(a.dueDate), new Date(b.dueDate)) == 0) {
+                    return comparePriority(a, b);
                 }
                 return compareDesc(new Date(a.dueDate), new Date(b.dueDate));
             } else if (!a.dueTime && b.dueTime) {
@@ -163,8 +186,13 @@ const project = ((name = 'default') => {
                 distance = distance.split(' ');
                 if ((parseInt(distance[1]) <= 24 && (distance[2] == 'hour' || distance[2] == 'hours')) || (distance.includes('minute') || distance.includes('minutes'))) {
                     return 1;
+                } else if (compareDesc(new Date(a.dueDate), new Date(b.dueDate)) == 0) {
+                    return comparePriority(a, b);
                 }
                 return compareDesc(new Date(a.dueDate), new Date(b.dueDate));
+            }
+            if (compareDesc(new Date(a.dueDate), new Date(b.dueDate)) == 0) {
+                return comparePriority(a, b);
             }
             return compareDesc(new Date(a.dueDate), new Date(b.dueDate));
         });
