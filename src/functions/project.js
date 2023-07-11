@@ -1,7 +1,7 @@
 import { storage } from '../functions/storage';
 import { v4 as uuidv4 } from 'uuid';
 import { displayTodoItem, removeTodoItemUI, taskDoneUI } from '../pages/all';
-import {compareAsc, formatDistanceToNow, isSameDay} from 'date-fns';
+import {compareAsc, compareDesc, formatDistanceToNow, isSameDay} from 'date-fns';
 
 const project = ((name = 'default') => {
 
@@ -85,39 +85,95 @@ const project = ((name = 'default') => {
 
     const sort = (name = 'default') => {
         let defaultProject = projectList.find(project => project.name === name);
-        const incompleteItems = defaultProject.todoList.filter(item => !item.done.flag);
-        sortByTime(incompleteItems);
+        let incompleteItems = defaultProject.todoList.filter(item => !item.done.flag);
+        const delayItems = incompleteItems.filter(item => (item.dueTime && new Date(item.dueDate + ' ' + item.dueTime) < new Date()) || (!item.dueTime && new Date(item.dueDate) < new Date()));
+        const notDelayItems = incompleteItems.filter(item => (item.dueTime && new Date(item.dueDate + ' ' + item.dueTime) >= new Date()) || (!item.dueTime && new Date(item.dueDate) >= new Date()));
+        sortByTime(notDelayItems);
+        sortDelayItems(delayItems);
+        console.log(notDelayItems);
+        console.log(delayItems);
+        incompleteItems = notDelayItems.concat(delayItems);
 
         const completeItems = defaultProject.todoList.filter(item => item.done.flag);
         sortDoneItems(completeItems);
 
         defaultProject.todoList = incompleteItems.concat(completeItems);
+
+        console.log(defaultProject.todoList);
         storage.saveToLocalStorage(projectList);
         updateProjectList();
-    }
-
-    const sortByDone = (list) => {
-        list.sort((a, b) => {
-            if (a.done.flag && !b.done.flag) {
-                return 1;
-            }
-            else if (!a.done.flag && b.done.flag) {
-                return -1;
-            }
-            else {-1
-                return 0;
-            }
-        });
     }
 
     const sortDoneItems = (list) => {
         list.sort((a, b) => new Date(b.done.timestamp) - new Date(a.done.timestamp));
     }
 
+    const sortDelayItems = (list) => {
+        list.sort((a, b) => {
+
+            if (a.dueTime && b.dueTime) {
+                console.log('c5');
+                let [aYear, aMonth, aDay] =  a.dueDate.split('-');
+                let aDueDate = new Date(aYear, aMonth - 1, aDay);
+                let [aHours, aMinutes] = a.dueTime.split(':');
+                aDueDate.setHours(aHours);
+                aDueDate.setMinutes(aMinutes);
+                let [bYear, bMonth, bDay] =  b.dueDate.split('-');
+                let bDueDate = new Date(bYear, bMonth - 1, bDay);
+                let [bHours, bMinutes] = b.dueTime.split(':');
+                bDueDate.setHours(bHours);
+                bDueDate.setMinutes(bMinutes);
+                let aDistance = formatDistanceToNow(aDueDate, { addSuffix: true });
+                let bDistance = formatDistanceToNow(bDueDate, { addSuffix: true });
+                aDistance = aDistance.split(' ');
+                bDistance = bDistance.split(' ');
+                if (((parseInt(aDistance[1]) <= 24 && (aDistance[2] == 'hour' || aDistance[2] == 'hours')) || (aDistance.includes('minute') || aDistance.includes('minutes'))) && ((parseInt(bDistance[1]) <= 24 && (bDistance[2] == 'hour' || bDistance[2] == 'hours')) || (bDistance.includes('minute') || bDistance.includes('minutes')))) {
+                    console.log(compareDesc(aDueDate, bDueDate));
+                    return compareDesc(aDueDate, bDueDate);
+                }
+                else if (((parseInt(aDistance[1]) <= 24 && (aDistance[2] == 'hour' || aDistance[2] == 'hours')) || (aDistance.includes('minute') || aDistance.includes('minutes')))) {
+                    return -1;
+                }
+                else if (((parseInt(bDistance[1]) <= 24 && (bDistance[2] == 'hour' || bDistance[2] == 'hours')) || (bDistance.includes('minute') || bDistance.includes('minutes')))) {
+                    return 1;
+                }
+            } else if (a.dueTime && !b.dueTime) {
+                console.log('c6');
+                let [aYear, aMonth, aDay] =  a.dueDate.split('-');
+                let aDueDate = new Date(aYear, aMonth - 1, aDay);
+                let [aHours, aMinutes] = a.dueTime.split(':');
+                aDueDate.setHours(aHours);
+                aDueDate.setMinutes(aMinutes);
+                // Calculate the time difference between the current date/time and the task due date
+                let distance = formatDistanceToNow(aDueDate, { addSuffix: true });
+                distance = distance.split(' ');
+                if ((parseInt(distance[1]) <= 24 && (distance[2] == 'hour' || distance[2] == 'hours')) || (distance.includes('minute') || distance.includes('minutes'))) {
+                    return -1;
+                }
+                return compareDesc(new Date(a.dueDate), new Date(b.dueDate));
+            } else if (!a.dueTime && b.dueTime) {
+                console.log('c7');
+                let [bYear, bMonth, bDay] =  b.dueDate.split('-');
+                let bDueDate = new Date(bYear, bMonth - 1, bDay);
+                let [bHours, bMinutes] = b.dueTime.split(':');
+                bDueDate.setHours(bHours);
+                bDueDate.setMinutes(bMinutes);
+                // Calculate the time difference between the current date/time and the task due date
+                let distance = formatDistanceToNow(bDueDate, { addSuffix: true });
+                distance = distance.split(' ');
+                if ((parseInt(distance[1]) <= 24 && (distance[2] == 'hour' || distance[2] == 'hours')) || (distance.includes('minute') || distance.includes('minutes'))) {
+                    return 1;
+                }
+                return compareDesc(new Date(a.dueDate), new Date(b.dueDate));
+            }
+        });
+    }
+
+
     const sortByTime = (list) => {
-        let last = [];
         // let defaultProject = projectList.find(project => project.name == name);
         list.sort((a, b) => {
+
             if (a.dueTime && !b.dueTime && isSameDay(new Date(b.dueDate.slice(0, 4), b.dueDate.slice(5, 7)-1, b.dueDate.slice(8, 10)), new Date())) {
                 console.log('a');
                 let [aYear, aMonth, aDay] =  a.dueDate.split('-');
@@ -127,11 +183,8 @@ const project = ((name = 'default') => {
                 aDueDate.setMinutes(aMinutes);
                 // Calculate the time difference between the current date/time and the task due date
                 let distance = formatDistanceToNow(aDueDate, { addSuffix: true });
-                if (distance.includes('ago')) {
-                    last.push(a);
-                }
                 distance = distance.split(' ');
-                if (((parseInt(distance[2]) <= 24 && (distance[3] == 'hour' || distance[3] == 'hours')) || (distance.includes('minute') || distance.includes('minutes'))) && !distance.includes('ago')) {
+                if ((parseInt(distance[2]) <= 24 && (distance[3] == 'hour' || distance[3] == 'hours')) || (distance.includes('minute') || distance.includes('minutes'))) {
                     return -1;
                 }
                 return 1;
@@ -145,15 +198,13 @@ const project = ((name = 'default') => {
                 bDueDate.setMinutes(bMinutes);
                 // Calculate the time difference between the current date/time and the task due date
                 let distance = formatDistanceToNow(bDueDate, { addSuffix: true });
-                if (distance.includes('ago')) {
-                    last.push(b);
-                }
                 distance = distance.split(' ');
-                if (((parseInt(distance[2]) <= 24 && (distance[3] == 'hour' || distance[3] == 'hours')) || (distance.includes('minute') || distance.includes('minutes'))) && !distance.includes('ago')) {
+                if ((parseInt(distance[2]) <= 24 && (distance[3] == 'hour' || distance[3] == 'hours')) || (distance.includes('minute') || distance.includes('minutes'))) {
                     return 1;
                 }
                 return -1;
             }
+
             if (a.dueTime && b.dueTime) {
                 console.log('c');
                 let [aYear, aMonth, aDay] =  a.dueDate.split('-');
@@ -168,39 +219,21 @@ const project = ((name = 'default') => {
                 bDueDate.setMinutes(bMinutes);
                 let aDistance = formatDistanceToNow(aDueDate, { addSuffix: true });
                 let bDistance = formatDistanceToNow(bDueDate, { addSuffix: true });
-                if (aDistance.includes('ago')) {
-                    last.push(a);
-                }
-                if (bDistance.includes('ago')) {
-                    last.push(b);
-                }
                 aDistance = aDistance.split(' ');
                 bDistance = bDistance.split(' ');
-                if (((parseInt(aDistance[2]) <= 24 && (aDistance[3] == 'hour' || aDistance[3] == 'hours')) || (aDistance.includes('minute') || aDistance.includes('minutes'))) && ((parseInt(bDistance[2]) <= 24 && (bDistance[3] == 'hour' || bDistance[3] == 'hours')) || (bDistance.includes('minute') || bDistance.includes('minutes'))) && (!aDistance.includes('ago') && !bDistance.includes('ago'))) {
+                if (((parseInt(aDistance[2]) <= 24 && (aDistance[3] == 'hour' || aDistance[3] == 'hours')) || (aDistance.includes('minute') || aDistance.includes('minutes'))) && ((parseInt(bDistance[2]) <= 24 && (bDistance[3] == 'hour' || bDistance[3] == 'hours')) || (bDistance.includes('minute') || bDistance.includes('minutes')))) {
                     console.log(compareAsc(aDueDate, bDueDate));
                     return compareAsc(aDueDate, bDueDate);
                 }
-                else if (((parseInt(aDistance[2]) <= 24 && (aDistance[3] == 'hour' || aDistance[3] == 'hours')) || (aDistance.includes('minute') || aDistance.includes('minutes'))) && !aDistance.includes('ago')) {
+                else if (((parseInt(aDistance[2]) <= 24 && (aDistance[3] == 'hour' || aDistance[3] == 'hours')) || (aDistance.includes('minute') || aDistance.includes('minutes')))) {
                     return -1;
                 }
-                else if (((parseInt(bDistance[2]) <= 24 && (bDistance[3] == 'hour' || bDistance[3] == 'hours')) || (bDistance.includes('minute') || bDistance.includes('minutes'))) && !bDistance.includes('ago')) {
+                else if (((parseInt(bDistance[2]) <= 24 && (bDistance[3] == 'hour' || bDistance[3] == 'hours')) || (bDistance.includes('minute') || bDistance.includes('minutes')))) {
                     return 1;
                 }
             }
 
-            if (last.includes(a) && last.includes(b)) {
-                return compareAsc(new Date(a.dueDate), new Date(b.dueDate));
-            }
-            else if (last.includes(a)) {
-                return 1;
-            }
-            else if (last.includes(b)) {
-                return -1;
-            }
-            else {
-                console.log(compareAsc(new Date(a.dueDate), new Date(b.dueDate)))
-                return compareAsc(new Date(a.dueDate), new Date(b.dueDate));
-            }
+            return compareAsc(new Date(a.dueDate), new Date(b.dueDate));
     });
 }
 
