@@ -252,6 +252,9 @@ const project = ((name = 'default') => {
                 bDistance = bDistance.split(' ');
                 if (((parseInt(aDistance[2]) <= 24 && (aDistance[3] == 'hour' || aDistance[3] == 'hours')) || (aDistance.includes('minute') || aDistance.includes('minutes'))) && ((parseInt(bDistance[2]) <= 24 && (bDistance[3] == 'hour' || bDistance[3] == 'hours')) || (bDistance.includes('minute') || bDistance.includes('minutes')))) {
                     console.log(compareAsc(aDueDate, bDueDate));
+                    if (compareAsc(aDueDate, bDueDate) == 0) {
+                        return comparePriority(a, b);
+                    }
                     return compareAsc(aDueDate, bDueDate);
                 }
                 else if (((parseInt(aDistance[2]) <= 24 && (aDistance[3] == 'hour' || aDistance[3] == 'hours')) || (aDistance.includes('minute') || aDistance.includes('minutes')))) {
@@ -261,7 +264,10 @@ const project = ((name = 'default') => {
                     return 1;
                 }
             }
-
+            
+            if (compareAsc(new Date(a.dueDate), new Date(b.dueDate)) == 0) {
+                return comparePriority(a, b);
+            }
             return compareAsc(new Date(a.dueDate), new Date(b.dueDate));
     });
 }
