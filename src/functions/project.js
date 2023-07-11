@@ -83,10 +83,41 @@ const project = ((name = 'default') => {
         displayTodoItem(starredProj.todoList[starredIndex]);
     }
 
-    const sortProjectList = (name = 'default') => {
+    const sort = (name = 'default') => {
+        let defaultProject = projectList.find(project => project.name === name);
+        const incompleteItems = defaultProject.todoList.filter(item => !item.done.flag);
+        sortByTime(incompleteItems);
+
+        const completeItems = defaultProject.todoList.filter(item => item.done.flag);
+        sortDoneItems(completeItems);
+
+        defaultProject.todoList = incompleteItems.concat(completeItems);
+        storage.saveToLocalStorage(projectList);
+        updateProjectList();
+    }
+
+    const sortByDone = (list) => {
+        list.sort((a, b) => {
+            if (a.done.flag && !b.done.flag) {
+                return 1;
+            }
+            else if (!a.done.flag && b.done.flag) {
+                return -1;
+            }
+            else {-1
+                return 0;
+            }
+        });
+    }
+
+    const sortDoneItems = (list) => {
+        list.sort((a, b) => new Date(b.done.timestamp) - new Date(a.done.timestamp));
+    }
+
+    const sortByTime = (list) => {
         let last = [];
-        let defaultProject = projectList.find(project => project.name == name);
-        defaultProject.todoList.sort((a, b) => {
+        // let defaultProject = projectList.find(project => project.name == name);
+        list.sort((a, b) => {
             if (a.dueTime && !b.dueTime && isSameDay(new Date(b.dueDate.slice(0, 4), b.dueDate.slice(5, 7)-1, b.dueDate.slice(8, 10)), new Date())) {
                 console.log('a');
                 let [aYear, aMonth, aDay] =  a.dueDate.split('-');
@@ -167,14 +198,13 @@ const project = ((name = 'default') => {
                 return -1;
             }
             else {
+                console.log(compareAsc(new Date(a.dueDate), new Date(b.dueDate)))
                 return compareAsc(new Date(a.dueDate), new Date(b.dueDate));
             }
     });
-    storage.saveToLocalStorage(projectList);
-    updateProjectList();
 }
 
-    return {addToProjectList, addToProjectItem, getProjectTodoList, projectItemCompleted, projectItemDeleted, editProjectItem, projectItemStarred, sortProjectList};
+    return {addToProjectList, addToProjectItem, getProjectTodoList, projectItemCompleted, projectItemDeleted, editProjectItem, projectItemStarred, sort};
 })();
 
 
