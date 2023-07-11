@@ -1,7 +1,7 @@
 import { storage } from '../functions/storage';
 import { v4 as uuidv4 } from 'uuid';
 import { displayTodoItem, removeTodoItemUI, taskDoneUI } from '../pages/all';
-import {compareAsc, compareDesc, formatDistanceToNow, isSameDay} from 'date-fns';
+import {compareAsc, compareDesc, formatDistanceToNow, isSameDay, differenceInCalendarDays} from 'date-fns';
 
 const project = ((name = 'default') => {
 
@@ -86,8 +86,8 @@ const project = ((name = 'default') => {
     const sort = (name = 'default') => {
         let defaultProject = projectList.find(project => project.name === name);
         let incompleteItems = defaultProject.todoList.filter(item => !item.done.flag);
-        const delayItems = incompleteItems.filter(item => (item.dueTime && new Date(item.dueDate + ' ' + item.dueTime) < new Date()) || (!item.dueTime && new Date(item.dueDate) < new Date()));
-        const notDelayItems = incompleteItems.filter(item => (item.dueTime && new Date(item.dueDate + ' ' + item.dueTime) >= new Date()) || (!item.dueTime && new Date(item.dueDate) >= new Date()));
+        const delayItems = incompleteItems.filter(item => (item.dueTime && new Date(item.dueDate + ' ' + item.dueTime) < new Date()) || (!item.dueTime && (differenceInCalendarDays(new Date(item.dueDate.slice(0, 4), item.dueDate.slice(5, 7)-1, item.dueDate.slice(8, 10)), new Date()) < 0)));
+        const notDelayItems = incompleteItems.filter(item => (item.dueTime && new Date(item.dueDate + ' ' + item.dueTime) >= new Date()) || (!item.dueTime && (differenceInCalendarDays(new Date(item.dueDate.slice(0, 4), item.dueDate.slice(5, 7)-1, item.dueDate.slice(8, 10)), new Date()) >= 0)));
         sortByTime(notDelayItems);
         sortDelayItems(delayItems);
         console.log(notDelayItems);
@@ -166,6 +166,7 @@ const project = ((name = 'default') => {
                 }
                 return compareDesc(new Date(a.dueDate), new Date(b.dueDate));
             }
+            return compareDesc(new Date(a.dueDate), new Date(b.dueDate));
         });
     }
 
