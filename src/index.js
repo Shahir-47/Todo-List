@@ -67,24 +67,23 @@ document.querySelector('#content').addEventListener('click', (e) => {
     } else if (e.target.closest('#High')) {
         displayAllItems('default', document.querySelector('.sort #sort-selection').value, 'High');
     }
-    if (e.target.closest('.item:nth-of-type(1)')) {
-        e.target.closest('.item:nth-of-type(1)').classList.add('active');
+    if (e.target.closest('.box:nth-of-type(1) .item:nth-of-type(1)')) {
         document.querySelector('#page-content').innerHTML = '';
         allUI('All');
     }
-    else if (e.target.closest('.item:nth-of-type(2)')) {
+    else if (e.target.closest('.box:nth-of-type(1) .item:nth-of-type(2)')) {
         document.querySelector('#page-content').innerHTML = '';
         showPage('Today');
     }
-    else if (e.target.closest('.item:nth-of-type(3)')) {
+    else if (e.target.closest('.box:nth-of-type(1) .item:nth-of-type(3)')) {
         document.querySelector('#page-content').innerHTML = '';
         showPage('Week');
     }
-    else if (e.target.closest('.item:nth-of-type(4)')) {
+    else if (e.target.closest('.box:nth-of-type(1) .item:nth-of-type(4)')) {
         document.querySelector('#page-content').innerHTML = '';
         showPage('Important');
     }
-    else if (e.target.closest('.item:nth-of-type(5)')) {
+    else if (e.target.closest('.box:nth-of-type(1) .item:nth-of-type(5)')) {
         document.querySelector('#page-content').innerHTML = '';
         showPage('Completed');
     }
