@@ -300,34 +300,43 @@
     word-wrap: break-word;
 }
 
+#filter-low:hover + label,
+#filter-low:checked + label,
 .priority-container #edit-low:hover + label,
 .priority-selection #edit-low:checked + label {
     background-color: #4CAF50;
     color: white;
 }
 
+#filter-medium:hover + label,
+#filter-medium:checked + label,
 .priority-container #edit-medium:hover + label,
 .priority-selection #edit-medium:checked + label {
     background-color: #FFC107;
     color: white;
 }
 
+#filter-high:hover + label,
+#filter-high:checked + label,
 .priority-container #edit-high:hover + label,
 .priority-selection #edit-high:checked + label {
     background-color:  #F44336;
     color: white;
 }
 
+#filter-low + label,
 .priority-container #edit-low + label {
     color: #4CAF50;
     border: 1px solid #4CAF50;
 }
 
+#filter-medium + label,
 .priority-container #edit-medium + label {
     color: #FFC107;
     border: 1px solid #FFC107;
 }
 
+#filter-high + label,
 .priority-container #edit-high + label {
     color:  #F44336;
     border: 1px solid  #F44336;

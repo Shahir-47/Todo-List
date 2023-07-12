@@ -622,6 +622,7 @@ footer img {
     justify-content: space-between;
 }
 
+.importance-container,
 .priority-container {
     display: flex;
     flex-direction: row;
@@ -634,6 +635,7 @@ form label {
     font-size: 1.3rem;
 }
 
+.importance-selection,
 .priority-selection {
     display: inline-block;
     margin-right: 10px;
@@ -657,6 +659,26 @@ form label {
     color: white;
 }
 
+.importance-selection input[type="radio"] + label{
+    background-color: transparent;
+    border: 1px solid var(--add-btn-color);
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    color: var(--add-btn-color);
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-family: lato, sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.importance-selection input[type="radio"]:hover + label,
+.importance-selection input[type="radio"]:checked + label {
+    background-color: var(--add-btn-color);
+    color: white;
+}
+
 .priority-container #low + label {
     color: #4CAF50;
     border: 1px solid #4CAF50;
@@ -672,6 +694,7 @@ form label {
     border: 1px solid  #F44336;
 }
 
+.importance-selection label,
 .priority-selection label {
     display: inline-block;
     padding: 10px 20px;
@@ -696,6 +719,7 @@ form label {
     transition: all 0.3s ease;
 }
 
+.importance-selection input[type="radio"],
 .priority-selection input[type="radio"] {
     display: none;
 }

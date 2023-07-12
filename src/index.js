@@ -6,7 +6,7 @@ import fullStar from './assets/img/fullStar.svg';
 import star from './assets/img/star.svg';
 import {handleSidebar} from './functions/sidebar.js';
 import pageLoad from './functions/pageLoad';
-import { changeTheme, showForm, closeForm } from './functions/pageLoad';
+import { changeTheme, showForm, closeForm, showFilterForm } from './functions/pageLoad';
 import allUI, { displayAllItems } from './pages/all';
 import formValidation from './functions/form';
 import { itemsEventHandler, sortItems } from './pages/all';
@@ -57,7 +57,7 @@ document.querySelector('#content').addEventListener('click', (e) => {
         displayAllItems('default', document.querySelector('.sort #sort-selection').value, 'High');
     }
     if (e.target.closest('.filter-btn')){
-        document.getElementById('customFilterContainer').style.display = 'block';
+        showFilterForm();
     }
 });
 

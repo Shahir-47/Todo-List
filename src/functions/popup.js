@@ -412,12 +412,101 @@ const customFilterContainer = () => {
     dueBeforeInput.id = 'due-before';
     dueBeforeInput.name = 'due-before';
     dueBeforeInput.setAttribute('required', 'true');
-
     dueBeforeContainer.appendChild(dueBeforeLabel);
     dueBeforeContainer.appendChild(dueBeforeInput);
 
     formBody.appendChild(dueAfterContainer);
     formBody.appendChild(dueBeforeContainer);
+    
+    const importanceContainer = document.createElement('div');
+    importanceContainer.classList.add('importance-container');
+    const importanceLabel = document.createElement('p');
+    importanceLabel.textContent = 'Starred: ';
+
+    const importanceSelection1 = document.createElement('div');
+    importanceSelection1.classList.add('importance-selection');
+    const starred = document.createElement('input');
+    starred.type = 'radio';
+    starred.id = 'starred';
+    starred.name = 'starred';
+    starred.value = 'starred';
+    const starredLabel = document.createElement('label');
+    starredLabel.setAttribute('for', 'starred');
+    starredLabel.textContent = 'Yes';
+    importanceSelection1.appendChild(starred);
+    importanceSelection1.appendChild(starredLabel);
+
+    const importanceSelection2 = document.createElement('div');
+    importanceSelection2.classList.add('importance-selection');
+    const notStarred = document.createElement('input');
+    notStarred.type = 'radio';
+    notStarred.id = 'not-starred';
+    notStarred.name = 'starred';
+    notStarred.value = 'not-starred';
+    const notStarredLabel = document.createElement('label');
+    notStarredLabel.setAttribute('for', 'not-starred');
+    notStarredLabel.textContent = 'No';
+    importanceSelection2.appendChild(notStarred);
+    importanceSelection2.appendChild(notStarredLabel);
+
+    importanceContainer.appendChild(importanceLabel);
+    importanceContainer.appendChild(importanceSelection1);
+    importanceContainer.appendChild(importanceSelection2);
+
+    const priorityContainer = document.createElement('div');
+    priorityContainer.classList.add('priority-container');
+    const priorityLabel = document.createElement('p');
+    priorityLabel.textContent = 'Priority: ';
+
+    const prioritySelection1 = document.createElement('div');
+    prioritySelection1.classList.add('priority-selection');
+
+    const low = document.createElement('input');
+    low.type = 'radio';
+    low.id = 'filter-low';
+    low.name = 'filter';
+    low.value = 'low';
+    const lowLabel = document.createElement('label');
+    lowLabel.setAttribute('for', 'filter-low');
+    lowLabel.textContent = 'Low';
+    prioritySelection1.appendChild(low);
+    prioritySelection1.appendChild(lowLabel);
+
+    const prioritySelection2 = document.createElement('div');
+    prioritySelection2.classList.add('priority-selection');
+
+    const medium = document.createElement('input');
+    medium.type = 'radio';
+    medium.id = 'filter-medium';
+    medium.name = 'filter';
+    medium.value = 'medium';
+    const mediumLabel = document.createElement('label');
+    mediumLabel.setAttribute('for', 'filter-medium');
+    mediumLabel.textContent = 'Medium';
+    prioritySelection2.appendChild(medium);
+    prioritySelection2.appendChild(mediumLabel);
+
+    const prioritySelection3 = document.createElement('div');
+    prioritySelection3.classList.add('priority-selection');
+
+    const high = document.createElement('input');
+    high.type = 'radio';
+    high.id = 'filter-high';
+    high.name = 'filter';
+    high.value = 'high';
+    const highLabel = document.createElement('label');
+    highLabel.setAttribute('for', 'filter-high');
+    highLabel.textContent = 'High';
+    prioritySelection3.appendChild(high);
+    prioritySelection3.appendChild(highLabel);
+
+    priorityContainer.appendChild(priorityLabel);
+    priorityContainer.appendChild(prioritySelection1);
+    priorityContainer.appendChild(prioritySelection2);
+    priorityContainer.appendChild(prioritySelection3);
+
+    formBody.appendChild(importanceContainer);
+    formBody.appendChild(priorityContainer);
 
     detailsForm.appendChild(formBody);
 
