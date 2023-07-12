@@ -251,7 +251,7 @@ const displayAllItems = (name = 'default', sortBy = 'Time', filter = 'All') => {
                 // Calculate the time difference between the current date/time and the task due date
                 let distance = formatDistanceToNow(dueDate, { addSuffix: true });
                 distance = distance.split(' ');
-                if ((parseInt(distance[1]) <= 24 && (distance[2] == 'hour' || distance[2] == 'hours')) || (distance.includes('minute') || distance.includes('minutes'))) {
+                if ((parseInt(distance[2]) <= 24 && (distance[3] == 'hour' || distance[3] == 'hours')) || (distance.includes('minute') || distance.includes('minutes'))) {
                     return true;
                 } else {
                     return false;
