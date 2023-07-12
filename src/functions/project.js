@@ -1,6 +1,6 @@
 import { storage } from '../functions/storage';
 import { v4 as uuidv4 } from 'uuid';
-import { displayTodoItem, removeTodoItemUI, taskDoneUI } from '../pages/all';
+import { displayAllItems, displayTodoItem, removeTodoItemUI, taskDoneUI } from '../pages/all';
 import {compareAsc, compareDesc, formatDistanceToNow, isSameDay, differenceInCalendarDays} from 'date-fns';
 
 const project = ((name = 'default') => {
@@ -28,7 +28,8 @@ const project = ((name = 'default') => {
         defaultProject.todoList.push(item);
         storage.saveToLocalStorage(projectList);
         updateProjectList();
-        displayTodoItem(item);
+        console.log(document.querySelector('.selection input[name="selection"]:checked').value);
+        displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
     }
 
     const editProjectItem = (index, title, details, dueDate, dueTime, priority) => {
@@ -43,8 +44,7 @@ const project = ((name = 'default') => {
         item.priority = priority;
         storage.saveToLocalStorage(projectList);
         updateProjectList();
-        removeTodoItemUI(index);
-        displayTodoItem(item);
+        displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
     }
 
     const getProjectTodoList = (name = 'default') => {
@@ -65,12 +65,13 @@ const project = ((name = 'default') => {
     const projectItemDeleted = (index) => {
         let name = index.split('~')[0];
         let deletedProj = projectList.find(project => project.name === name);
-        removeTodoItemUI(index);
+        // removeTodoItemUI(index);
         console.log(deletedProj.todoList.findIndex(item => item.index == index));
         let deleteIndex = deletedProj.todoList.findIndex(item => item.index == index);
         deletedProj.todoList.splice(deleteIndex, 1);
         storage.saveToLocalStorage(projectList);
         updateProjectList();
+        displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
     }
 
     const projectItemStarred = (index) => {
@@ -81,7 +82,7 @@ const project = ((name = 'default') => {
         storage.saveToLocalStorage(projectList);
         updateProjectList();
         removeTodoItemUI(index);
-        displayTodoItem(starredProj.todoList[starredIndex]);
+        displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
     }
 
     const sort = (name = 'default') => {
