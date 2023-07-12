@@ -46,13 +46,15 @@ document.querySelector('#content').addEventListener('click', (e) => {
         closeForm();
     }
     if (e.target.closest('#All')) {
+        displayAllItems('default', document.querySelector('.sort #sort-selection').value, 'All');
     } else if (e.target.closest('#Today')) {
+        displayAllItems('default', document.querySelector('.sort #sort-selection').value, 'Today');
     } else if (e.target.closest('#Week')) {
-        console.log('Week');
+        displayAllItems('default', document.querySelector('.sort #sort-selection').value, 'Week');
     } else if (e.target.closest('#Important')) {
-        console.log('Important');
+        displayAllItems('default', document.querySelector('.sort #sort-selection').value, 'Important');
     } else if (e.target.closest('#High')) {
-        console.log('High');
+        displayAllItems('default', document.querySelector('.sort #sort-selection').value, 'High');
     } 
 });
 
