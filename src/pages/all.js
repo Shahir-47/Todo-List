@@ -3,7 +3,7 @@ import del from '../assets/img/del.svg';
 import star from '../assets/img/star.svg';
 import fullStar from '../assets/img/fullStar.svg';
 import formValidation from '../functions/form';
-import { formatDistanceToNow, isSameDay, addDays, differenceInCalendarDays, format, parseISO, parse } from 'date-fns';
+import { formatDistanceToNow, isSameDay, addDays, differenceInCalendarDays, format, parseISO, parse, set } from 'date-fns';
 import { storage } from '../functions/storage';
 import { project } from '../functions/project';
 
@@ -268,6 +268,8 @@ const displayAllItems = (name = 'default', sortBy = 'Time', filter = 'All') => {
         list = list.filter(item => (item.dueTime && differenceInCalendarDays(new Date(item.dueDate + ' ' + item.dueTime), new Date()) <= 7) || (!item.dueTime && (differenceInCalendarDays(new Date(item.dueDate.slice(0, 4), item.dueDate.slice(5, 7)-1, item.dueDate.slice(8, 10)), new Date()) <= 7)));
     } else if (filter == 'Important') {
         list = defaultProject.todoList.filter(item => item.starred == true);
+    } else if (filter == 'Completed'){
+        list = defaultProject.todoList.filter(item => item.done.flag == true);
     } else if (filter == 'High') {
         list = defaultProject.todoList.filter(item => item.priority == 'high');
     }
@@ -516,7 +518,7 @@ const allUI = () => {
     selection.appendChild(week);
     // selection.appendChild(month);
     selection.appendChild(important);
-    // selection.appendChild(completed);
+    selection.appendChild(completed);
     // selection.appendChild(starred);
     selection.appendChild(high);
     // selection.appendChild(medium);
@@ -526,12 +528,6 @@ const allUI = () => {
 
     const right = document.createElement('div');
     right.classList.add('right-display');
-
-    const filterBtn = document.createElement('button');
-    filterBtn.classList.add('filter-btn');
-    filterBtn.textContent = 'Add Custom Filter(s)';
-
-    right.appendChild(filterBtn);
 
     const sort = document.createElement('div');
     sort.classList.add('sort');
@@ -575,6 +571,19 @@ const allUI = () => {
     displayAllItems();
 };
 
+setInterval(() => {
+    document.querySelectorAll('.todo-item .todo-due-date').forEach(item => {
+      if (item.textContent == 'Due less than a minute ago' || item.textContent == 'Due 1 minute ago') {
+        displayAllItems('default', document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
+      }
+    });
+}, 60000);
+
+//Update the todo list every 24 hours
+setInterval(() => {
+    displayAllItems('default', document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
+}, 24 * 60 * 60 * 1000); // 24 hours in milliseconds
+  
 export default allUI;
 
 export { displayTodoItem, taskDoneUI, itemsEventHandler, removeTodoItemUI, sortItems, displayAllItems };

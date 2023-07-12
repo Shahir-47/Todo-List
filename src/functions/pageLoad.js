@@ -62,31 +62,10 @@ const showForm = () => {
     document.querySelector('.new-todo-box:nth-of-type(3)').classList.remove('active');
 }
 
-const showFilterForm = () => {
-    document.querySelector('#customFilterContainer #filter-low').checked = true;
-    document.querySelector('#customFilterContainer #not-starred').checked = true;
-    document.getElementById('customFilterContainer').style.display = 'block';
-    const afterDate = document.querySelector('.due-after-input');
-    const beforeDate = document.querySelector('.due-before-input');
-
-    afterDate.addEventListener('change', updateDate);
-    beforeDate.addEventListener('change', updateDate);
-
-    function updateDate() {
-        afterDate.max = beforeDate.value;
-        beforeDate.min = afterDate.value;
-    }
-}
-
-const closeFilterForm = () => {
-    document.querySelector('#customFilterContainer .filter-body').setAttribute('novalidate', 'true');
-    document.querySelector('#customFilterContainer .filter-body').reset();
-    document.querySelector('#customFilterContainer').style.display = 'none';
-}
 const closeForm = () => {
     document.querySelector('.todo-form').reset();
     document.getElementById('popupFormContainer').style.display = 'none';
 }
 
 export default pageLoad;
-export {adjustPageContent, changeTheme, showForm, closeForm, showFilterForm, closeFilterForm};
+export {adjustPageContent, changeTheme, showForm, closeForm};
