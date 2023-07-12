@@ -8,6 +8,7 @@ import {handleSidebar} from './functions/sidebar.js';
 import pageLoad from './functions/pageLoad';
 import { changeTheme, showForm, closeForm } from './functions/pageLoad';
 import allUI, { displayAllItems } from './pages/all';
+import today from './pages/today';
 import formValidation from './functions/form';
 import { itemsEventHandler, sortItems } from './pages/all';
 import { project } from './functions/project';
@@ -40,7 +41,15 @@ document.querySelector('#content').addEventListener('click', (e) => {
         itemsEventHandler(e);
     }
     if (e.target.closest('.menu-button')) {
+        let highlight = document.querySelector('.box .item.active p').textContent;
         handleSidebar();
+        let homeItems = document.querySelectorAll('.box .item p');
+        homeItems.forEach((item) => {
+            if (item.textContent === highlight) {
+                item.parentElement.classList.add('active');
+            }
+        });
+        homeItems.classList.add('active');
     }
     if (e.target.closest('.close-btn')) {
         closeForm();
@@ -57,6 +66,16 @@ document.querySelector('#content').addEventListener('click', (e) => {
         displayAllItems('default', document.querySelector('.sort #sort-selection').value, 'Completed');
     } else if (e.target.closest('#High')) {
         displayAllItems('default', document.querySelector('.sort #sort-selection').value, 'High');
+    }
+    if (e.target.closest('.item:nth-of-type(1)')) {
+        e.target.closest('.item:nth-of-type(1)').classList.add('active');
+        document.querySelector('#page-content').innerHTML = '';
+        allUI();
+    }
+    else if (e.target.closest('.item:nth-of-type(2)')) {
+        document.querySelector('#page-content').innerHTML = '';
+        console.log('2');
+        today();
     }
 });
 
