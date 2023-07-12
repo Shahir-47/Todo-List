@@ -109,6 +109,16 @@ const project = ((name = 'default') => {
         list.sort((a, b) => new Date(b.done.timestamp) - new Date(a.done.timestamp));
     }
 
+    const sortByPriority = (name = 'default') => {
+        let defaultProject = projectList.find(project => project.name === name);
+        defaultProject.todoList.sort((a, b) => {
+            return comparePriority(a, b);
+        });
+        storage.saveToLocalStorage(projectList);
+        updateProjectList();
+    }
+
+
     const comparePriority = (a, b) => {
         if (a.priority == 'high' && b.priority == 'medium') {
             return -1;
@@ -272,7 +282,7 @@ const project = ((name = 'default') => {
     });
 }
 
-    return {addToProjectList, addToProjectItem, getProjectTodoList, projectItemCompleted, projectItemDeleted, editProjectItem, projectItemStarred, sort};
+    return {addToProjectList, addToProjectItem, getProjectTodoList, projectItemCompleted, projectItemDeleted, editProjectItem, projectItemStarred, sort, sortByPriority};
 })();
 
 

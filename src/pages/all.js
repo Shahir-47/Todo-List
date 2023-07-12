@@ -212,12 +212,26 @@ const displayDetail = (index) => {
     }
 }
 
-const displayAllItems = (name = 'default') => {
-    project.sort(name);
-    console.log(project.getProjectTodoList());
+const sortItems = (event) => {
+    if (event == 'Time') {
+        displayAllItems();
+    } else if (event == 'priority') {
+        displayAllItems('default', 'priority');
+    }
+}
+
+const displayAllItems = (name = 'default', sortBy = 'Time') => {
+    const todoList = document.querySelector('.todo-list');
+    todoList.innerHTML = '';
+    if (sortBy == 'Time') {
+        project.sort(name);
+    } else if (sortBy == 'priority') {
+        project.sortByPriority(name);
+    }
     const projectList = storage.getFromLocalStorage();
     let defaultProject = projectList.find(project => project.name == name);
-
+    console.log(defaultProject.todoList);
+    // debugger;
     // Access the todoList property of the default project
     for (let i = 0; i < defaultProject.todoList.length; i++) {
         displayTodoItem(defaultProject.todoList[i]);
@@ -488,6 +502,8 @@ const allUI = () => {
 
     const sortSelection = document.createElement('select');
     sortSelection.classList.add('sort-selection');
+    sortSelection.id = 'sort-selection';
+    sortSelection.name = 'sort-selection';
 
     const sortOption1 = document.createElement('option');
     sortOption1.value = 'Time';
@@ -499,7 +515,7 @@ const allUI = () => {
 
     sortSelection.appendChild(sortOption1);
     sortSelection.appendChild(sortOption2);
-    
+
     sort.appendChild(sortText);
     sort.appendChild(sortSelection);
 
@@ -513,7 +529,7 @@ const allUI = () => {
 
     const todoList = document.createElement('div');
     todoList.classList.add('todo-list');
-    todoList.style.maxHeight = pageContent.offsetHeight - (footer.offsetHeight * 2) - 16 + 'px';
+    todoList.style.maxHeight = pageContent.offsetHeight - (footer.offsetHeight * 2) - display.offsetHeight - 16 + 'px';
     todoList.style.marginRight = addBtn.offsetWidth + 64 + 'px';
     pageContent.appendChild(todoList);
 
@@ -522,4 +538,4 @@ const allUI = () => {
 
 export default allUI;
 
-export { displayTodoItem, taskDoneUI, itemsEventHandler, removeTodoItemUI };
+export { displayTodoItem, taskDoneUI, itemsEventHandler, removeTodoItemUI, sortItems };

@@ -9,7 +9,7 @@ import pageLoad from './functions/pageLoad';
 import { changeTheme, showForm, closeForm } from './functions/pageLoad';
 import allUI from './pages/all';
 import formValidation from './functions/form';
-import { itemsEventHandler } from './pages/all';
+import { itemsEventHandler, sortItems } from './pages/all';
 import { project } from './functions/project';
 console.log('I get called from print.js!');
 
@@ -44,5 +44,12 @@ document.querySelector('#content').addEventListener('click', (e) => {
     }
     if (e.target.closest('.close-btn')) {
         closeForm();
+    }
+});
+
+document.querySelector('#content').addEventListener('change', (e) => {
+    if (e.target.closest('.sort #sort-selection')) {
+        console.log(e.target.value);
+        sortItems(e.target.value);
     }
 });
