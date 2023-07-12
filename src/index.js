@@ -8,7 +8,7 @@ import {handleSidebar} from './functions/sidebar.js';
 import pageLoad from './functions/pageLoad';
 import { changeTheme, showForm, closeForm } from './functions/pageLoad';
 import allUI, { displayAllItems } from './pages/all';
-import today from './pages/today';
+import showPage from './pages/homePages';
 import formValidation from './functions/form';
 import { itemsEventHandler, sortItems } from './pages/all';
 import { project } from './functions/project';
@@ -70,12 +70,23 @@ document.querySelector('#content').addEventListener('click', (e) => {
     if (e.target.closest('.item:nth-of-type(1)')) {
         e.target.closest('.item:nth-of-type(1)').classList.add('active');
         document.querySelector('#page-content').innerHTML = '';
-        allUI();
+        allUI('All');
     }
     else if (e.target.closest('.item:nth-of-type(2)')) {
         document.querySelector('#page-content').innerHTML = '';
-        console.log('2');
-        today();
+        showPage('Today');
+    }
+    else if (e.target.closest('.item:nth-of-type(3)')) {
+        document.querySelector('#page-content').innerHTML = '';
+        showPage('Week');
+    }
+    else if (e.target.closest('.item:nth-of-type(4)')) {
+        document.querySelector('#page-content').innerHTML = '';
+        showPage('Important');
+    }
+    else if (e.target.closest('.item:nth-of-type(5)')) {
+        document.querySelector('#page-content').innerHTML = '';
+        showPage('Completed');
     }
 });
 
