@@ -78,10 +78,15 @@ const showFilterForm = () => {
     }
 }
 
+const closeFilterForm = () => {
+    document.querySelector('#customFilterContainer .filter-body').setAttribute('novalidate', 'true');
+    document.querySelector('#customFilterContainer .filter-body').reset();
+    document.querySelector('#customFilterContainer').style.display = 'none';
+}
 const closeForm = () => {
     document.querySelector('.todo-form').reset();
     document.getElementById('popupFormContainer').style.display = 'none';
 }
 
 export default pageLoad;
-export {adjustPageContent, changeTheme, showForm, closeForm, showFilterForm};
+export {adjustPageContent, changeTheme, showForm, closeForm, showFilterForm, closeFilterForm};

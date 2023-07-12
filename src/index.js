@@ -6,7 +6,7 @@ import fullStar from './assets/img/fullStar.svg';
 import star from './assets/img/star.svg';
 import {handleSidebar} from './functions/sidebar.js';
 import pageLoad from './functions/pageLoad';
-import { changeTheme, showForm, closeForm, showFilterForm } from './functions/pageLoad';
+import { changeTheme, showForm, closeForm, showFilterForm, closeFilterForm } from './functions/pageLoad';
 import allUI, { displayAllItems } from './pages/all';
 import formValidation from './functions/form';
 import { itemsEventHandler, sortItems } from './pages/all';
@@ -44,6 +44,10 @@ document.querySelector('#content').addEventListener('click', (e) => {
     }
     if (e.target.closest('.close-btn')) {
         closeForm();
+    }
+    if (e.target.closest('.discard-btn')) {
+        e.preventDefault();
+        closeFilterForm();
     }
     if (e.target.closest('#All')) {
         displayAllItems('default', document.querySelector('.sort #sort-selection').value, 'All');

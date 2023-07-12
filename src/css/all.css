@@ -211,7 +211,21 @@
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 999;
 }
-#filterForm,
+#filterForm{
+    -webkit-box-shadow: 8px 6px 14px 0px rgba(0,0,0,0.69); 
+    box-shadow: 8px 6px 14px 0px rgba(0,0,0,0.69);
+    display: grid;
+    grid-template-rows: min-content 1fr;
+    align-items: stretch;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--sidebar-bg-color);
+    width: 450px;
+    height: 480px;
+    border-radius: 15px;
+}
 #editForm {
     -webkit-box-shadow: 8px 6px 14px 0px rgba(0,0,0,0.69); 
     box-shadow: 8px 6px 14px 0px rgba(0,0,0,0.69);
@@ -434,10 +448,11 @@
 }
 
 .filter-body {
-    display: flex;
-    flex-direction: column;
+    display: grid;
     gap: 1rem;
     padding: 1rem;
+    grid-template-rows: repeat(4, min-content) 1fr;
+    padding-bottom: 2rem;
 }
 
 .due-before-container,
@@ -466,3 +481,45 @@
     outline: none;
 }
 
+.choice-container {
+    align-self: end;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.discard-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: var(--add-btn-bg-color);
+    background-color: transparent;
+    border: 1px solid var(--add-btn-bg-color);
+    font-size: 16px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.discard-btn:hover {
+    background-color: var(--add-btn-color);
+    color: var(--add-btn-bg-color);
+}
+
+.apply-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: var(--add-btn-bg-color);
+    background-color: transparent;
+    border: 1px solid var(--add-btn-bg-color);
+    font-size: 16px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.apply-btn:hover {
+    background-color: var(--add-btn-color);
+    color: var(--add-btn-bg-color);
+}

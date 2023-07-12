@@ -383,7 +383,7 @@ const customFilterContainer = () => {
     formHeader.appendChild(formTitle);
     detailsForm.appendChild(formHeader);
 
-    const formBody = document.createElement('div');
+    const formBody = document.createElement('form');
     formBody.classList.add('filter-body');
 
     const dueAfterContainer = document.createElement('div');
@@ -507,6 +507,22 @@ const customFilterContainer = () => {
 
     formBody.appendChild(importanceContainer);
     formBody.appendChild(priorityContainer);
+
+    const choiceContainer = document.createElement('div');
+    choiceContainer.classList.add('choice-container');
+
+    const discardBtn = document.createElement('button');
+    discardBtn.classList.add('discard-btn');
+    discardBtn.textContent = 'Discard';
+
+    const applyBtn = document.createElement('button');
+    applyBtn.classList.add('apply-btn');
+    applyBtn.textContent = 'Apply';
+
+    choiceContainer.appendChild(discardBtn);
+    choiceContainer.appendChild(applyBtn);
+
+    formBody.appendChild(choiceContainer);
 
     detailsForm.appendChild(formBody);
 
