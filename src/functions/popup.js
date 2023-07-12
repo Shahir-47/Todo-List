@@ -367,6 +367,64 @@ const createPopupContainers = () => {
     createDetailContainer();
     createEditContainer();
     formUI();
+    customFilterContainer();
+}
+
+const customFilterContainer = () => {
+    const popupFormContainer = document.createElement('div');
+    popupFormContainer.setAttribute('id', 'customFilterContainer');
+    const detailsForm = document.createElement('div');
+    detailsForm.setAttribute('id', 'filterForm');
+
+    const formHeader = document.createElement('div');
+    formHeader.classList.add('detail-header');
+    const formTitle = document.createElement('h2');
+    formTitle.textContent = 'Custom Filter(s)';
+    formHeader.appendChild(formTitle);
+    detailsForm.appendChild(formHeader);
+
+    const formBody = document.createElement('div');
+    formBody.classList.add('filter-body');
+
+    const dueAfterContainer = document.createElement('div');
+    dueAfterContainer.classList.add('due-after-container');
+    const dueAfterLabel = document.createElement('label');
+    dueAfterLabel.setAttribute('for', 'due-after');
+    dueAfterLabel.textContent = 'Due After: ';
+    const dueAfterInput = document.createElement('input');
+    dueAfterInput.classList.add('due-after-input');
+    dueAfterInput.type = 'date';
+    dueAfterInput.id = 'due-after';
+    dueAfterInput.name = 'due-after';
+    dueAfterInput.setAttribute('required', 'true');
+
+    dueAfterContainer.appendChild(dueAfterLabel);
+    dueAfterContainer.appendChild(dueAfterInput);
+
+    const dueBeforeContainer = document.createElement('div');
+    dueBeforeContainer.classList.add('due-before-container');
+    const dueBeforeLabel = document.createElement('label');
+    dueBeforeLabel.setAttribute('for', 'due-before');
+    dueBeforeLabel.textContent = 'Due Before: ';
+    const dueBeforeInput = document.createElement('input');
+    dueBeforeInput.classList.add('due-before-input');
+    dueBeforeInput.type = 'date';
+    dueBeforeInput.id = 'due-before';
+    dueBeforeInput.name = 'due-before';
+    dueBeforeInput.setAttribute('required', 'true');
+
+    dueBeforeContainer.appendChild(dueBeforeLabel);
+    dueBeforeContainer.appendChild(dueBeforeInput);
+
+    formBody.appendChild(dueAfterContainer);
+    formBody.appendChild(dueBeforeContainer);
+
+    detailsForm.appendChild(formBody);
+
+
+    popupFormContainer.appendChild(detailsForm);
+    document.querySelector('#content').appendChild(popupFormContainer);
+
 }
 
 export default createPopupContainers;

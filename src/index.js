@@ -55,7 +55,10 @@ document.querySelector('#content').addEventListener('click', (e) => {
         displayAllItems('default', document.querySelector('.sort #sort-selection').value, 'Important');
     } else if (e.target.closest('#High')) {
         displayAllItems('default', document.querySelector('.sort #sort-selection').value, 'High');
-    } 
+    }
+    if (e.target.closest('.filter-btn')){
+        document.getElementById('customFilterContainer').style.display = 'block';
+    }
 });
 
 document.querySelector('#content').addEventListener('change', (e) => {

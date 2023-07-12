@@ -199,17 +199,8 @@
     opacity: 0.5;
 }
 
-#detailFormContainer {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-}
-
+#detailFormContainer,
+#customFilterContainer,
 #editFormContainer {
     display: none;
     position: fixed;
@@ -220,7 +211,7 @@
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 999;
 }
-
+#filterForm,
 #editForm {
     -webkit-box-shadow: 8px 6px 14px 0px rgba(0,0,0,0.69); 
     box-shadow: 8px 6px 14px 0px rgba(0,0,0,0.69);
@@ -421,5 +412,48 @@
     flex-direction: row;
     gap: 3rem;
     align-items: center;
+}
+
+.filter-btn:hover {
+    background-color: var(--add-btn-color);
+    color: var(--add-btn-bg-color);
+}
+
+.filter-applied{
+    background-color: var(--add-btn-color);
+    color: var(--add-btn-bg-color);
+}
+
+.filter-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.due-before-container,
+.due-after-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+}
+
+.due-before-container label,
+.due-after-container label {
+    font-size: 1.2rem;
+    font-weight: 900;
+}
+
+.due-before-container input[type=date],
+.due-after-container input[type=date] {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid var(--add-btn-color);
+    background-color: transparent;
+    color: var(--add-btn-color);
+    font-size: 1.2rem;
+    font-weight: 900;
+    outline: none;
 }
 
