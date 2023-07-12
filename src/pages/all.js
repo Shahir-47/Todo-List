@@ -406,6 +406,25 @@ const removeTodoItemUI = (id) => {
     item.parentNode.removeChild(item);
 }
 
+const createRadioBtn = (name, value, id, checked = false) => {
+    const prioritySelection1 = document.createElement('div');
+    prioritySelection1.classList.add('priority-selection');
+
+    const radio = document.createElement('input');
+    radio.type = 'radio';
+    radio.id = id;
+    radio.name = name;
+    radio.value = value;
+    radio.checked = checked;
+    const radioLabel = document.createElement('label');
+    radioLabel.setAttribute('for', id);
+    radioLabel.textContent = value;
+    prioritySelection1.appendChild(radio);
+    prioritySelection1.appendChild(radioLabel);
+
+    return prioritySelection1;
+}
+
 const allUI = () => {
 
     const allSidebarItems = document.querySelectorAll('.item');
@@ -421,6 +440,76 @@ const allUI = () => {
     addBtn.classList.add('add-btn');
     addBtn.textContent = '+';
     pageContent.appendChild(addBtn);
+
+    const display = document.createElement('div');
+    display.classList.add('display');
+
+    const selection = document.createElement('div');
+    selection.classList.add('selection');
+
+    const all = createRadioBtn('selection', 'All', 'All', true);
+    const today = createRadioBtn('selection', 'Today', 'Today');
+    const week = createRadioBtn('selection', 'Week', 'Week');
+    const month = createRadioBtn('selection', 'Month', 'Month');
+    const important = createRadioBtn('selection', 'Important', 'Important');
+    const completed = createRadioBtn('selection', 'Completed', 'Completed');
+    const starred = createRadioBtn('selection', 'Starred', 'Starred');
+    const high = createRadioBtn('selection', 'High', 'High');
+    const medium = createRadioBtn('selection', 'Medium', 'Medium');
+    const low = createRadioBtn('selection', 'Low', 'Low');
+
+    selection.appendChild(all);
+    selection.appendChild(today);
+    selection.appendChild(week);
+    // selection.appendChild(month);
+    selection.appendChild(important);
+    // selection.appendChild(completed);
+    // selection.appendChild(starred);
+    selection.appendChild(high);
+    // selection.appendChild(medium);
+    // selection.appendChild(low);
+
+    display.appendChild(selection);
+
+    const right = document.createElement('div');
+    right.classList.add('right-display');
+
+    const filterBtn = document.createElement('button');
+    filterBtn.classList.add('filter-btn');
+    filterBtn.textContent = 'Add Custom Filter(s)';
+
+    right.appendChild(filterBtn);
+
+    const sort = document.createElement('div');
+    sort.classList.add('sort');
+
+    const sortText = document.createElement('p');
+    sortText.textContent = 'Sort by:';
+
+    const sortSelection = document.createElement('select');
+    sortSelection.classList.add('sort-selection');
+
+    const sortOption1 = document.createElement('option');
+    sortOption1.value = 'Time';
+    sortOption1.textContent = 'Remaining Time';
+
+    const sortOption2 = document.createElement('option');
+    sortOption2.value = 'priority';
+    sortOption2.textContent = 'Priority';
+
+    sortSelection.appendChild(sortOption1);
+    sortSelection.appendChild(sortOption2);
+    
+    sort.appendChild(sortText);
+    sort.appendChild(sortSelection);
+
+    right.appendChild(sort);
+
+    display.appendChild(right);
+
+
+
+    pageContent.appendChild(display);
 
     const todoList = document.createElement('div');
     todoList.classList.add('todo-list');

@@ -341,3 +341,85 @@
     color:  #F44336;
     border: 1px solid  #F44336;
 }
+
+.display {
+    display:flex;
+    padding: 1rem;
+    align-items: center;
+    gap: 5rem;
+}
+
+.selection {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+}
+
+.selection input[type=radio] + label {
+    color:  var(--add-btn-color);
+    border: 1px solid  var(--add-btn-color);
+}
+
+.filter-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: var(--add-btn-bg-color);
+    background-color: transparent;
+    border: 1px solid var(--add-btn-bg-color);
+    font-size: 16px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.selection input[type=radio]:hover + label,
+.selection input[type=radio]:checked + label 
+{
+    background-color: var(--add-btn-color);
+    color: var(--add-btn-bg-color);
+}
+
+.sort {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    color: var(--add-btn-bg-color);
+    font-size: 18px;
+    font-weight: 900;
+}
+
+.sort-selection {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: var(--add-btn-bg-color);
+    background-color: transparent;
+    font-size: 16px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+    border: 1px solid var(--add-btn-bg-color);
+}
+
+.sort-selection:hover {
+    background-color: var(--add-btn-color);
+    color: var(--add-btn-bg-color);
+}
+
+.sort-selection:active {
+    background-color: var(--add-btn-color);
+    color: var(--add-btn-bg-color);
+    border: 1px solid var(--add-btn-bg-color);
+}
+
+.right-display {
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+    align-items: center;
+}
+
