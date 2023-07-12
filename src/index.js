@@ -7,7 +7,7 @@ import star from './assets/img/star.svg';
 import {handleSidebar} from './functions/sidebar.js';
 import pageLoad from './functions/pageLoad';
 import { changeTheme, showForm, closeForm } from './functions/pageLoad';
-import allUI from './pages/all';
+import allUI, { displayAllItems } from './pages/all';
 import formValidation from './functions/form';
 import { itemsEventHandler, sortItems } from './pages/all';
 import { project } from './functions/project';
@@ -45,6 +45,15 @@ document.querySelector('#content').addEventListener('click', (e) => {
     if (e.target.closest('.close-btn')) {
         closeForm();
     }
+    if (e.target.closest('#All')) {
+    } else if (e.target.closest('#Today')) {
+    } else if (e.target.closest('#Week')) {
+        console.log('Week');
+    } else if (e.target.closest('#Important')) {
+        console.log('Important');
+    } else if (e.target.closest('#High')) {
+        console.log('High');
+    } 
 });
 
 document.querySelector('#content').addEventListener('change', (e) => {

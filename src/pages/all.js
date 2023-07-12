@@ -213,14 +213,16 @@ const displayDetail = (index) => {
 }
 
 const sortItems = (event) => {
+    let filter = document.querySelector('.selection input[name="selection"]:checked').value;
+    console.log(filter);
     if (event == 'Time') {
-        displayAllItems();
+        displayAllItems('default', 'Time', filter);
     } else if (event == 'priority') {
-        displayAllItems('default', 'priority');
+        displayAllItems('default', 'priority', filter);
     }
 }
 
-const displayAllItems = (name = 'default', sortBy = 'Time') => {
+const displayAllItems = (name = 'default', sortBy = 'Time', filter = 'All') => {
     const todoList = document.querySelector('.todo-list');
     todoList.innerHTML = '';
     if (sortBy == 'Time') {
@@ -233,8 +235,45 @@ const displayAllItems = (name = 'default', sortBy = 'Time') => {
     console.log(defaultProject.todoList);
     // debugger;
     // Access the todoList property of the default project
-    for (let i = 0; i < defaultProject.todoList.length; i++) {
-        displayTodoItem(defaultProject.todoList[i]);
+    let list = []
+    if (filter == 'All') {
+        list = defaultProject.todoList;
+    } else if (filter == 'Today') {
+        list = defaultProject.todoList.filter(item => !item.done.flag);
+        list = list.filter(item => (item.dueTime && new Date(item.dueDate + ' ' + item.dueTime) >= new Date()) || (!item.dueTime && (differenceInCalendarDays(new Date(item.dueDate.slice(0, 4), item.dueDate.slice(5, 7)-1, item.dueDate.slice(8, 10)), new Date()) >= 0)));
+        list = list.filter(item => {
+            if (item.dueTime) {
+                let [year, month, day] =  item.dueDate.split('-');
+                let dueDate = new Date(year, month - 1, day);
+                let [hours, minutes] = item.dueTime.split(':');
+                dueDate.setHours(hours);
+                dueDate.setMinutes(minutes);
+                // Calculate the time difference between the current date/time and the task due date
+                let distance = formatDistanceToNow(dueDate, { addSuffix: true });
+                distance = distance.split(' ');
+                if ((parseInt(distance[1]) <= 24 && (distance[2] == 'hour' || distance[2] == 'hours')) || (distance.includes('minute') || distance.includes('minutes'))) {
+                    return true;
+                } else {
+                    return false;
+                } 
+            } else if (isSameDay(new Date(item.dueDate.slice(0, 4), item.dueDate.slice(5, 7)-1, item.dueDate.slice(8, 10)), new Date())) {
+                return true;
+            } else {
+                return false;
+            }
+        })
+    } else if (filter == 'Week') {
+        list = defaultProject.todoList.filter(item => !item.done.flag);
+        list = list.filter(item => (item.dueTime && new Date(item.dueDate + ' ' + item.dueTime) >= new Date()) || (!item.dueTime && (differenceInCalendarDays(new Date(item.dueDate.slice(0, 4), item.dueDate.slice(5, 7)-1, item.dueDate.slice(8, 10)), new Date()) >= 0)));
+        list = list.filter(item => (item.dueTime && differenceInCalendarDays(new Date(item.dueDate + ' ' + item.dueTime), new Date()) <= 7) || (!item.dueTime && (differenceInCalendarDays(new Date(item.dueDate.slice(0, 4), item.dueDate.slice(5, 7)-1, item.dueDate.slice(8, 10)), new Date()) <= 7)));
+    } else if (filter == 'Important') {
+        list = defaultProject.todoList.filter(item => item.starred == true);
+    } else if (filter == 'High') {
+        list = defaultProject.todoList.filter(item => item.priority == 'high');
+    }
+
+    for (let i = 0; i < list.length; i++) {
+        displayTodoItem(list[i]);
     }
 }
 
@@ -538,4 +577,4 @@ const allUI = () => {
 
 export default allUI;
 
-export { displayTodoItem, taskDoneUI, itemsEventHandler, removeTodoItemUI, sortItems };
+export { displayTodoItem, taskDoneUI, itemsEventHandler, removeTodoItemUI, sortItems, displayAllItems };
