@@ -579,6 +579,7 @@ const allUI = () => {
     todoList.classList.add('todo-list');
     todoList.style.maxHeight = pageContent.offsetHeight - (footer.offsetHeight * 2) - display.offsetHeight - 16 + 'px';
     todoList.style.marginRight = addBtn.offsetWidth + 64 + 'px';
+    display.style.marginRight = addBtn.offsetWidth + 72 + 'px';
     pageContent.appendChild(todoList);
 
     displayAllItems();

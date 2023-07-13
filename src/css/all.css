@@ -361,7 +361,8 @@
     display:flex;
     padding: 1rem;
     align-items: center;
-    gap: 5rem;
+    justify-content: space-evenly;
+    gap: 2rem;
 }
 
 .selection {

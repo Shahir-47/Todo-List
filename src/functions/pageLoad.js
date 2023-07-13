@@ -19,7 +19,6 @@ const pageContent = () => {
     pageContent.style.marginTop = top;
     pageContent.style.minHeight = 'calc(100vh - ' + (top + bottom + 'px') + ')';
     pageContent.style.maxHeight = 'calc(100vh - ' + (top + bottom + 'px') + ')';
-    pageContent.style.border = '1px solid red';
     pageContent.style.width = 'calc(100vw - ' + (width + 'px') + ')';
     pageContent.style.paddingBottom = (bottom + 8) + 'px';
 
