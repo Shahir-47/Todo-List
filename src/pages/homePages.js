@@ -8,13 +8,13 @@ const showPage = (page) => {
     });
 
     if (page == 'Today') {
-        document.querySelector('.item:nth-of-type(2)').classList.add('active');
+        document.querySelector('.box:nth-of-type(1) .item:nth-of-type(2)').classList.add('active');
     } else if (page == 'Week') {
-        document.querySelector('.item:nth-of-type(3)').classList.add('active');
+        document.querySelector('.box:nth-of-type(1) .item:nth-of-type(3)').classList.add('active');
     } else if (page == 'Important') {
-        document.querySelector('.item:nth-of-type(4)').classList.add('active');
+        document.querySelector('.box:nth-of-type(1) .item:nth-of-type(4)').classList.add('active');
     } else if (page == 'Completed') {
-        document.querySelector('.item:nth-of-type(5)').classList.add('active');
+        document.querySelector('.box:nth-of-type(1) .item:nth-of-type(5)').classList.add('active');
     }
 
     const pageContent = document.querySelector('#page-content');

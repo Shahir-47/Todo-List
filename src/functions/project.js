@@ -28,8 +28,11 @@ const project = ((name = 'default') => {
         defaultProject.todoList.push(item);
         storage.saveToLocalStorage(projectList);
         updateProjectList();
-        console.log(document.querySelector('.selection input[name="selection"]:checked').value);
-        displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
+        if (document.querySelector('.selection input[name="selection"]:checked')) {
+            displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
+        } else {
+            displayAllItems(name, 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
+        }
     }
 
     const editProjectItem = (index, title, details, dueDate, dueTime, priority) => {
@@ -44,7 +47,11 @@ const project = ((name = 'default') => {
         item.priority = priority;
         storage.saveToLocalStorage(projectList);
         updateProjectList();
-        displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
+        if (document.querySelector('.selection input[name="selection"]:checked')) {
+            displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
+        } else {
+            displayAllItems(name, 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
+        }
     }
 
     const getProjectTodoList = (name = 'default') => {
@@ -60,6 +67,11 @@ const project = ((name = 'default') => {
         storage.saveToLocalStorage(projectList);
         updateProjectList();
         taskDoneUI(index);
+        if (document.querySelector('.selection input[name="selection"]:checked')) {
+            displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
+        } else {
+            displayAllItems(name, 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
+        }
     }
 
     const projectItemDeleted = (index) => {
@@ -71,7 +83,11 @@ const project = ((name = 'default') => {
         deletedProj.todoList.splice(deleteIndex, 1);
         storage.saveToLocalStorage(projectList);
         updateProjectList();
-        displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
+        if (document.querySelector('.selection input[name="selection"]:checked')) {
+            displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
+        } else {
+            displayAllItems(name, 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
+        }
     }
 
     const projectItemStarred = (index) => {
@@ -82,7 +98,11 @@ const project = ((name = 'default') => {
         storage.saveToLocalStorage(projectList);
         updateProjectList();
         removeTodoItemUI(index);
-        displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
+        if (document.querySelector('.selection input[name="selection"]:checked')) {
+            displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
+        } else {
+            displayAllItems(name, 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
+        }
     }
 
     const sort = (name = 'default') => {

@@ -486,7 +486,7 @@ const allUI = () => {
     allSidebarItems.forEach(item => {
         item.classList.remove('active');
     });
-    document.querySelector('.item:nth-of-type(1)').classList.add('active');
+    document.querySelector('.box:nth-of-type(1) .item:nth-of-type(1)').classList.add('active');
 
     const pageContent = document.querySelector('#page-content');
     const footer = document.querySelector('footer');

@@ -67,6 +67,7 @@
     }
 }
 
+.todo-project,
 .todo-item {
     display: flex;
     flex-direction: row;
@@ -78,7 +79,7 @@
     transition: all 0.2s ease-in-out;
     cursor: pointer;
 }
-
+.todo-project:hover,
 .todo-item:hover {
     transform: scale(1.003);
     transform-origin: 50% 50%;

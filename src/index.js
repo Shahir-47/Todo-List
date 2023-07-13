@@ -12,6 +12,7 @@ import showPage from './pages/homePages';
 import formValidation from './functions/form';
 import { itemsEventHandler, sortItems } from './pages/all';
 import { project } from './functions/project';
+import showAllProject from './pages/projectUI';
 console.log('I get called from print.js!');
 
 
@@ -26,19 +27,25 @@ const themeToggle = document.getElementById('theme-toggle');
 themeToggle.addEventListener('change', changeTheme);
 
 // Event listener to add todo item
-const addBtn = document.querySelector('.add-btn');
-addBtn.addEventListener('click', () => {
-    showForm();
-    document.querySelector('#todo-form').addEventListener('submit', (e) => {
-        formValidation(e);
-    });
-});
+// const addBtn = document.querySelector('.add-btn');
+// addBtn.addEventListener('click', () => {
+//     showForm();
+//     document.querySelector('#todo-form').addEventListener('submit', (e) => {
+//         formValidation(e);
+//     });
+// });
 
 // Event Listener for dynamically added elements
 document.querySelector('#content').addEventListener('click', (e) => {
     const starImg = e.target.closest('.todo-item .star img')
     if (e.target.closest('.todo-item')) {
         itemsEventHandler(e);
+    }
+    if (e.target.closest('.add-btn')){
+        showForm();
+        document.querySelector('#todo-form').addEventListener('submit', (e) => {
+            formValidation(e);
+        });
     }
     if (e.target.closest('.menu-button')) {
         let highlight = document.querySelector('.box .item.active p').textContent;
@@ -86,6 +93,9 @@ document.querySelector('#content').addEventListener('click', (e) => {
     else if (e.target.closest('.box:nth-of-type(1) .item:nth-of-type(5)')) {
         document.querySelector('#page-content').innerHTML = '';
         showPage('Completed');
+    } else if (e.target.closest('.box:nth-of-type(2) .item:nth-of-type(2)')) {
+        document.querySelector('#page-content').innerHTML = '';
+        showAllProject();
     }
 });
 
