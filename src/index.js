@@ -81,18 +81,36 @@ document.querySelector('#content').addEventListener('click', (e) => {
     if (e.target.closest('.close-btn')) {
         closeForm();
     }
-    if (e.target.closest('#All')) {
-        displayAllItems('default', document.querySelector('.sort #sort-selection').value, 'All');
-    } else if (e.target.closest('#Today')) {
-        displayAllItems('default', document.querySelector('.sort #sort-selection').value, 'Today');
-    } else if (e.target.closest('#Week')) {
-        displayAllItems('default', document.querySelector('.sort #sort-selection').value, 'Week');
-    } else if (e.target.closest('#Important')) {
-        displayAllItems('default', document.querySelector('.sort #sort-selection').value, 'Important');
-    } else if (e.target.closest('#Completed')) {
-        displayAllItems('default', document.querySelector('.sort #sort-selection').value, 'Completed');
-    } else if (e.target.closest('#High')) {
-        displayAllItems('default', document.querySelector('.sort #sort-selection').value, 'High');
+    if (document.querySelector('.box:nth-of-type(1) .item:nth-of-type(1).active')) {
+        if (e.target.closest('#All')) {
+            displayAllItems('default', document.querySelector('.sort #sort-selection').value, 'All');
+        } else if (e.target.closest('#Today')) {
+            displayAllItems('default', document.querySelector('.sort #sort-selection').value, 'Today');
+        } else if (e.target.closest('#Week')) {
+            displayAllItems('default', document.querySelector('.sort #sort-selection').value, 'Week');
+        } else if (e.target.closest('#Important')) {
+            displayAllItems('default', document.querySelector('.sort #sort-selection').value, 'Important');
+        } else if (e.target.closest('#Completed')) {
+            displayAllItems('default', document.querySelector('.sort #sort-selection').value, 'Completed');
+        } else if (e.target.closest('#High')) {
+            displayAllItems('default', document.querySelector('.sort #sort-selection').value, 'High');
+        }
+    }
+    if (document.querySelector('.project-title')) {
+        if (e.target.closest('#All')) {
+            console.log(document.querySelector('.project-title').textContent)
+            displayAllItems(document.querySelector('.project-title').textContent, document.querySelector('.sort #sort-selection').value, 'All');
+        } else if (e.target.closest('#Today')) {
+            displayAllItems(document.querySelector('.project-title').textContent, document.querySelector('.sort #sort-selection').value, 'Today');
+        } else if (e.target.closest('#Week')) {
+            displayAllItems(document.querySelector('.project-title').textContent, document.querySelector('.sort #sort-selection').value, 'Week');
+        } else if (e.target.closest('#Important')) {
+            displayAllItems(document.querySelector('.project-title').textContent, document.querySelector('.sort #sort-selection').value, 'Important');
+        } else if (e.target.closest('#Completed')) {
+            displayAllItems(document.querySelector('.project-title').textContent, document.querySelector('.sort #sort-selection').value, 'Completed');
+        } else if (e.target.closest('#High')) {
+            displayAllItems(document.querySelector('.project-title').textContent, document.querySelector('.sort #sort-selection').value, 'High');
+        }
     }
     if (e.target.closest('.box:nth-of-type(1) .item:nth-of-type(1)')) {
         document.querySelector('#page-content').innerHTML = '';

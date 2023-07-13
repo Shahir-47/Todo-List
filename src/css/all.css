@@ -534,7 +534,7 @@
 }
 
 .title-container h1 {
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-weight: 900;
     text-align: center;
     background-color: var(--add-btn-color);
@@ -548,7 +548,7 @@
     color: var(--add-btn-bg-color);
     background-color: transparent;
     border: 3px solid var(--add-btn-color);
-    font-size: 59px;
+    font-size: 55px;
     font-weight: 900;
     cursor: pointer;
     transition: all 0.3s ease;

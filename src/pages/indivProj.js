@@ -3,6 +3,7 @@ import { createRadioBtn, displayAllItems } from './all';
 const displayProject = (name) => {
 
     const pageContent = document.querySelector('#page-content');
+    pageContent.style.gridTemplateRows = 'min-content min-content 1fr';
     const footer = document.querySelector('footer');
 
     const addBtn = document.createElement('button');
@@ -90,14 +91,31 @@ const displayProject = (name) => {
 
     pageContent.appendChild(display);
 
+    display.style.padding = '0';
+
     const todoList = document.createElement('div');
     todoList.classList.add('todo-list');
-    todoList.style.maxHeight = pageContent.offsetHeight - (footer.offsetHeight * 2) - display.offsetHeight - 16 + 'px';
+    todoList.style.maxHeight = pageContent.offsetHeight - (footer.offsetHeight * 2) - display.offsetHeight - titleContainer.offsetHeight - 16 + 'px';
     todoList.style.marginRight = addBtn.offsetWidth + 64 + 'px';
     titleContainer.style.marginRight = addBtn.offsetWidth + 72 + 'px';
     pageContent.appendChild(todoList);
 
     displayAllItems(name, 'Time', 'All');
 };
+
+
+//update in real time
+// setInterval(() => {
+//     document.querySelectorAll('.todo-item .todo-due-date').forEach(item => {
+//       if (item.textContent == 'Due less than a minute ago' || item.textContent == 'Due 1 minute ago') {
+//         displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
+//       }
+//     });
+// }, 60000);
+
+// //Update the todo list every 24 hours
+// setInterval(() => {
+//     displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
+// }, 24 * 60 * 60 * 1000); // 24 hours in milliseconds
 
 export default displayProject;

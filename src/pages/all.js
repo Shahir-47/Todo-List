@@ -213,12 +213,25 @@ const displayDetail = (index) => {
 }
 
 const sortItems = (event) => {
-    let filter = document.querySelector('.selection input[name="selection"]:checked').value;
+    let filter;
+    if (document.querySelector('.project-title')){
+        filter = document.querySelector('.selection input[name="proj-selection"]:checked').value;
+    } else {
+        filter = document.querySelector('.selection input[name="selection"]:checked').value;
+    }
     console.log(filter);
     if (event == 'Time') {
-        displayAllItems('default', 'Time', filter);
+        if (document.querySelector('.project-title')){
+            displayAllItems(document.querySelector('.project-title').textContent, 'Time', filter);
+        } else {
+            displayAllItems('default', 'Time', filter);
+        }
     } else if (event == 'priority') {
-        displayAllItems('default', 'priority', filter);
+        if (document.querySelector('.project-title')){
+            displayAllItems(document.querySelector('.project-title').textContent, 'priority', filter);
+        } else {
+            displayAllItems('default', 'priority', filter);
+        }
     }
 }
 
