@@ -28,10 +28,14 @@ const project = ((name = 'default') => {
         defaultProject.todoList.push(item);
         storage.saveToLocalStorage(projectList);
         updateProjectList();
-        if (document.querySelector('.selection input[name="selection"]:checked')) {
-            displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
-        } else if (document.querySelector('.box:nth-of-type(1) .item.active p')) {
-            displayAllItems(name, 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
+        if (document.querySelector('.box:nth-of-type(1) .item.active')){
+            if (document.querySelector('.selection input[name="selection"]:checked')) {
+                displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
+            } else {
+                displayAllItems(name, 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
+            }
+        } else if (document.querySelector('.project-title')) {
+            displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="proj-selection"]:checked').value);
         }
     }
 
@@ -47,10 +51,14 @@ const project = ((name = 'default') => {
         item.priority = priority;
         storage.saveToLocalStorage(projectList);
         updateProjectList();
-        if (document.querySelector('.selection input[name="selection"]:checked')) {
-            displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
-        } else {
-            displayAllItems(name, 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
+        if (document.querySelector('.box:nth-of-type(1) .item.active')){
+            if (document.querySelector('.selection input[name="selection"]:checked')) {
+                displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
+            } else {
+                displayAllItems(name, 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
+            }
+        } else if (document.querySelector('.project-title')) {
+            displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="proj-selection"]:checked').value);
         }
     }
 
@@ -67,10 +75,14 @@ const project = ((name = 'default') => {
         storage.saveToLocalStorage(projectList);
         updateProjectList();
         taskDoneUI(index);
-        if (document.querySelector('.selection input[name="selection"]:checked')) {
-            displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
-        } else {
-            displayAllItems(name, 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
+        if (document.querySelector('.box:nth-of-type(1) .item.active')){
+            if (document.querySelector('.selection input[name="selection"]:checked')) {
+                displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
+            } else {
+                displayAllItems(name, 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
+            }
+        } else if (document.querySelector('.project-title')) {
+            displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="proj-selection"]:checked').value);
         }
     }
 
@@ -83,10 +95,14 @@ const project = ((name = 'default') => {
         deletedProj.todoList.splice(deleteIndex, 1);
         storage.saveToLocalStorage(projectList);
         updateProjectList();
-        if (document.querySelector('.selection input[name="selection"]:checked')) {
-            displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
-        } else {
-            displayAllItems(name, 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
+        if (document.querySelector('.box:nth-of-type(1) .item.active')){
+            if (document.querySelector('.selection input[name="selection"]:checked')) {
+                displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
+            } else {
+                displayAllItems(name, 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
+            }
+        } else if (document.querySelector('.project-title')) {
+            displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="proj-selection"]:checked').value);
         }
     }
 
@@ -98,10 +114,14 @@ const project = ((name = 'default') => {
         storage.saveToLocalStorage(projectList);
         updateProjectList();
         removeTodoItemUI(index);
-        if (document.querySelector('.selection input[name="selection"]:checked')) {
-            displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
-        } else {
-            displayAllItems(name, 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
+        if (document.querySelector('.box:nth-of-type(1) .item.active')){
+            if (document.querySelector('.selection input[name="selection"]:checked')) {
+                displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
+            } else {
+                displayAllItems(name, 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
+            }
+        } else if (document.querySelector('.project-title')) {
+            displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="proj-selection"]:checked').value);
         }
     }
 

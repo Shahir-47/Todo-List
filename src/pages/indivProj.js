@@ -1,5 +1,6 @@
 import { createRadioBtn, displayAllItems } from './all';
 
+
 const displayProject = (name) => {
 
     const pageContent = document.querySelector('#page-content');
