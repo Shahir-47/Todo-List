@@ -586,4 +586,4 @@ setInterval(() => {
   
 export default allUI;
 
-export { displayTodoItem, taskDoneUI, itemsEventHandler, removeTodoItemUI, sortItems, displayAllItems };
+export { displayTodoItem, taskDoneUI, itemsEventHandler, removeTodoItemUI, sortItems, displayAllItems, createRadioBtn };

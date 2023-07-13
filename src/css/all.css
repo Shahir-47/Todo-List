@@ -524,3 +524,38 @@
     background-color: var(--add-btn-color);
     color: var(--add-btn-bg-color);
 }
+
+.title-container {
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    gap: 3rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.title-container h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    text-align: center;
+    background-color: var(--add-btn-color);
+    padding: 1rem;
+}
+
+.back-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 12px;
+    color: var(--add-btn-bg-color);
+    background-color: transparent;
+    border: 3px solid var(--add-btn-color);
+    font-size: 59px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.back-btn:hover {
+    background-color: var(--add-btn-color);
+    color: var(--add-btn-bg-color);
+}

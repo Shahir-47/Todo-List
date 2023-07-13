@@ -30,7 +30,7 @@ const project = ((name = 'default') => {
         updateProjectList();
         if (document.querySelector('.selection input[name="selection"]:checked')) {
             displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
-        } else {
+        } else if (document.querySelector('.box:nth-of-type(1) .item.active p')) {
             displayAllItems(name, 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
         }
     }

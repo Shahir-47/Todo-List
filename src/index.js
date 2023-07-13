@@ -13,6 +13,7 @@ import formValidation from './functions/form';
 import { itemsEventHandler, sortItems } from './pages/all';
 import { project } from './functions/project';
 import showAllProject from './pages/projectUI';
+import displayProject from './pages/indivProj';
 console.log('I get called from print.js!');
 
 let highlight;
@@ -113,6 +114,14 @@ document.querySelector('#content').addEventListener('click', (e) => {
         document.querySelector('#page-content').innerHTML = '';
         showPage('Completed');
     } else if (e.target.closest('.box:nth-of-type(2) .item:nth-of-type(2)')) {
+        document.querySelector('#page-content').innerHTML = '';
+        showAllProject();
+    }
+    if (e.target.closest('.todo-project')) {
+        document.querySelector('#page-content').innerHTML = '';
+        displayProject(e.target.closest('.todo-project').querySelector('h2').textContent);
+    }
+    if (e.target.closest('.back-btn')) {
         document.querySelector('#page-content').innerHTML = '';
         showAllProject();
     }
