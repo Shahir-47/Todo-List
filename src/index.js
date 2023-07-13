@@ -15,7 +15,7 @@ import { project } from './functions/project';
 import showAllProject from './pages/projectUI';
 console.log('I get called from print.js!');
 
-
+let highlight;
 
 // Load header, sidebar, and footer
 pageLoad();
@@ -48,15 +48,34 @@ document.querySelector('#content').addEventListener('click', (e) => {
         });
     }
     if (e.target.closest('.menu-button')) {
-        let highlight = document.querySelector('.box .item.active p').textContent;
-        handleSidebar();
-        let homeItems = document.querySelectorAll('.box .item p');
-        homeItems.forEach((item) => {
-            if (item.textContent === highlight) {
-                item.parentElement.classList.add('active');
-            }
-        });
-        homeItems.classList.add('active');
+        if (document.querySelector('.box:nth-of-type(1) .item.active p')) {
+            highlight = document.querySelector('.box:nth-of-type(1) .item.active p').textContent;
+            handleSidebar();
+            let homeItems = document.querySelectorAll('.box:nth-of-type(1) .item p');
+            homeItems.forEach((item) => {
+                if (item.textContent === highlight) {
+                    item.parentElement.classList.add('active');
+                }
+            });
+            homeItems.classList.add('active');
+        } else if (document.querySelector('.box:nth-of-type(2) .item.active p')) {
+            highlight = document.querySelector('.box:nth-of-type(2) .item.active p').textContent;
+            handleSidebar();
+            let projectItems = document.querySelectorAll('.box:nth-of-type(2) .item p');
+            projectItems.forEach((item) => {
+                if (item.textContent === highlight) {
+                    item.parentElement.classList.add('active');
+                }
+            });
+        } else {
+            handleSidebar();
+            let homeItems = document.querySelectorAll('.item p');
+            homeItems.forEach((item) => {
+                if (item.textContent === highlight) {
+                    item.parentElement.classList.add('active');
+                }
+            });
+        }
     }
     if (e.target.closest('.close-btn')) {
         closeForm();
