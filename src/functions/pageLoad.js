@@ -11,12 +11,15 @@ const pageContent = () => {
     let top = sidebarContent.style.marginTop;
     const footerH = document.querySelector('footer');
     let bottom = footerH.offsetHeight;
+    const height = document.querySelector('.nav-bar').offsetHeight;
 
     const pageContent = document.createElement('div');
     pageContent.id = 'page-content';
     pageContent.style.marginLeft = width + 'px';
     pageContent.style.marginTop = top;
     pageContent.style.minHeight = 'calc(100vh - ' + (top + bottom + 'px') + ')';
+    pageContent.style.maxHeight = 'calc(100vh - ' + (top + bottom + 'px') + ')';
+    pageContent.style.border = '1px solid red';
     pageContent.style.width = 'calc(100vw - ' + (width + 'px') + ')';
     pageContent.style.paddingBottom = (bottom + 8) + 'px';
 
