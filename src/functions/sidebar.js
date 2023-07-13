@@ -4,8 +4,6 @@ import Today from '../assets/img/today.svg';
 import Week from '../assets/img/week.svg';
 import Important from '../assets/img/important.svg';
 import Completed from '../assets/img/completed.svg';
-import newNote from '../assets/img/newNote.svg';
-import newProject from '../assets/img/newProject.svg';
 import allProjects from '../assets/img/allProjects.svg';
 import starredProjects from '../assets/img/starredProjects.svg';
 import allNotes from '../assets/img/allNotes.svg';
@@ -175,12 +173,10 @@ const sidebar = () => {
     sidebarData.addSidebarItem('Home', Completed, 'Completed');
 
     sidebarData.addSidebarCategory('Projects');
-    sidebarData.addSidebarItem('Projects', newProject, 'New Project');
     sidebarData.addSidebarItem('Projects', allProjects, 'All Projects');
     sidebarData.addSidebarItem('Projects', starredProjects, 'Starred Projects');
 
     sidebarData.addSidebarCategory('Notes');
-    sidebarData.addSidebarItem('Notes', newNote, 'New Note');
     sidebarData.addSidebarItem('Notes', allNotes, 'All Notes');
     sidebarData.addSidebarItem('Notes', starredNotes, 'Starred Notes');  
 

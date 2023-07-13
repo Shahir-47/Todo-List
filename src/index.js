@@ -131,7 +131,7 @@ document.querySelector('#content').addEventListener('click', (e) => {
     else if (e.target.closest('.box:nth-of-type(1) .item:nth-of-type(5)')) {
         document.querySelector('#page-content').innerHTML = '';
         showPage('Completed');
-    } else if (e.target.closest('.box:nth-of-type(2) .item:nth-of-type(2)')) {
+    } else if (e.target.closest('.box:nth-of-type(2) .item:nth-of-type(1)')) {
         document.querySelector('#page-content').innerHTML = '';
         showAllProject();
     }
