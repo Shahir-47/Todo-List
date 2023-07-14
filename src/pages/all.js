@@ -325,8 +325,8 @@ const displayTodoItem = (item) => {
     const wordContainer = document.createElement('div');
     wordContainer.classList.add('word-container');
     const todoTitle = document.createElement('h2');
-    if (title.length > 55) {
-        todoTitle.textContent = title.slice(0, 55) + '...';
+    if (title.length > 43) {
+        todoTitle.textContent = title.slice(0, 43) + '...';
     } else {
         todoTitle.textContent = title;
     }

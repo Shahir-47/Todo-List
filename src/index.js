@@ -145,7 +145,7 @@ document.querySelector('#content').addEventListener('click', (e) => {
     }
     if (e.target.closest('.todo-project')) {
         document.querySelector('#page-content').innerHTML = '';
-        displayProject(e.target.closest('.todo-project').querySelector('h2').textContent);
+        displayProject(e.target.closest('.todo-project').getAttribute('project-key'));
     }
     if (e.target.closest('.back-btn')) {
         document.querySelector('#page-content').innerHTML = '';

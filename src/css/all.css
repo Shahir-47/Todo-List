@@ -107,6 +107,11 @@
     flex: 1;
 }
 
+.todo-right-project {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
 .todo-right {
     display: grid;
     grid-template-columns: min-content 200px repeat(3, min-content);
@@ -256,7 +261,6 @@
     border-radius: 15px;
     max-width: 80vw;
     max-height: 80vh;
-    overflow-y: auto;
 }
 
 .edit-header,
@@ -282,6 +286,27 @@
     display: grid;
     grid-template-rows: repeat(4, min-content) 1fr;
     gap: 1rem;
+    max-height: 380px;
+    overflow-y: auto;
+
+    scrollbar-width: thin;
+    scrollbar-color: #aaa #eee;
+  
+    &::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+  
+    &::-webkit-scrollbar-track {
+      background-color: #eee;
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #aaa;
+      border-radius: 4px;
+    }
+
 }
 
 .detail-body p {
@@ -294,7 +319,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: center;
-    gap: 2rem;
+    gap: 6rem;
 }
 
 .detail-body .detail-title {
@@ -303,7 +328,7 @@
 }
 
 .word-container {
-    max-width: 375px;
+    max-width: 300px;
     flex: 1;
     word-wrap: break-word;
     padding: 0 1rem;
@@ -528,8 +553,7 @@
 
 .title-container {
     display: grid;
-    grid-template-columns: min-content 1fr;
-    gap: 3rem;
+    grid-template-columns: max-content 1fr;
     align-items: center;
     justify-content: center;
 }
@@ -559,4 +583,17 @@
 .back-btn:hover {
     background-color: var(--add-btn-color);
     color: var(--add-btn-bg-color);
+}
+
+.name-container{
+    max-width: 60vw;
+    flex: 1;
+    word-wrap: break-word;
+    padding: 0 1rem;
+}
+.word-name-container{
+    max-width: 71%;
+    flex: 1;
+    word-wrap: break-word;
+    padding: 0 1rem;
 }

@@ -15,7 +15,8 @@ const project = ((name = 'default') => {
     const addToProjectList = (name) => {
         projectList.push({
             name,
-            todoList: []
+            todoList: [],
+            starred: false
         });
         storage.saveToLocalStorage(projectList);
         updateProjectList();
@@ -66,18 +67,10 @@ const project = ((name = 'default') => {
         storage.saveToLocalStorage(projectList);
         updateProjectList();
         if (document.querySelector('.box:nth-of-type(1) .item.active')){
-            if (document.querySelector('.selection input[name="selection"]:checked')) {
-                if (document.querySelector('.box:nth-of-type(1) .item:nth-of-type(1).active')){
-                    displayAllItems('default', document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
-                } else {
-                    displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
-                }
+            if (document.querySelector('.selection input[name="selection"]:checked') && document.querySelector('.box:nth-of-type(1) .item:nth-of-type(1).active')) {
+                displayAllItems('default', document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
             } else {
-                if (document.querySelector('.box:nth-of-type(1) .item.active')){
-                    displayAllItems('default', 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
-                } else {
-                    displayAllItems(name, 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
-                }
+                displayAllItems('default', 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
             }
         } else if (document.querySelector('.project-title')) {
             displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="proj-selection"]:checked').value);
@@ -117,17 +110,21 @@ const project = ((name = 'default') => {
     const projectItemDeleted = (index) => {
         let name = index.split('~')[0];
         let deletedProj = projectList.find(project => project.name === name);
-        // removeTodoItemUI(index);
+        if (name != 'default') {
+            let project = projectList.find(project => project.name == 'default');
+            let deleteIndex = project.todoList.findIndex(item => item.index == index);
+            project.todoList.splice(deleteIndex, 1);
+        }
         console.log(deletedProj.todoList.findIndex(item => item.index == index));
         let deleteIndex = deletedProj.todoList.findIndex(item => item.index == index);
         deletedProj.todoList.splice(deleteIndex, 1);
         storage.saveToLocalStorage(projectList);
         updateProjectList();
         if (document.querySelector('.box:nth-of-type(1) .item.active')){
-            if (document.querySelector('.selection input[name="selection"]:checked')) {
-                displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
+            if (document.querySelector('.selection input[name="selection"]:checked') && document.querySelector('.box:nth-of-type(1) .item:nth-of-type(1).active')) {
+                displayAllItems('default', document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
             } else {
-                displayAllItems(name, 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
+                displayAllItems('default', 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
             }
         } else if (document.querySelector('.project-title')) {
             displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="proj-selection"]:checked').value);
@@ -137,16 +134,21 @@ const project = ((name = 'default') => {
     const projectItemStarred = (index) => {
         let name = index.split('~')[0];
         let starredProj = projectList.find(project => project.name === name);
+        if (name != 'default') {
+            let project = projectList.find(project => project.name == 'default');
+            let item = project.todoList.find(item => item.index == index);
+            item.starred = !item.starred;
+        }
         let starredIndex = starredProj.todoList.findIndex(item => item.index == index);
         starredProj.todoList[starredIndex].starred = !starredProj.todoList[starredIndex].starred;
         storage.saveToLocalStorage(projectList);
         updateProjectList();
         removeTodoItemUI(index);
         if (document.querySelector('.box:nth-of-type(1) .item.active')){
-            if (document.querySelector('.selection input[name="selection"]:checked')) {
-                displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
+            if (document.querySelector('.selection input[name="selection"]:checked') && document.querySelector('.box:nth-of-type(1) .item:nth-of-type(1).active')) {
+                displayAllItems('default', document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
             } else {
-                displayAllItems(name, 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
+                displayAllItems('default', 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
             }
         } else if (document.querySelector('.project-title')) {
             displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="proj-selection"]:checked').value);
@@ -155,6 +157,10 @@ const project = ((name = 'default') => {
 
     const sort = (name = 'default') => {
         let defaultProject = projectList.find(project => project.name === name);
+        console.log(defaultProject);
+        if (defaultProject.todoList.length == 0) {
+            return;
+        }
         let incompleteItems = defaultProject.todoList.filter(item => !item.done.flag);
         const delayItems = incompleteItems.filter(item => (item.dueTime && new Date(item.dueDate + ' ' + item.dueTime) < new Date()) || (!item.dueTime && (differenceInCalendarDays(new Date(item.dueDate.slice(0, 4), item.dueDate.slice(5, 7)-1, item.dueDate.slice(8, 10)), new Date()) < 0)));
         const notDelayItems = incompleteItems.filter(item => (item.dueTime && new Date(item.dueDate + ' ' + item.dueTime) >= new Date()) || (!item.dueTime && (differenceInCalendarDays(new Date(item.dueDate.slice(0, 4), item.dueDate.slice(5, 7)-1, item.dueDate.slice(8, 10)), new Date()) >= 0)));

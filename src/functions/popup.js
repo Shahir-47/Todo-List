@@ -364,7 +364,7 @@ const addProjectForm = () => {
     detailsInput.placeholder = `Enter Project Title:`;
     detailsInput.id = 'project-title';
     detailsInput.name = 'project-title';
-    detailsInput.maxLength = 500;
+    detailsInput.maxLength = 100;
     detailsInput.setAttribute('required', 'true');
 
     const okBtn = document.createElement('button');

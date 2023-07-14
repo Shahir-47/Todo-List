@@ -32,7 +32,6 @@ const projectFormValidation = (event) => {
   let form = event.target;
   if (form.checkValidity()) {
     let formData = new FormData(form);
-    console.log(formData.get('project-title'));
     project.addToProjectList(formData.get('project-title'));
     form.reset();
     document.getElementById('popupFormContainer').style.display = 'none';

@@ -20,23 +20,15 @@ const displayProject = (name) => {
     backBtn.textContent = '<';
     titleContainer.appendChild(backBtn);
 
+    const wordContainer = document.createElement('div');
+    wordContainer.classList.add('name-container');
     const projectTitle = document.createElement('h1');
     projectTitle.classList.add('project-title');
     projectTitle.textContent = name;
-    titleContainer.appendChild(projectTitle);
+    wordContainer.appendChild(projectTitle);
+
+    titleContainer.appendChild(wordContainer);
     pageContent.appendChild(titleContainer);
-
-
-    // const wordContainer = document.createElement('div');
-    // wordContainer.classList.add('name-container');
-    // const todoTitle = document.createElement('h2');
-    // if (title.length > 55) {
-    //     todoTitle.textContent = title.slice(0, 55) + '...';
-    // } else {
-    //     todoTitle.textContent = title;
-    // }
-    // wordContainer.appendChild(todoTitle);
-
 
 
     const display = document.createElement('div');

@@ -1,4 +1,8 @@
 import { storage } from '../functions/storage';
+import edit from '../assets/img/edit.svg';
+import del from '../assets/img/del.svg';
+import star from '../assets/img/star.svg';
+import fullStar from '../assets/img/fullStar.svg';
 
 const showAllProject = () => {
     const allSidebarItems = document.querySelectorAll('.item');
@@ -33,15 +37,62 @@ const allProject = () => {
     projectList.reverse(); // Reverse the order of the array
     projectList.forEach((project, index) => {
         let projectName = project.name;
+        let starred = project.starred;
         const todoItem = document.createElement('div');
         todoItem.classList.add('todo-project');
+        todoItem.setAttribute('project-key', projectName);
         const colorPane = document.createElement('div');
         colorPane.style.backgroundColor = 'var(--add-btn-color)';
         colorPane.classList.add('color-pane');
-        const todoText = document.createElement('h2');
-        todoText.textContent = projectName;
+        
+        const wordContainer = document.createElement('div');
+        wordContainer.classList.add('word-name-container');
+        const todoTitle = document.createElement('h2');
+        if (projectName != null) {
+            if (projectName.length > 50) {
+                todoTitle.textContent = projectName.slice(0, 50) + '...';
+            } else {
+                todoTitle.textContent = projectName;
+            }
+            ///Add NO task or something
+        }
+        wordContainer.appendChild(todoTitle);
+
+        const todoRight = document.createElement('div');
+        todoRight.classList.add('todo-right-project');
+
+        const starBtn = document.createElement('button');
+        starBtn.classList.add('star');
+        const starIcon = document.createElement('img');
+        if (starred) {
+            starIcon.src = fullStar;
+        } else {
+            starIcon.src = star;
+        }
+        starIcon.alt = 'Star icon';
+        starBtn.appendChild(starIcon);
+    
+        const todoEdit = document.createElement('button');
+        todoEdit.classList.add('todo-edit');
+        const todoEditIcon = document.createElement('img');
+        todoEditIcon.src = edit;
+        todoEditIcon.alt = 'Edit icon';
+        todoEdit.appendChild(todoEditIcon);
+    
+        const todoDelete = document.createElement('button');
+        todoDelete.classList.add('todo-delete');
+        const todoDeleteIcon = document.createElement('img');
+        todoDeleteIcon.src = del;
+        todoDeleteIcon.alt = 'Delete icon';
+        todoDelete.appendChild(todoDeleteIcon);
+
+        todoRight.appendChild(starBtn);
+        todoRight.appendChild(todoEdit);
+        todoRight.appendChild(todoDelete);
+    
         todoItem.appendChild(colorPane);
-        todoItem.appendChild(todoText);
+        todoItem.appendChild(wordContainer);
+        todoItem.appendChild(todoRight);
         todoList.appendChild(todoItem);        
     });
 }
