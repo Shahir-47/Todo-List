@@ -35,7 +35,11 @@ const project = ((name = 'default') => {
         updateProjectList();
         if (document.querySelector('.box:nth-of-type(1) .item.active')){
             if (document.querySelector('.selection input[name="selection"]:checked')) {
-                displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
+                if (document.querySelector('.box:nth-of-type(1) .item:nth-of-type(1).active')){
+                    displayAllItems('default', document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
+                } else {
+                    displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
+                }
             } else {
                 displayAllItems(name, 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
             }
@@ -48,6 +52,15 @@ const project = ((name = 'default') => {
         let name = index.split('~')[0];
         console.log(index.split('~')[1]);
         let defaultProject = projectList.find(project => project.name == name);
+        if (name != 'default') {
+            let project = projectList.find(project => project.name == 'default');
+            let item = project.todoList.find(item => item.index == index);
+            item.title = title;
+            item.details = details;
+            item.dueDate = dueDate;
+            item.dueTime = dueTime;
+            item.priority = priority;
+        }
         let item = defaultProject.todoList.find(item => item.index == index);
         item.title = title;
         item.details = details;
@@ -58,9 +71,17 @@ const project = ((name = 'default') => {
         updateProjectList();
         if (document.querySelector('.box:nth-of-type(1) .item.active')){
             if (document.querySelector('.selection input[name="selection"]:checked')) {
-                displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
+                if (document.querySelector('.box:nth-of-type(1) .item:nth-of-type(1).active')){
+                    displayAllItems('default', document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
+                } else {
+                    displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
+                }
             } else {
-                displayAllItems(name, 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
+                if (document.querySelector('.box:nth-of-type(1) .item.active')){
+                    displayAllItems('default', 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
+                } else {
+                    displayAllItems(name, 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
+                }
             }
         } else if (document.querySelector('.project-title')) {
             displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="proj-selection"]:checked').value);
@@ -74,6 +95,12 @@ const project = ((name = 'default') => {
     const projectItemCompleted = (index) => {
         let name = index.split('~')[0];
         let completedProj = projectList.find(project => project.name === name);
+        if (name != 'default') {
+            let project = projectList.find(project => project.name == 'default');
+            let item = project.todoList.find(item => item.index == index);
+            item.done.flag = !item.done.flag;
+            item.done.timestamp = new Date();
+        }
         let completeIndex = completedProj.todoList.findIndex(item => item.index == index);
         completedProj.todoList[completeIndex].done.flag = !completedProj.todoList[completeIndex].done.flag;
         completedProj.todoList[completeIndex].done.timestamp = new Date();
