@@ -6,7 +6,7 @@ import fullStar from './assets/img/fullStar.svg';
 import star from './assets/img/star.svg';
 import {handleSidebar} from './functions/sidebar.js';
 import pageLoad from './functions/pageLoad';
-import { changeTheme, showForm, closeForm } from './functions/pageLoad';
+import { changeTheme, showForm, closeForm, showProjectForm } from './functions/pageLoad';
 import allUI, { displayAllItems } from './pages/all';
 import showPage from './pages/homePages';
 import formValidation from './functions/form';
@@ -14,6 +14,7 @@ import { itemsEventHandler, sortItems } from './pages/all';
 import { project } from './functions/project';
 import showAllProject from './pages/projectUI';
 import displayProject from './pages/indivProj';
+import { projectFormValidation } from './functions/form';
 console.log('I get called from print.js!');
 
 let highlight;
@@ -43,10 +44,17 @@ document.querySelector('#content').addEventListener('click', (e) => {
         itemsEventHandler(e);
     }
     if (e.target.closest('.add-btn')){
-        showForm();
-        document.querySelector('#todo-form').addEventListener('submit', (e) => {
-            formValidation(e);
-        });
+        if (document.querySelector('.box:nth-of-type(1) .item.active') || document.querySelector('.project-title')){
+            showForm();
+            document.querySelector('#todo-form').addEventListener('submit', (e) => {
+                formValidation(e);
+            });
+        } else if (document.querySelector('.box:nth-of-type(2) .item.active') && document.querySelector('.project-title') === null) {
+            showProjectForm();
+            document.querySelector('#project-form').addEventListener('submit', (e) => {
+                projectFormValidation(e);
+            });
+        }
     }
     if (e.target.closest('.menu-button')) {
         if (document.querySelector('.box:nth-of-type(1) .item.active p')) {

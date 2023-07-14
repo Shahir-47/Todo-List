@@ -301,6 +301,7 @@ const displayTodoItem = (item) => {
     let done =  item.done.flag;
     let index = item.index;
     let starred = item.starred;
+    let name = index.split('~')[0];
 
     const todoList = document.querySelector('.todo-list');
 
@@ -384,7 +385,7 @@ const displayTodoItem = (item) => {
             distanceToDueDate = formatDistanceToNow(taskDueDate, { addSuffix: true });
         }    
 
-        const itemSync = project.getProjectTodoList().find(item => item.index == index);
+        const itemSync = project.getProjectTodoList(name).find(item => item.index == index);
 
         if (!itemSync) {
             clearInterval(interval); // Stop the interval

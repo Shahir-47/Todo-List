@@ -214,8 +214,20 @@ const formUI = () => {
 
     const todoForm = document.createElement('form');
     todoForm.classList.add('todo-form');
-    todoForm.setAttribute('id', 'todo-form');
+    // todoForm.setAttribute('id', 'todo-form');
 
+    formBody.appendChild(todoForm);
+
+    popupForm.appendChild(formBody);
+    popupFormContainer.appendChild(popupForm);
+
+    document.querySelector('div#content').appendChild(popupFormContainer);
+}
+
+const addForm = () => {
+    const todoForm = document.querySelector('#popupForm .todo-form');
+    todoForm.setAttribute('id', 'todo-form');
+    todoForm.innerHTML = '';
     const titleInput = document.createElement('input');
     titleInput.classList.add('title-input');
     titleInput.type = 'text';
@@ -340,12 +352,27 @@ const formUI = () => {
     todoForm.appendChild(titleInput);
     todoForm.appendChild(detailsInput);
     todoForm.appendChild(thirdRow);
-    formBody.appendChild(todoForm);
+}
 
-    popupForm.appendChild(formBody);
-    popupFormContainer.appendChild(popupForm);
+const addProjectForm = () => {
+    const todoForm = document.querySelector('#popupForm .todo-form');
+    todoForm.setAttribute('id', 'project-form');
+    todoForm.innerHTML = '';
 
-    document.querySelector('div#content').appendChild(popupFormContainer);
+    const detailsInput = document.createElement('textarea');
+    detailsInput.classList.add('project-title-input');
+    detailsInput.placeholder = `Enter Project Title:`;
+    detailsInput.id = 'project-title';
+    detailsInput.name = 'project-title';
+    detailsInput.maxLength = 500;
+    detailsInput.setAttribute('required', 'true');
+
+    const okBtn = document.createElement('button');
+    okBtn.classList.add('proj-add-btn');
+    okBtn.textContent = 'Add Project';
+
+    todoForm.appendChild(detailsInput);
+    todoForm.appendChild(okBtn);
 }
 
 // helper function for creating new todo, project, and note icons on the sidebar
@@ -370,3 +397,4 @@ const createPopupContainers = () => {
 }
 
 export default createPopupContainers;
+export {addForm, addProjectForm};

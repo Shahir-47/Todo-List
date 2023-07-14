@@ -26,6 +26,19 @@ const displayProject = (name) => {
     titleContainer.appendChild(projectTitle);
     pageContent.appendChild(titleContainer);
 
+
+    // const wordContainer = document.createElement('div');
+    // wordContainer.classList.add('name-container');
+    // const todoTitle = document.createElement('h2');
+    // if (title.length > 55) {
+    //     todoTitle.textContent = title.slice(0, 55) + '...';
+    // } else {
+    //     todoTitle.textContent = title;
+    // }
+    // wordContainer.appendChild(todoTitle);
+
+
+
     const display = document.createElement('div');
     display.classList.add('display');
 

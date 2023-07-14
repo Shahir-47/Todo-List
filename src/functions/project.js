@@ -1,7 +1,8 @@
 import { storage } from '../functions/storage';
 import { v4 as uuidv4 } from 'uuid';
 import { displayAllItems, displayTodoItem, removeTodoItemUI, taskDoneUI } from '../pages/all';
-import {compareAsc, compareDesc, formatDistanceToNow, isSameDay, differenceInCalendarDays} from 'date-fns';
+import { compareAsc, compareDesc, formatDistanceToNow, isSameDay, differenceInCalendarDays } from 'date-fns';
+import { allProject } from '../pages/projectUI';
 
 const project = ((name = 'default') => {
 
@@ -18,6 +19,7 @@ const project = ((name = 'default') => {
         });
         storage.saveToLocalStorage(projectList);
         updateProjectList();
+        allProject();
     }
 
     const addToProjectItem = (title, details, dueDate, dueTime, priority, name = 'default') => {

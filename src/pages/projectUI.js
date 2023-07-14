@@ -30,6 +30,7 @@ const allProject = () => {
     todoList.innerHTML = '';
 
     const projectList = storage.getFromLocalStorage();
+    projectList.reverse(); // Reverse the order of the array
     projectList.forEach((project, index) => {
         let projectName = project.name;
         const todoItem = document.createElement('div');
@@ -46,3 +47,4 @@ const allProject = () => {
 }
 
 export default showAllProject;
+export { allProject };

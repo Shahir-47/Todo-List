@@ -11,9 +11,13 @@ const formValidation = (event, id = null) => {
   if (form.checkValidity()) {
     let formData = new FormData(form);
     if (form.id == 'todo-form') {
-      project.addToProjectItem(formData.get('title'), formData.get('details'), formData.get('due-date'), formData.get('due-time'), formData.get('priority'));
+      if (document.querySelector('.project-title')){
+        project.addToProjectItem(formData.get('title'), formData.get('details'), formData.get('due-date'), formData.get('due-time'), formData.get('priority'), document.querySelector('.project-title').textContent);
+      } else {
+        project.addToProjectItem(formData.get('title'), formData.get('details'), formData.get('due-date'), formData.get('due-time'), formData.get('priority'));
+      }
     } else if (form.id == 'edit-form') {
-      project.editProjectItem(id, formData.get('title'), formData.get('details'), formData.get('due-date'), formData.get('due-time'), formData.get('edit-priority'));
+      // project.editProjectItem(id, formData.get('title'), formData.get('details'), formData.get('due-date'), formData.get('due-time'), formData.get('edit-priority'));
     }
     form.reset();
     document.getElementById('popupFormContainer').style.display = 'none';
@@ -23,4 +27,17 @@ const formValidation = (event, id = null) => {
   
 }
 
+const projectFormValidation = (event) => {
+  event.preventDefault();
+  let form = event.target;
+  if (form.checkValidity()) {
+    let formData = new FormData(form);
+    console.log(formData.get('project-title'));
+    project.addToProjectList(formData.get('project-title'));
+    form.reset();
+    document.getElementById('popupFormContainer').style.display = 'none';
+  }
+}
+
 export default formValidation;
+export { projectFormValidation };
