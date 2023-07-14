@@ -17,7 +17,7 @@ const formValidation = (event, id = null) => {
         project.addToProjectItem(formData.get('title'), formData.get('details'), formData.get('due-date'), formData.get('due-time'), formData.get('priority'));
       }
     } else if (form.id == 'edit-form') {
-      // project.editProjectItem(id, formData.get('title'), formData.get('details'), formData.get('due-date'), formData.get('due-time'), formData.get('edit-priority'));
+      project.editProjectItem(id, formData.get('title'), formData.get('details'), formData.get('due-date'), formData.get('due-time'), formData.get('edit-priority'));
     }
     form.reset();
     document.getElementById('popupFormContainer').style.display = 'none';
