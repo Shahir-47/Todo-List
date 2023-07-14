@@ -3,6 +3,31 @@ import edit from '../assets/img/edit.svg';
 import del from '../assets/img/del.svg';
 import star from '../assets/img/star.svg';
 import fullStar from '../assets/img/fullStar.svg';
+import displayProject from './indivProj';
+
+const handleProject = (event) => {
+    if (event.target.closest('.todo-project .todo-delete')) {
+        // project.projectItemDeleted( event.target.closest('.todo-item').id);
+    }
+    if (event.target.closest('.todo-project .star img')) {
+        const starImg = event.target.closest('.todo-project .star img');
+        const currentSrc = starImg.src;
+        if (currentSrc === fullStar) {
+          starImg.src = star;
+        } else {
+          starImg.src = fullStar;
+        }
+        // project.projectItemStarred(event.target.closest('.todo-item').id);
+    }
+    if (event.target.closest('.todo-project .todo-edit')) {
+    }
+    if (event.target.closest('.todo-project') && !event.target.closest('.todo-project .todo-delete') && !event.target.closest('.todo-project .todo-edit') && !event.target.closest('.todo-project .star')) {
+        // displayProject(event.target.closest('.todo-item').id);
+        document.querySelector('#page-content').innerHTML = '';
+        displayProject(event.target.closest('.todo-project').getAttribute('project-key'));
+    }
+
+};
 
 const showAllProject = () => {
     const allSidebarItems = document.querySelectorAll('.item');
@@ -98,4 +123,4 @@ const allProject = () => {
 }
 
 export default showAllProject;
-export { allProject };
+export { allProject, handleProject };

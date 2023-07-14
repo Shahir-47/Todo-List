@@ -13,7 +13,7 @@ import formValidation from './functions/form';
 import { itemsEventHandler, sortItems } from './pages/all';
 import { project } from './functions/project';
 import showAllProject from './pages/projectUI';
-import displayProject from './pages/indivProj';
+import { handleProject } from './pages/projectUI';
 import { projectFormValidation } from './functions/form';
 console.log('I get called from print.js!');
 
@@ -144,8 +144,7 @@ document.querySelector('#content').addEventListener('click', (e) => {
         showAllProject();
     }
     if (e.target.closest('.todo-project')) {
-        document.querySelector('#page-content').innerHTML = '';
-        displayProject(e.target.closest('.todo-project').getAttribute('project-key'));
+        handleProject(e);
     }
     if (e.target.closest('.back-btn')) {
         document.querySelector('#page-content').innerHTML = '';
