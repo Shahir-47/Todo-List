@@ -23,6 +23,14 @@ const project = ((name = 'default') => {
         allProject();
     }
 
+    const removeFromProjectList = (name) => {
+        let index = projectList.findIndex(project => project.name == name);
+        projectList.splice(index, 1);
+        storage.saveToLocalStorage(projectList);
+        updateProjectList();
+        allProject();
+    }
+
     const addToProjectItem = (title, details, dueDate, dueTime, priority, name = 'default') => {
         console.log(projectList);
         let defaultProject = projectList.find(project => project.name == name);
@@ -357,7 +365,7 @@ const project = ((name = 'default') => {
     });
 }
 
-    return {addToProjectList, addToProjectItem, getProjectTodoList, projectItemCompleted, projectItemDeleted, editProjectItem, projectItemStarred, sort, sortByPriority};
+    return {addToProjectList, addToProjectItem, getProjectTodoList, projectItemCompleted, projectItemDeleted, editProjectItem, projectItemStarred, sort, sortByPriority, removeFromProjectList};
 })();
 
 

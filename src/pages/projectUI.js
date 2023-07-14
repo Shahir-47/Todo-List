@@ -4,10 +4,11 @@ import del from '../assets/img/del.svg';
 import star from '../assets/img/star.svg';
 import fullStar from '../assets/img/fullStar.svg';
 import displayProject from './indivProj';
+import { project } from '../functions/project';
 
 const handleProject = (event) => {
     if (event.target.closest('.todo-project .todo-delete')) {
-        // project.projectItemDeleted( event.target.closest('.todo-item').id);
+        project.removeFromProjectList(event.target.closest('.todo-project').getAttribute('project-key'));
     }
     if (event.target.closest('.todo-project .star img')) {
         const starImg = event.target.closest('.todo-project .star img');
