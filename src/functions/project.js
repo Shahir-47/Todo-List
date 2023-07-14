@@ -28,6 +28,9 @@ const project = ((name = 'default') => {
         let index =  name + '~' + uuidv4();
         let item = { name, index, title, details, dueDate, dueTime, priority, done: { flag: false, timestamp: null }, starred: false };
         defaultProject.todoList.push(item);
+        if (name != 'default') {
+            projectList.find(project => project.name == 'default').todoList.push(item);
+        }
         storage.saveToLocalStorage(projectList);
         updateProjectList();
         if (document.querySelector('.box:nth-of-type(1) .item.active')){

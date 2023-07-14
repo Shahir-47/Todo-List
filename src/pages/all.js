@@ -244,19 +244,15 @@ const displayAllItems = (name = 'default', sortBy = 'Time', filter = 'All') => {
         project.sortByPriority(name);
     }
     const projectList = storage.getFromLocalStorage();
-    let list = [];
-    if (name == 'default') {
-        for (let i = 0; i < projectList.length; i++) {
-            list = list.concat(projectList[i].todoList);
-        }
-    } else {
-        let defaultProject = projectList.find(project => project.name == name);
-        list = defaultProject.todoList;
-    }
+    let defaultProject = projectList.find(project => project.name == name);
+    console.log(defaultProject.todoList);
     // debugger;
     // Access the todoList property of the default project
-    if (filter == 'Today') {
-        list = list.filter(item => !item.done.flag);
+    let list = []
+    if (filter == 'All') {
+        list = defaultProject.todoList;
+    } else if (filter == 'Today') {
+        list = defaultProject.todoList.filter(item => !item.done.flag);
         list = list.filter(item => (item.dueTime && new Date(item.dueDate + ' ' + item.dueTime) >= new Date()) || (!item.dueTime && (differenceInCalendarDays(new Date(item.dueDate.slice(0, 4), item.dueDate.slice(5, 7)-1, item.dueDate.slice(8, 10)), new Date()) >= 0)));
         list = list.filter(item => {
             if (item.dueTime) {
@@ -280,15 +276,15 @@ const displayAllItems = (name = 'default', sortBy = 'Time', filter = 'All') => {
             }
         })
     } else if (filter == 'Week') {
-        list = list.filter(item => !item.done.flag);
+        list = defaultProject.todoList.filter(item => !item.done.flag);
         list = list.filter(item => (item.dueTime && new Date(item.dueDate + ' ' + item.dueTime) >= new Date()) || (!item.dueTime && (differenceInCalendarDays(new Date(item.dueDate.slice(0, 4), item.dueDate.slice(5, 7)-1, item.dueDate.slice(8, 10)), new Date()) >= 0)));
         list = list.filter(item => (item.dueTime && differenceInCalendarDays(new Date(item.dueDate + ' ' + item.dueTime), new Date()) <= 7) || (!item.dueTime && (differenceInCalendarDays(new Date(item.dueDate.slice(0, 4), item.dueDate.slice(5, 7)-1, item.dueDate.slice(8, 10)), new Date()) <= 7)));
     } else if (filter == 'Important') {
-        list = list.filter(item => item.starred == true);
+        list = defaultProject.todoList.filter(item => item.starred == true);
     } else if (filter == 'Completed'){
-        list = list.filter(item => item.done.flag == true);
+        list = defaultProject.todoList.filter(item => item.done.flag == true);
     } else if (filter == 'High') {
-        list = list.filter(item => item.priority == 'high');
+        list = defaultProject.todoList.filter(item => item.priority == 'high');
     }
 
     for (let i = 0; i < list.length; i++) {
