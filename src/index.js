@@ -49,7 +49,7 @@ document.querySelector('#content').addEventListener('click', (e) => {
             document.querySelector('#todo-form').addEventListener('submit', (e) => {
                 formValidation(e);
             });
-        } else if (document.querySelector('.box:nth-of-type(2) .item.active') && document.querySelector('.project-title') === null) {
+        } else if (document.querySelector('.todo-list-project') && document.querySelector('.project-title') === null) {
             showProjectForm();
             document.querySelector('#project-form').addEventListener('submit', (e) => {
                 projectFormValidation(e);
@@ -66,7 +66,6 @@ document.querySelector('#content').addEventListener('click', (e) => {
                     item.parentElement.classList.add('active');
                 }
             });
-            homeItems.classList.add('active');
         } else if (document.querySelector('.box:nth-of-type(2) .item.active p')) {
             highlight = document.querySelector('.box:nth-of-type(2) .item.active p').textContent;
             handleSidebar();
