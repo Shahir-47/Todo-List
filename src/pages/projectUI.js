@@ -56,7 +56,7 @@ const showAllProject = (starred = false) => {
 
     const todoList = document.createElement('div');
     todoList.classList.add('todo-list-project');
-    todoList.style.maxHeight = pageContent.offsetHeight - (footer.offsetHeight * 2) - 16 + 'px';
+    todoList.style.maxHeight = pageContent.offsetHeight - (footer.offsetHeight * 2.5) - (projectTitle.offsetHeight*3) - 16 + 'px';
     todoList.style.marginRight = addBtn.offsetWidth + 64 + 'px';
     projectTitle.style.marginRight = addBtn.offsetWidth + 72 + 'px';
     pageContent.appendChild(todoList);
