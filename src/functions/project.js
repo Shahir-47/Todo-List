@@ -13,18 +13,16 @@ const project = ((name = 'default') => {
     }
 
     const addToProjectList = (name) => {
+        let imp = false;
+        imp = document.querySelector('.todo-list-project').getAttribute('starred') == 'false' ? false : true;
         projectList.push({
             name,
             todoList: [],
-            starred: false
+            starred: imp
         });
         storage.saveToLocalStorage(projectList);
         updateProjectList();
-        if (document.querySelector('.todo-list-project').getAttribute('starred') == 'false'){
-            allProject(false);
-        } else if (document.querySelector('.todo-list-project').getAttribute('starred') == 'true') {
-            allProject(true);
-        }
+        allProject(imp);
     }
 
     const removeFromProjectList = (name) => {
