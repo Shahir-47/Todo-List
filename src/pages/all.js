@@ -24,9 +24,7 @@ const itemsEventHandler = (event) => {
     }
     // if event target is the edit button
     if (event.target.closest('.todo-item .todo-edit')) {
-        event.target.closest('.todo-item').id;
         document.querySelector('#edit-form').setAttribute('data-id', event.target.closest('.todo-item').id);
-        console.log(event.target.closest('.todo-item').id)
         document.getElementById('editFormContainer').style.display = 'block';
         editItems(event.target.closest('.todo-item').id);
         // close the edit form
@@ -238,13 +236,15 @@ const sortItems = (event) => {
 const displayAllItems = (name = 'default', sortBy = 'Time', filter = 'All') => {
     const todoList = document.querySelector('.todo-list');
     todoList.innerHTML = '';
+    const projectList = storage.getFromLocalStorage();
+    name = projectList.find(project => project.displayName == name).name;
+    let defaultProject = projectList.find(project => project.name == name);
     if (sortBy == 'Time') {
         project.sort(name);
     } else if (sortBy == 'priority') {
         project.sortByPriority(name);
     }
-    const projectList = storage.getFromLocalStorage();
-    let defaultProject = projectList.find(project => project.name == name);
+    console.log()
     console.log(defaultProject.todoList);
     // debugger;
     // Access the todoList property of the default project

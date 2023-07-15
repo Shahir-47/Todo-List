@@ -1,7 +1,13 @@
 import { createRadioBtn, displayAllItems } from './all';
-
+import { storage } from '../functions/storage';
 
 const displayProject = (name) => {
+
+    let projectList = storage.getFromLocalStorage();
+    projectList = projectList.filter(project => project.name === name)[0];
+    console.log(projectList.displayName);
+    let showName = projectList.displayName;
+
 
     const pageContent = document.querySelector('#page-content');
     pageContent.style.gridTemplateRows = 'min-content min-content 1fr';
@@ -24,7 +30,7 @@ const displayProject = (name) => {
     wordContainer.classList.add('name-container');
     const projectTitle = document.createElement('h1');
     projectTitle.classList.add('project-title');
-    projectTitle.textContent = name;
+    projectTitle.textContent = showName;
     wordContainer.appendChild(projectTitle);
 
     titleContainer.appendChild(wordContainer);
@@ -106,7 +112,7 @@ const displayProject = (name) => {
     titleContainer.style.marginRight = addBtn.offsetWidth + 72 + 'px';
     pageContent.appendChild(todoList);
 
-    displayAllItems(name, 'Time', 'All');
+    displayAllItems(showName, 'Time', 'All');
 };
 
 

@@ -218,6 +218,7 @@
     opacity: 0.5;
 }
 
+#editProjectFormContainer,
 #detailFormContainer,
 #customFilterContainer,
 #editFormContainer {
@@ -245,6 +246,8 @@
     height: 480px;
     border-radius: 15px;
 }
+
+#editProjectForm,
 #editForm {
     -webkit-box-shadow: 8px 6px 14px 0px rgba(0,0,0,0.69); 
     box-shadow: 8px 6px 14px 0px rgba(0,0,0,0.69);
@@ -320,6 +323,20 @@
       border-radius: 4px;
     }
 
+}
+
+#edit-project-form {
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+    grid-template-rows: 3fr 1fr;
+}
+
+#editProj {
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+    grid-template-rows: min-content 3fr 2fr;
 }
 
 .detail-body p {

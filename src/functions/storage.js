@@ -71,8 +71,10 @@ const storage = (() => {
             }
             console.log('Creating projectList in localStorage');
             let projectList = [{
+                displayName: 'default',
                 name: 'default',
-                todoList: []
+                todoList: [],
+                starred: false
             }];
             saveToLocalStorage(projectList);
         } else {

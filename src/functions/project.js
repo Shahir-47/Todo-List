@@ -16,6 +16,7 @@ const project = ((name = 'default') => {
         let imp = false;
         imp = document.querySelector('.todo-list-project').getAttribute('starred') == 'false' ? false : true;
         projectList.push({
+            displayName: name,
             name,
             todoList: [],
             starred: imp
@@ -28,6 +29,19 @@ const project = ((name = 'default') => {
     const removeFromProjectList = (name) => {
         let index = projectList.findIndex(project => project.name == name);
         projectList.splice(index, 1);
+        if (name != 'default') {
+            let defaultProject = projectList.find(project => project.name == 'default');
+            let deleteIndexes = [];
+            defaultProject.todoList.forEach((item, index) => {
+                if (item.name == name) {
+                    deleteIndexes.push(index);
+                }
+            });
+            deleteIndexes.reverse();
+            deleteIndexes.forEach(index => {
+                defaultProject.todoList.splice(index, 1);
+            });
+        }
         storage.saveToLocalStorage(projectList);
         updateProjectList();
         if (document.querySelector('.todo-list-project').getAttribute('starred') == 'false'){
@@ -49,13 +63,26 @@ const project = ((name = 'default') => {
         }
     }
 
+    const editProject = (name, newName) => {
+        let index = projectList.findIndex(project => project.name == name);
+        projectList[index].displayName = newName;
+        storage.saveToLocalStorage(projectList);
+        updateProjectList();
+        if (document.querySelector('.todo-list-project').getAttribute('starred') == 'false'){
+            allProject(false);
+        } else if (document.querySelector('.todo-list-project').getAttribute('starred') == 'true') {
+            allProject(true);
+        }
+    }
+
     const addToProjectItem = (title, details, dueDate, dueTime, priority, name = 'default') => {
         console.log(projectList);
         let important = false;
-        if (document.querySelector('.box:nth-of-type(1) .item:nth-of-type(4).active') || document.querySelector('.selection input[name="proj-selection"]:checked').value == 'Important') {
+        if (document.querySelector('.box:nth-of-type(1) .item:nth-of-type(4).active') || document.querySelector('.selection input[id="Important"]:checked')) {
             important = true;
         }
-        let defaultProject = projectList.find(project => project.name == name);
+        let defaultProject = projectList.find(project => project.displayName == name);
+        name = defaultProject.name;
         let index =  name + '~' + uuidv4();
         let item = { name, index, title, details, dueDate, dueTime, priority, done: { flag: false, timestamp: null }, starred: important };
         defaultProject.todoList.push(item);
@@ -71,7 +98,7 @@ const project = ((name = 'default') => {
                 displayAllItems('default', 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
             }
         } else if (document.querySelector('.project-title')) {
-            displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="proj-selection"]:checked').value);
+            displayAllItems(document.querySelector('.project-title').textContent, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="proj-selection"]:checked').value);
         }
     }
 
@@ -103,11 +130,14 @@ const project = ((name = 'default') => {
                 displayAllItems('default', 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
             }
         } else if (document.querySelector('.project-title')) {
-            displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="proj-selection"]:checked').value);
+            displayAllItems(document.querySelector('.project-title').textContent, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="proj-selection"]:checked').value);
         }
     }
 
     const getProjectTodoList = (name = 'default') => {
+        if (projectList.find(project => project.name === name) == undefined) {
+            return [];
+        }
         return projectList.find(project => project.name === name).todoList;
     }
 
@@ -133,7 +163,7 @@ const project = ((name = 'default') => {
                     displayAllItems('default', 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
             }
         } else if (document.querySelector('.project-title')) {
-            displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="proj-selection"]:checked').value);
+            displayAllItems(document.querySelector('.project-title').textContent, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="proj-selection"]:checked').value);
         }
     }
 
@@ -157,7 +187,7 @@ const project = ((name = 'default') => {
                 displayAllItems('default', 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
             }
         } else if (document.querySelector('.project-title')) {
-            displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="proj-selection"]:checked').value);
+            displayAllItems(document.querySelector('.project-title').textContent, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="proj-selection"]:checked').value);
         }
     }
 
@@ -181,7 +211,7 @@ const project = ((name = 'default') => {
                 displayAllItems('default', 'Time', document.querySelector('.box:nth-of-type(1) .item.active p').textContent);
             }
         } else if (document.querySelector('.project-title')) {
-            displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="proj-selection"]:checked').value);
+            displayAllItems(document.querySelector('.project-title').textContent, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="proj-selection"]:checked').value);
         }
     }
 
@@ -387,7 +417,7 @@ const project = ((name = 'default') => {
     });
 }
 
-    return {addToProjectList, addToProjectItem, getProjectTodoList, projectItemCompleted, projectItemDeleted, editProjectItem, projectItemStarred, sort, sortByPriority, removeFromProjectList, starredProject};
+    return {addToProjectList, editProject, addToProjectItem, getProjectTodoList, projectItemCompleted, projectItemDeleted, editProjectItem, projectItemStarred, sort, sortByPriority, removeFromProjectList, starredProject};
 })();
 
 

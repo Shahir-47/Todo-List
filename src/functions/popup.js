@@ -30,6 +30,49 @@ const createDetailContainer = () => {
     document.querySelector('#content').appendChild(popupFormContainer);
 }
 
+const editProjectContainer = () => {
+    const popupFormContainer = document.createElement('div');
+    popupFormContainer.setAttribute('id', 'editProjectFormContainer');
+    const popupForm = document.createElement('div');
+    popupForm.setAttribute('id', 'editProjectForm');
+
+    const formHeader = document.createElement('div');
+    formHeader.classList.add('edit-header');
+    const formTitle = document.createElement('h2');
+    formTitle.textContent = 'Edit Project';
+    formHeader.appendChild(formTitle);
+
+    const closeBtn = document.createElement('button');
+    closeBtn.classList.add('close-btn');
+    closeBtn.id = 'closeEditProjectBtn';
+    closeBtn.textContent = 'X';
+    formHeader.appendChild(closeBtn);
+    popupForm.appendChild(formHeader);
+
+    const todoForm = document.createElement('form');
+    todoForm.classList.add('editProj');
+    todoForm.setAttribute('id', 'edit-project-form');
+
+    const detailsInput = document.createElement('textarea');
+    detailsInput.classList.add('project-title-input');
+    detailsInput.id = 'project-edit-title';
+    detailsInput.name = 'project-edit-title';
+    detailsInput.maxLength = 100;
+    detailsInput.setAttribute('required', 'true');
+
+    const okBtn = document.createElement('button');
+    okBtn.classList.add('proj-add-btn');
+    okBtn.id = 'edit-project-btn';
+    okBtn.textContent = 'Add Project';
+
+    todoForm.appendChild(detailsInput);
+    todoForm.appendChild(okBtn);
+
+    popupForm.appendChild(todoForm);
+    popupFormContainer.appendChild(popupForm);
+    document.querySelector('div#content').appendChild(popupFormContainer);
+}    
+
 //pop up form for editing a todo item
 const createEditContainer = () => {
     const popupFormContainer = document.createElement('div');
@@ -393,6 +436,7 @@ const newItem  = (text, img, imgText) => {
 const createPopupContainers = () => {
     createDetailContainer();
     createEditContainer();
+    editProjectContainer();
     formUI();
 }
 

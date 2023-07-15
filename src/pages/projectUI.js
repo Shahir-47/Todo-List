@@ -5,6 +5,7 @@ import star from '../assets/img/star.svg';
 import fullStar from '../assets/img/fullStar.svg';
 import displayProject from './indivProj';
 import { project } from '../functions/project';
+import { projectFormValidation } from '../functions/form';
 
 const handleProject = (event) => {
     if (event.target.closest('.todo-project .todo-delete')) {
@@ -22,6 +23,18 @@ const handleProject = (event) => {
         // project.projectItemStarred(event.target.closest('.todo-item').id);
     }
     if (event.target.closest('.todo-project .todo-edit')) {
+        document.querySelector('#edit-project-form').setAttribute('project-codename', event.target.closest('.todo-project').getAttribute('project-key'));
+        document.querySelector('#editProjectFormContainer').style.display = 'block';
+        document.querySelector('#edit-project-form textarea[name="project-edit-title"]').value = event.target.closest('.todo-project').getAttribute('display-name');
+
+        document.querySelector('#closeEditProjectBtn').addEventListener('click', () => {
+            document.getElementById('editProjectFormContainer').style.display = 'none';
+        });
+
+        document.querySelector('#edit-project-form').addEventListener('submit', (e) => {
+            projectFormValidation(e);
+        });
+
     }
     if (event.target.closest('.todo-project') && !event.target.closest('.todo-project .todo-delete') && !event.target.closest('.todo-project .todo-edit') && !event.target.closest('.todo-project .star')) {
         // displayProject(event.target.closest('.todo-item').id);
@@ -78,13 +91,15 @@ const allProject = (starred) => {
         projectTitle.textContent = 'All Projects';
         todoList.setAttribute('starred', 'false');
     }
+
     projectList.reverse(); // Reverse the order of the array
     projectList.forEach((project, index) => {
-        let projectName = project.name;
+        let projectName = project.displayName;
         let starred = project.starred;
         const todoItem = document.createElement('div');
         todoItem.classList.add('todo-project');
-        todoItem.setAttribute('project-key', projectName);
+        todoItem.setAttribute('project-key', project.name);
+        todoItem.setAttribute('display-name', projectName);
         const colorPane = document.createElement('div');
         colorPane.style.backgroundColor = 'var(--add-btn-color)';
         colorPane.classList.add('color-pane');

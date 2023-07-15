@@ -46,14 +46,10 @@ document.querySelector('#content').addEventListener('click', (e) => {
     if (e.target.closest('.add-btn')){
         if (document.querySelector('.box:nth-of-type(1) .item.active') || document.querySelector('.project-title')){
             showForm();
-            document.querySelector('#todo-form').addEventListener('submit', (e) => {
-                formValidation(e);
-            });
+            document.querySelector('#todo-form').addEventListener('submit', formValidation);
         } else if (document.querySelector('.todo-list-project') && document.querySelector('.project-title') === null) {
             showProjectForm();
-            document.querySelector('#project-form').addEventListener('submit', (e) => {
-                projectFormValidation(e);
-            });
+            document.querySelector('#project-form').addEventListener('submit', projectFormValidation);
         }
     }
     if (e.target.closest('.menu-button')) {

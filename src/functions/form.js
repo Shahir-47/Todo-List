@@ -32,9 +32,15 @@ const projectFormValidation = (event) => {
   let form = event.target;
   if (form.checkValidity()) {
     let formData = new FormData(form);
-    project.addToProjectList(formData.get('project-title'));
+    if (form.id == 'project-form') {
+      project.addToProjectList(formData.get('project-title'));
+    } else if (form.id == 'edit-project-form') {
+      console.log(formData.get('edit-project-title'));
+      project.editProject(event.target.getAttribute('project-codename'), formData.get('project-edit-title'));
+    }
     form.reset();
     document.getElementById('popupFormContainer').style.display = 'none';
+    document.getElementById('editProjectFormContainer').style.display = 'none';
   }
 }
 
