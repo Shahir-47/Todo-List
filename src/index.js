@@ -19,6 +19,7 @@ import { showAllNotes } from './pages/notesUI';
 console.log('I get called from print.js!');
 
 let highlight;
+let previousScrollPosition = 0;
 
 // Load header, sidebar, and footer
 pageLoad();
@@ -54,9 +55,13 @@ document.querySelector('#content').addEventListener('click', (e) => {
         }
     }
     if (e.target.closest('.menu-button')) {
+
+        if (document.querySelector('.sidebar-content').classList.contains('full')) {
+            previousScrollPosition = document.querySelector('.sidebar-content').scrollTop;
+        }
         if (document.querySelector('.box:nth-of-type(1) .item.active p')) {
             highlight = document.querySelector('.box:nth-of-type(1) .item.active p').textContent;
-            handleSidebar();
+            handleSidebar(previousScrollPosition);
             let homeItems = document.querySelectorAll('.box:nth-of-type(1) .item p');
             homeItems.forEach((item) => {
                 if (item.textContent === highlight) {
@@ -65,7 +70,7 @@ document.querySelector('#content').addEventListener('click', (e) => {
             });
         } else if (document.querySelector('.box:nth-of-type(2) .item.active p')) {
             highlight = document.querySelector('.box:nth-of-type(2) .item.active p').textContent;
-            handleSidebar();
+            handleSidebar(previousScrollPosition);
             let projectItems = document.querySelectorAll('.box:nth-of-type(2) .item p');
             projectItems.forEach((item) => {
                 if (item.textContent === highlight) {
@@ -74,7 +79,7 @@ document.querySelector('#content').addEventListener('click', (e) => {
             });
         } else if (document.querySelector('.box:nth-of-type(3) .item.active p')) {
             highlight = document.querySelector('.box:nth-of-type(3) .item.active p').textContent;
-            handleSidebar();
+            handleSidebar(previousScrollPosition);
             let notesItems = document.querySelectorAll('.box:nth-of-type(3) .item p');
             notesItems.forEach((item) => {
                 if (item.textContent === highlight) {
@@ -82,7 +87,7 @@ document.querySelector('#content').addEventListener('click', (e) => {
                 }
             });
         } else {
-            handleSidebar();
+            handleSidebar(previousScrollPosition);
             let homeItems = document.querySelectorAll('.item p');
             homeItems.forEach((item) => {
                 if (item.textContent === highlight) {

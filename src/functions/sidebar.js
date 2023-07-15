@@ -205,7 +205,7 @@ const miniSidebar = () => {
     
 }
 
-const handleSidebar = () => {
+const handleSidebar = (previousScrollPosition) => {
     const sidebarContent = document.querySelector('.sidebar-content');
     if (sidebarContent.classList.contains('full')) {
         miniSidebar();
@@ -215,6 +215,7 @@ const handleSidebar = () => {
         sidebar();
         adjustPageContent();
         adjustFooter();
+        document.querySelector('.sidebar-content').scrollTop = previousScrollPosition;
     }
 }
 
