@@ -18,6 +18,7 @@ const handleProject = (event) => {
         } else {
           starImg.src = fullStar;
         }
+        project.starredProject(event.target.closest('.todo-project').getAttribute('project-key'));
         // project.projectItemStarred(event.target.closest('.todo-item').id);
     }
     if (event.target.closest('.todo-project .todo-edit')) {
@@ -30,16 +31,23 @@ const handleProject = (event) => {
 
 };
 
-const showAllProject = () => {
+const showAllProject = (starred = false) => {
     const allSidebarItems = document.querySelectorAll('.item');
     allSidebarItems.forEach(item => {
         item.classList.remove('active');
     });
 
-    document.querySelector('.box:nth-of-type(2) .item:nth-of-type(1)').classList.add('active');
+    if (!starred && document.querySelector('.box:nth-of-type(2) .item:nth-of-type(1)')){
+        document.querySelector('.box:nth-of-type(2) .item:nth-of-type(1)').classList.add('active');
+    } else if (starred && document.querySelector('.box:nth-of-type(2) .item:nth-of-type(2)')) {
+        document.querySelector('.box:nth-of-type(2) .item:nth-of-type(2)').classList.add('active');
+    }
 
+    const projectTitle = document.createElement('h1');
+    projectTitle.classList.add('project-header');
     const pageContent = document.querySelector('#page-content');
     const footer = document.querySelector('footer');
+    pageContent.appendChild(projectTitle);
 
     const addBtn = document.createElement('button');
     addBtn.classList.add('add-btn');
@@ -47,19 +55,29 @@ const showAllProject = () => {
     pageContent.appendChild(addBtn);
 
     const todoList = document.createElement('div');
-    todoList.classList.add('todo-list');
+    todoList.classList.add('todo-list-project');
     todoList.style.maxHeight = pageContent.offsetHeight - (footer.offsetHeight * 2) - 16 + 'px';
     todoList.style.marginRight = addBtn.offsetWidth + 64 + 'px';
+    projectTitle.style.marginRight = addBtn.offsetWidth + 72 + 'px';
     pageContent.appendChild(todoList);
 
-    allProject();
+    allProject(starred);
 }
 
-const allProject = () => {
-    const todoList = document.querySelector('.todo-list');
+const allProject = (starred) => {
+    const todoList = document.querySelector('.todo-list-project');
     todoList.innerHTML = '';
 
-    const projectList = storage.getFromLocalStorage();
+    const projectTitle = document.querySelector('.project-header');
+    let projectList = storage.getFromLocalStorage();
+    if (starred) {
+        projectTitle.textContent = 'Starred Projects';
+        todoList.setAttribute('starred', 'true');
+        projectList = projectList.filter(project => project.starred === true);
+    } else {
+        projectTitle.textContent = 'All Projects';
+        todoList.setAttribute('starred', 'false');
+    }
     projectList.reverse(); // Reverse the order of the array
     projectList.forEach((project, index) => {
         let projectName = project.name;

@@ -20,7 +20,11 @@ const project = ((name = 'default') => {
         });
         storage.saveToLocalStorage(projectList);
         updateProjectList();
-        allProject();
+        if (document.querySelector('.todo-list-project').getAttribute('starred') == 'false'){
+            allProject(false);
+        } else if (document.querySelector('.todo-list-project').getAttribute('starred') == 'true') {
+            allProject(true);
+        }
     }
 
     const removeFromProjectList = (name) => {
@@ -28,7 +32,23 @@ const project = ((name = 'default') => {
         projectList.splice(index, 1);
         storage.saveToLocalStorage(projectList);
         updateProjectList();
-        allProject();
+        if (document.querySelector('.todo-list-project').getAttribute('starred') == 'false'){
+            allProject(false);
+        } else if (document.querySelector('.todo-list-project').getAttribute('starred') == 'true') {
+            allProject(true);
+        }
+    }
+
+    const starredProject = (name) => {
+        let index = projectList.findIndex(project => project.name == name);
+        projectList[index].starred = !projectList[index].starred;
+        storage.saveToLocalStorage(projectList);
+        updateProjectList();
+        if (document.querySelector('.todo-list-project').getAttribute('starred') == 'false'){
+            allProject(false);
+        } else if (document.querySelector('.todo-list-project').getAttribute('starred') == 'true') {
+            allProject(true);
+        }
     }
 
     const addToProjectItem = (title, details, dueDate, dueTime, priority, name = 'default') => {
@@ -365,7 +385,7 @@ const project = ((name = 'default') => {
     });
 }
 
-    return {addToProjectList, addToProjectItem, getProjectTodoList, projectItemCompleted, projectItemDeleted, editProjectItem, projectItemStarred, sort, sortByPriority, removeFromProjectList};
+    return {addToProjectList, addToProjectItem, getProjectTodoList, projectItemCompleted, projectItemDeleted, editProjectItem, projectItemStarred, sort, sortByPriority, removeFromProjectList, starredProject};
 })();
 
 

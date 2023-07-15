@@ -142,6 +142,9 @@ document.querySelector('#content').addEventListener('click', (e) => {
     } else if (e.target.closest('.box:nth-of-type(2) .item:nth-of-type(1)')) {
         document.querySelector('#page-content').innerHTML = '';
         showAllProject();
+    } else if (e.target.closest('.box:nth-of-type(2) .item:nth-of-type(2)')) {
+        document.querySelector('#page-content').innerHTML = '';
+        showAllProject(true);
     }
     if (e.target.closest('.todo-project')) {
         handleProject(e);
