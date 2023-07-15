@@ -20,15 +20,23 @@ const showPage = (page) => {
     const pageContent = document.querySelector('#page-content');
     const footer = document.querySelector('footer');
 
-    const addBtn = document.createElement('button');
-    addBtn.classList.add('add-btn');
-    addBtn.textContent = '+';
-    pageContent.appendChild(addBtn);
+    let width = 160;
+    if (page != 'Completed') {
+        const addBtn = document.createElement('button');
+        addBtn.classList.add('add-btn');
+        addBtn.textContent = '+';
+        pageContent.appendChild(addBtn);
+        width = addBtn.offsetWidth + 64;
+    }
 
     const todoList = document.createElement('div');
     todoList.classList.add('todo-list');
     todoList.style.maxHeight = pageContent.offsetHeight - (footer.offsetHeight * 2) - 16 + 'px';
-    todoList.style.marginRight = addBtn.offsetWidth + 64 + 'px';
+    if (page != 'Completed') {
+        todoList.style.marginRight =  width + 'px';
+    } else {
+        todoList.style.marginRight = width + 'px';
+    }  
     pageContent.appendChild(todoList);
 
     if (page == 'Today') {

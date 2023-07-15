@@ -51,9 +51,13 @@ const project = ((name = 'default') => {
 
     const addToProjectItem = (title, details, dueDate, dueTime, priority, name = 'default') => {
         console.log(projectList);
+        let important = false;
+        if (document.querySelector('.box:nth-of-type(1) .item:nth-of-type(4).active') || document.querySelector('.selection input[name="proj-selection"]:checked').value == 'Important') {
+            important = true;
+        }
         let defaultProject = projectList.find(project => project.name == name);
         let index =  name + '~' + uuidv4();
-        let item = { name, index, title, details, dueDate, dueTime, priority, done: { flag: false, timestamp: null }, starred: false };
+        let item = { name, index, title, details, dueDate, dueTime, priority, done: { flag: false, timestamp: null }, starred: important };
         defaultProject.todoList.push(item);
         if (name != 'default') {
             projectList.find(project => project.name == 'default').todoList.push(item);
