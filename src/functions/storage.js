@@ -40,6 +40,17 @@ const storage = (() => {
         return storage;
     }
 
+    const saveNotes = (notes) => {
+        if (checkLocalStorage()) {
+            // Check if projectList exists in localStorage{
+            // Convert the projectList array to a string
+            let notesString = JSON.stringify(notes);
+            localStorage.setItem('notes', notesString);
+        } else {
+            console.log('Local storage not available');
+        }
+    }
+
     const saveToLocalStorage = (projectList) => {
         if (checkLocalStorage()) {
             // Check if projectList exists in localStorage{
@@ -63,6 +74,18 @@ const storage = (() => {
         return projectList;
     }
 
+    const getNotes = () => {
+        // Get the projectList string from localStorage
+        if (localStorage.getItem('notes') === null) {
+            createNotes();
+        }
+        let notesString = localStorage.getItem('notes');
+
+        // Convert the projectListString back to an array
+        let notes = JSON.parse(notesString);
+        return notes;
+    }
+
     const createLocalStorage = () => {
         if (checkLocalStorage()) {
             if (localStorage.getItem('projectList') !== null) {
@@ -82,7 +105,26 @@ const storage = (() => {
         }
     }
 
-    return { createLocalStorage, saveToLocalStorage, getFromLocalStorage };
+    const createNotes = () => {
+        if (checkLocalStorage()) {
+            if (localStorage.getItem('notes') !== null) {
+                console.log('notes already exists in localStorage');
+                return;
+            }
+            console.log('Creating notes in localStorage');
+            let notes = [
+                {
+                    title: 'notes',
+                    list: []
+                }
+            ];
+            saveNotes(notes);
+        } else {
+            console.log('Local storage not available');
+        }
+    }
+
+    return {saveToLocalStorage, getFromLocalStorage, getNotes, saveNotes };
 
 })();
 

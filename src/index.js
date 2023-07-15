@@ -15,6 +15,7 @@ import { project } from './functions/project';
 import showAllProject from './pages/projectUI';
 import { handleProject } from './pages/projectUI';
 import { projectFormValidation } from './functions/form';
+import { showAllNotes } from './pages/notesUI';
 console.log('I get called from print.js!');
 
 let highlight;
@@ -71,6 +72,15 @@ document.querySelector('#content').addEventListener('click', (e) => {
                     item.parentElement.classList.add('active');
                 }
             });
+        } else if (document.querySelector('.box:nth-of-type(3) .item.active p')) {
+            highlight = document.querySelector('.box:nth-of-type(3) .item.active p').textContent;
+            handleSidebar();
+            let notesItems = document.querySelectorAll('.box:nth-of-type(3) .item p');
+            notesItems.forEach((item) => {
+                if (item.textContent === highlight) {
+                    item.parentElement.classList.add('active');
+                }
+            });
         } else {
             handleSidebar();
             let homeItems = document.querySelectorAll('.item p');
@@ -118,20 +128,16 @@ document.querySelector('#content').addEventListener('click', (e) => {
     if (e.target.closest('.box:nth-of-type(1) .item:nth-of-type(1)')) {
         document.querySelector('#page-content').innerHTML = '';
         allUI('All');
-    }
-    else if (e.target.closest('.box:nth-of-type(1) .item:nth-of-type(2)')) {
+    } else if (e.target.closest('.box:nth-of-type(1) .item:nth-of-type(2)')) {
         document.querySelector('#page-content').innerHTML = '';
         showPage('Today');
-    }
-    else if (e.target.closest('.box:nth-of-type(1) .item:nth-of-type(3)')) {
+    } else if (e.target.closest('.box:nth-of-type(1) .item:nth-of-type(3)')) {
         document.querySelector('#page-content').innerHTML = '';
         showPage('Week');
-    }
-    else if (e.target.closest('.box:nth-of-type(1) .item:nth-of-type(4)')) {
+    } else if (e.target.closest('.box:nth-of-type(1) .item:nth-of-type(4)')) {
         document.querySelector('#page-content').innerHTML = '';
         showPage('Important');
-    }
-    else if (e.target.closest('.box:nth-of-type(1) .item:nth-of-type(5)')) {
+    } else if (e.target.closest('.box:nth-of-type(1) .item:nth-of-type(5)')) {
         document.querySelector('#page-content').innerHTML = '';
         showPage('Completed');
     } else if (e.target.closest('.box:nth-of-type(2) .item:nth-of-type(1)')) {
@@ -140,6 +146,12 @@ document.querySelector('#content').addEventListener('click', (e) => {
     } else if (e.target.closest('.box:nth-of-type(2) .item:nth-of-type(2)')) {
         document.querySelector('#page-content').innerHTML = '';
         showAllProject(true);
+    } else if (e.target.closest('.box:nth-of-type(3) .item:nth-of-type(1)')) {
+        document.querySelector('#page-content').innerHTML = '';
+        showAllNotes();
+    } else if (e.target.closest('.box:nth-of-type(3) .item:nth-of-type(2)')) {
+        document.querySelector('#page-content').innerHTML = '';
+        showAllNotes(true);
     }
     if (e.target.closest('.todo-project')) {
         handleProject(e);
