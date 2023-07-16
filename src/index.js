@@ -42,7 +42,18 @@ themeToggle.addEventListener('change', changeTheme);
 
 // Event Listener for dynamically added elements
 document.querySelector('#content').addEventListener('click', (e) => {
-    const starImg = e.target.closest('.todo-item .star img')
+    if (e.target.closest('.scroll-box .new-todo-box:nth-of-type(1)')) {
+        showForm();
+        // document.querySelector('#todo-form').addEventListener('submit', formValidation);
+    }
+    if (e.target.closest('.scroll-box .new-todo-box:nth-of-type(2)')) {
+        showProjectForm();
+        // document.querySelector('#project-form').addEventListener('submit', projectFormValidation);
+    }
+    if (e.target.closest('.scroll-box .new-todo-box:nth-of-type(3)')) {
+        showNoteForm();
+        // document.querySelector('#note-form').addEventListener('submit', noteFormValidation);
+    }
     if (e.target.closest('.todo-item')) {
         itemsEventHandler(e);
     }

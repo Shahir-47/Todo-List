@@ -100,6 +100,15 @@
     background-color: rgb(89 107 160 / 25%);
 }
 
+.note:hover .note-title {
+    color: var(--add-btn-bg-color);
+    font-size: 1.3rem;
+}
+
+.note:hover .note-description {
+    color: white;
+}
+
 .note-description {
     border: none;
     outline: none;
@@ -114,6 +123,9 @@
     min-height: 25px;
     font-size: 1.2rem;
     font-weight: 900;
+    color: var(--content-text-color);
+    background-color: transparent;
+    transition: all 0.2s ease-in-out;
 }
 
 .note .buttons{
