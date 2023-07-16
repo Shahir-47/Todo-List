@@ -85,8 +85,21 @@
     flex-direction: column;
     gap: 0.5rem;
     margin-bottom: 1rem;
-    transition: all 0.2s ease-in-out;
     cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    border: none;
+}
+
+.note:hover {
+    -webkit-transform: scale(1.003);
+    transform: scale(1.01);
+    -webkit-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-box-shadow: 3px 3px 5px 2px rgba(0, 0, 0, 0.6);
+    box-shadow: 3px 3px 5px 2px rgba(0, 0, 0, 0.6);
+    -webkit-transition: all .2s ease-out;
+    transition: all .2s ease-out;
+    background-color: rgb(89 107 160 / 25%);
 }
 
 .note-description {

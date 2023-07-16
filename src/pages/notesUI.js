@@ -3,6 +3,9 @@ import del from '../assets/img/del.svg';
 import star from '../assets/img/star.svg';
 import Masonry from 'masonry-layout';
 
+const handleNotes = (event) => {
+    if (event.target.closest('.note .del-btn')) {}}
+
 const showAllNotes = (starred = false) => {
     const allSidebarItems = document.querySelectorAll('.item');
     allSidebarItems.forEach(item => {
