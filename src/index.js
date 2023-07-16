@@ -1,9 +1,5 @@
-//import all css files
-//import required pics
 import './css/pageLoad.css';
 import './css/all.css';
-import fullStar from './assets/img/fullStar.svg';
-import star from './assets/img/star.svg';
 import {handleSidebar} from './functions/sidebar.js';
 import pageLoad from './functions/pageLoad';
 import { changeTheme, showForm, closeForm, showProjectForm, showNoteForm } from './functions/pageLoad';
@@ -11,13 +7,11 @@ import allUI, { displayAllItems } from './pages/all';
 import showPage from './pages/homePages';
 import formValidation from './functions/form';
 import { itemsEventHandler, sortItems } from './pages/all';
-import { project } from './functions/project';
 import showAllProject from './pages/projectUI';
 import { handleProject } from './pages/projectUI';
 import { projectFormValidation, noteFormValidation } from './functions/form';
 import { showAllNotes, handleNotes } from './pages/notesUI';
 import { notes } from './functions/notes';
-console.log('I get called from print.js!');
 
 let highlight;
 let previousScrollPosition = 0;
@@ -31,45 +25,17 @@ allUI();
 const themeToggle = document.getElementById('theme-toggle');
 themeToggle.addEventListener('change', changeTheme);
 
-const todoForm = document.querySelector('.todo-form');
-
-// Event listener to add todo item
-// const addBtn = document.querySelector('.add-btn');
-// addBtn.addEventListener('click', () => {
-//     showForm();
-//     document.querySelector('#todo-form').addEventListener('submit', (e) => {
-//         formValidation(e);
-//     });
-// });
-
-// Event Listener for dynamically added elements
-
-document.querySelector('#content').addEventListener('submit', (e) => {
-    console.log(e.target.id);
-    // if (e.target.id == 'todo-form') {
-    //     console.log(e.target.id);
-    //     e.preventDefault();
-    //     // formValidation(e);
-    // } else if (e.target.id == 'project-form') {
-    //     console.log(e.target.id);
-    //     e.preventDefault();
-    //     // projectFormValidation(e);
-    // } else if (e.target.id == 'note-form') {
-    //     console.log(e.target.id);
-    //     e.preventDefault();
-    //     // noteFormValidation(e);
-    // }
-});
-    // if (e.target.closest('#todo-form .ok-btn')) {
-    //     formValidation(e.target.closest('#todo-form'));
-    //     // document.querySelector('#todo-form').addEventListener('submit', formValidation);
-    // } else if (document.querySelector('#edit-form btn')) {
-    //     // document.querySelector('#project-form').addEventListener('submit', projectFormValidation);
-    // } else if (document.querySelector('#project-form btn')) {
-    //     // document.querySelector('#note-form').addEventListener('submit', noteFormValidation);
-    // }
 
 document.querySelector('#content').addEventListener('click', (e) => {
+    if (e.target.closest('.scroll-box .new-todo-box:nth-of-type(1)')) {
+        showForm();
+    }
+    if (e.target.closest('.scroll-box .new-todo-box:nth-of-type(2)')) {
+        showProjectForm();
+    }
+    if (e.target.closest('.scroll-box .new-todo-box:nth-of-type(3)')) {
+        showNoteForm();
+    }
     if (e.target.closest('#todo-form .ok-btn')) {
         formValidation(e.target.closest('#todo-form'));
     }
