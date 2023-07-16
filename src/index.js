@@ -31,6 +31,8 @@ allUI();
 const themeToggle = document.getElementById('theme-toggle');
 themeToggle.addEventListener('change', changeTheme);
 
+const todoForm = document.querySelector('.todo-form');
+
 // Event listener to add todo item
 // const addBtn = document.querySelector('.add-btn');
 // addBtn.addEventListener('click', () => {
@@ -41,19 +43,43 @@ themeToggle.addEventListener('change', changeTheme);
 // });
 
 // Event Listener for dynamically added elements
+
+document.querySelector('#content').addEventListener('submit', (e) => {
+    console.log(e.target.id);
+    // if (e.target.id == 'todo-form') {
+    //     console.log(e.target.id);
+    //     e.preventDefault();
+    //     // formValidation(e);
+    // } else if (e.target.id == 'project-form') {
+    //     console.log(e.target.id);
+    //     e.preventDefault();
+    //     // projectFormValidation(e);
+    // } else if (e.target.id == 'note-form') {
+    //     console.log(e.target.id);
+    //     e.preventDefault();
+    //     // noteFormValidation(e);
+    // }
+});
+    // if (e.target.closest('#todo-form .ok-btn')) {
+    //     formValidation(e.target.closest('#todo-form'));
+    //     // document.querySelector('#todo-form').addEventListener('submit', formValidation);
+    // } else if (document.querySelector('#edit-form btn')) {
+    //     // document.querySelector('#project-form').addEventListener('submit', projectFormValidation);
+    // } else if (document.querySelector('#project-form btn')) {
+    //     // document.querySelector('#note-form').addEventListener('submit', noteFormValidation);
+    // }
+
 document.querySelector('#content').addEventListener('click', (e) => {
-    if (e.target.closest('.scroll-box .new-todo-box:nth-of-type(1)')) {
-        showForm();
-        // document.querySelector('#todo-form').addEventListener('submit', formValidation);
+    if (e.target.closest('#todo-form .ok-btn')) {
+        formValidation(e.target.closest('#todo-form'));
     }
-    if (e.target.closest('.scroll-box .new-todo-box:nth-of-type(2)')) {
-        showProjectForm();
-        // document.querySelector('#project-form').addEventListener('submit', projectFormValidation);
+    if (e.target.closest('#project-form .proj-add-btn')) {
+        projectFormValidation(e.target.closest('#project-form'));
     }
-    if (e.target.closest('.scroll-box .new-todo-box:nth-of-type(3)')) {
-        showNoteForm();
-        // document.querySelector('#note-form').addEventListener('submit', noteFormValidation);
+    if (e.target.closest('#note-form .note-add-btn')) {
+        noteFormValidation(e.target.closest('#note-form'));
     }
+
     if (e.target.closest('.todo-item')) {
         itemsEventHandler(e);
     }
@@ -63,13 +89,10 @@ document.querySelector('#content').addEventListener('click', (e) => {
     if (e.target.closest('.add-btn')){
         if (document.querySelector('.box:nth-of-type(1) .item.active') || document.querySelector('.project-title')){
             showForm();
-            document.querySelector('#todo-form').addEventListener('submit', formValidation);
         } else if (document.querySelector('.todo-list-project') && document.querySelector('.project-title') === null) {
             showProjectForm();
-            document.querySelector('#project-form').addEventListener('submit', projectFormValidation);
         } else if (document.querySelector('.notes-list')) {
             showNoteForm();
-            document.querySelector('#note-form').addEventListener('submit', noteFormValidation);
         }
     }
     if (e.target.closest('.menu-button')) {

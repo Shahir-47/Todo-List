@@ -1,11 +1,7 @@
 import { project } from './project';
 import { notes } from './notes';
 
-const formValidation = (event, id = null) => {
-
-  // Prevent form from submitting to the server
-  event.preventDefault();
-  let form = event.target;
+const formValidation = (form, id = null) => {
 
   // Get the form fields
   if (form.checkValidity()) {
@@ -27,9 +23,7 @@ const formValidation = (event, id = null) => {
   
 }
 
-const projectFormValidation = (event) => {
-  event.preventDefault();
-  let form = event.target;
+const projectFormValidation = (form) => {
   if (form.checkValidity()) {
     let formData = new FormData(form);
     if (form.id == 'project-form') {
@@ -44,9 +38,7 @@ const projectFormValidation = (event) => {
   }
 }
 
-const noteFormValidation = (event) => {
-  event.preventDefault();
-  let form = event.target;
+const noteFormValidation = (form) => {
   if (form.checkValidity()) {
     let formData = new FormData(form);
     notes.addNote(formData.get('note-title'), formData.get('note-details'));

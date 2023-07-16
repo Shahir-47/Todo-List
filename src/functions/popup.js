@@ -52,6 +52,7 @@ const editProjectContainer = () => {
     const todoForm = document.createElement('form');
     todoForm.classList.add('editProj');
     todoForm.setAttribute('id', 'edit-project-form');
+    todoForm.setAttribute('onsubmit', "return false;");
 
     const detailsInput = document.createElement('textarea');
     detailsInput.classList.add('project-title-input');
@@ -96,7 +97,7 @@ const createEditContainer = () => {
     const todoForm = document.createElement('form');
     todoForm.classList.add('todo-form');
     todoForm.setAttribute('id', 'edit-form');
-
+    todoForm.setAttribute('onsubmit', "return false;");
     const titleInput = document.createElement('input');
     titleInput.classList.add('title-input');
     titleInput.type = 'text';
@@ -270,6 +271,8 @@ const formUI = () => {
 const addForm = () => {
     const todoForm = document.querySelector('#popupForm .todo-form');
     todoForm.setAttribute('id', 'todo-form');
+    todoForm.setAttribute('onsubmit', "return false;");
+
     todoForm.innerHTML = '';
     const titleInput = document.createElement('input');
     titleInput.classList.add('title-input');
@@ -400,6 +403,7 @@ const addForm = () => {
 const addProjectForm = () => {
     const todoForm = document.querySelector('#popupForm .todo-form');
     todoForm.setAttribute('id', 'project-form');
+    todoForm.setAttribute('onsubmit', "return false;");
     todoForm.innerHTML = '';
 
     const detailsInput = document.createElement('textarea');
@@ -421,6 +425,7 @@ const addProjectForm = () => {
 const addNoteForm = () => {
     const todoForm = document.querySelector('#popupForm .todo-form');
     todoForm.setAttribute('id', 'note-form');
+    todoForm.setAttribute('onsubmit', "return false;");
     todoForm.innerHTML = '';
 
     const detailsInput = document.createElement('textarea');

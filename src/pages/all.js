@@ -34,7 +34,7 @@ const itemsEventHandler = (event) => {
         // submit the edit form
         document.querySelector('#edit-form').addEventListener('submit', (e) => {
             console.log(e.target.getAttribute('data-id'));
-            formValidation(e, e.target.getAttribute('data-id'));
+            formValidation(e.target, e.target.getAttribute('data-id'));
         });
     }
     // if clicked anywhere on the todo item but the buttons, show details
@@ -236,14 +236,20 @@ const sortItems = (event) => {
 const displayAllItems = (name = 'default', sortBy = 'Time', filter = 'All') => {
     const todoList = document.querySelector('.todo-list');
     todoList.innerHTML = '';
-    const projectList = storage.getFromLocalStorage();
+
+    // get the right list and then sort it
+    let projectList = storage.getFromLocalStorage();
     name = projectList.find(project => project.displayName == name).name;
-    let defaultProject = projectList.find(project => project.name == name);
     if (sortBy == 'Time') {
         project.sort(name);
     } else if (sortBy == 'priority') {
         project.sortByPriority(name);
     }
+
+    // now get the sorted data and then filter it
+    projectList = storage.getFromLocalStorage();
+    let defaultProject = projectList.find(project => project.name == name);
+
     console.log()
     console.log(defaultProject.todoList);
     // debugger;

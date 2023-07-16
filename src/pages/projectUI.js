@@ -32,7 +32,7 @@ const handleProject = (event) => {
         });
 
         document.querySelector('#edit-project-form').addEventListener('submit', (e) => {
-            projectFormValidation(e);
+            projectFormValidation(e.target);
         });
 
     }
