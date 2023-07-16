@@ -16,6 +16,7 @@ import showAllProject from './pages/projectUI';
 import { handleProject } from './pages/projectUI';
 import { projectFormValidation, noteFormValidation } from './functions/form';
 import { showAllNotes, handleNotes } from './pages/notesUI';
+import { notes } from './functions/notes';
 console.log('I get called from print.js!');
 
 let highlight;
@@ -179,3 +180,11 @@ document.querySelector('#content').addEventListener('change', (e) => {
         sortItems(e.target.value);
     }
 });
+
+document.querySelector('#content').addEventListener('input', (e) => {
+    if (e.target.closest('.note-title') || e.target.closest('.note-description')) {
+        console.log(e.target.textContent);
+        notes.editNote(e.target.closest('.note').getAttribute('note-id'), e.target.closest('.note').querySelector('.note-title').textContent, e.target.closest('.note').querySelector('.note-description').textContent);
+    }
+});
+
