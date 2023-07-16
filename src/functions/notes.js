@@ -9,18 +9,20 @@ const notes = (() => {
         notesList = storage.getNotes();
     }
 
-    const addNote = (title, description, starred = false) => {
+    const addNote = (title, description) => {
+        let imp = document.querySelector('.notes-list').getAttribute('starred') == 'false' ? false : true;
         let noteList = notesList[0].list;
         let id = 'note' + '~' + uuidv4();
-        let note = {title, description, starred, id};
+        let note = {title, description, starred: imp, id};
         noteList.push(note);
         storage.saveNotes(notesList);
         updateNotesList();
 
-        allNotes(starred);
+        allNotes(imp);
     }
 
     const editNote = (id, title, description) => {
+
         let noteList = notesList[0].list;
         let note = noteList.filter(note => note.id === id)[0];
         note.title = title;
@@ -36,20 +38,23 @@ const notes = (() => {
     }
 
     const deleteNote = (id) => {
+        let imp = document.querySelector('.notes-list').getAttribute('starred') == 'false' ? false : true;
         let noteList = notesList[0].list;
         noteList = noteList.filter(note => note.id !== id);
         notesList[0].list = noteList;
         storage.saveNotes(notesList);
         updateNotesList();
-        allNotes();
+        allNotes(imp);
     }
 
     const starNote = (id) => {
+        let imp = document.querySelector('.notes-list').getAttribute('starred') == 'false' ? false : true;
         let noteList = notesList[0].list;
         let note = noteList.filter(note => note.id === id)[0];
         note.starred = !note.starred;
         storage.saveNotes(notesList);
         updateNotesList();
+        allNotes(imp);
     }
 
     return { addNote, editNote, getNotesList, deleteNote, starNote }

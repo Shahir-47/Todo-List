@@ -2,6 +2,7 @@ import { notes } from '../functions/notes';
 import { storage } from '../functions/storage';
 import del from '../assets/img/del.svg';
 import star from '../assets/img/star.svg';
+import fullStar from '../assets/img/fullStar.svg';
 import Masonry from 'masonry-layout';
 
 let masonry;
@@ -9,7 +10,19 @@ let masonry;
 const handleNotes = (event) => {
     if (event.target.closest('.note .del-btn')) {
         notes.deleteNote(event.target.closest('.note').getAttribute('note-id'));
-    }}
+    }
+    if (event.target.closest('.note .star-btn')) {
+        const starImg = event.target.closest('.note .star-btn img');
+        const currentSrc = starImg.src;
+        if (currentSrc === fullStar) {
+            starImg.src = star;
+        } else {
+            starImg.src = fullStar;
+        }
+
+        notes.starNote(event.target.closest('.note').getAttribute('note-id'));
+    }
+}
 
 const showAllNotes = (starred = false) => {
     const allSidebarItems = document.querySelectorAll('.item');
@@ -51,43 +64,14 @@ const showAllNotes = (starred = false) => {
 
 const allNotes = (starred) => {
     const todoList = document.querySelector('.notes-list');
-    todoList.innerHTML = '';
-
     let notesList = storage.getNotes()[0].list;
-    // let notesList = [
-    //     {
-    //         title: 'Note 1',
-    //         description: 'This is a note',
-    //         starred: false,
-    //         id: 1
-    //     },
-    //     {
-    //         title: 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
-    //         description: 'This is a note',
-    //         starred: true,
-    //         id: 2
-    //     },
-    //     {
-    //         title: 'Note 3',
-    //         description: 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
-    //         starred: true,
-    //         id: 3
-    //     },
-    //     {
-    //         title: 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
-    //         description: 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
-    //         starred: false,
-    //         id: 4
-    //     },
-    //     {
-    //         title: Array(72).fill('f').join(''),
-    //         description: Array(276).fill('f').join(''),
-    //         starred: false,
-    //         id: 5
-    //     },
-
-
-    // ];
+    todoList.innerHTML = '';
+    if (starred) {
+        notesList = notesList.filter(note => note.starred === true);
+        todoList.setAttribute('starred', 'true');
+    } else {
+        todoList.setAttribute('starred', 'false');
+    }
 
     notesList.reverse(); // Reverse the order of the array
     notesList.forEach((note, index) => {
@@ -117,11 +101,15 @@ const allNotes = (starred) => {
 
         const starBtn = document.createElement('button');
         starBtn.classList.add('star-btn');
-        const starImg = document.createElement('img');
-        starImg.src = star;
-        starImg.alt = 'Pin Note';
-        starBtn.appendChild(starImg);
-
+        const starIcon = document.createElement('img');
+        if (note.starred) {
+            starIcon.src = fullStar;
+        } else {
+            starIcon.src = star;
+        }
+        starIcon.alt = 'Star icon';
+        starBtn.appendChild(starIcon);
+    
         buttons.appendChild(starBtn);
         buttons.appendChild(delBtn);
 
