@@ -14,7 +14,9 @@ const project = ((name = 'default') => {
 
     const addToProjectList = (name) => {
         let imp = false;
-        imp = document.querySelector('.todo-list-project').getAttribute('starred') == 'false' ? false : true;
+        if (document.querySelector('.todo-list-project')){
+            imp = document.querySelector('.todo-list-project').getAttribute('starred') == 'false' ? false : true;
+        }
         projectList.push({
             displayName: name,
             name,
@@ -23,7 +25,10 @@ const project = ((name = 'default') => {
         });
         storage.saveToLocalStorage(projectList);
         updateProjectList();
-        allProject(imp);
+        if (document.querySelector('.todo-list-project')){
+            allProject(imp);
+
+        }
     }
 
     const removeFromProjectList = (name) => {

@@ -30,7 +30,7 @@ const projectFormValidation = (form) => {
       project.addToProjectList(formData.get('project-title'));
     } else if (form.id == 'edit-project-form') {
       console.log(formData.get('edit-project-title'));
-      project.editProject(event.target.getAttribute('project-codename'), formData.get('project-edit-title'));
+      project.editProject(form.getAttribute('project-codename'), formData.get('project-edit-title'));
     }
     form.reset();
     document.getElementById('popupFormContainer').style.display = 'none';

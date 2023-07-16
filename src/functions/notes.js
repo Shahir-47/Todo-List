@@ -10,7 +10,12 @@ const notes = (() => {
     }
 
     const addNote = (title, description) => {
-        let imp = document.querySelector('.notes-list').getAttribute('starred') == 'false' ? false : true;
+        let imp = false;
+        
+        if (document.querySelector('.notes-list')) {
+            imp = document.querySelector('.notes-list').getAttribute('starred') == 'false' ? false : true;
+        }
+
         let noteList = notesList[0].list;
         let id = 'note' + '~' + uuidv4();
         let note = {title, description, starred: imp, id};
@@ -18,7 +23,9 @@ const notes = (() => {
         storage.saveNotes(notesList);
         updateNotesList();
 
-        allNotes(imp);
+        if (document.querySelector('.notes-list')) {
+            allNotes(imp);
+        }
     }
 
     const editNote = (id, title, description) => {
