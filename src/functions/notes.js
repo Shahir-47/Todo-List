@@ -41,6 +41,7 @@ const notes = (() => {
         notesList[0].list = noteList;
         storage.saveNotes(notesList);
         updateNotesList();
+        allNotes();
     }
 
     const starNote = (id) => {

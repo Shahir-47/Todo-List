@@ -1,3 +1,4 @@
+import { notes } from '../functions/notes';
 import { storage } from '../functions/storage';
 import del from '../assets/img/del.svg';
 import star from '../assets/img/star.svg';
@@ -6,7 +7,9 @@ import Masonry from 'masonry-layout';
 let masonry;
 
 const handleNotes = (event) => {
-    if (event.target.closest('.note .del-btn')) {}}
+    if (event.target.closest('.note .del-btn')) {
+        notes.deleteNote(event.target.closest('.note').getAttribute('note-id'));
+    }}
 
 const showAllNotes = (starred = false) => {
     const allSidebarItems = document.querySelectorAll('.item');
@@ -91,6 +94,7 @@ const allNotes = (starred) => {
         const noteCard = document.createElement('div');
         noteCard.classList.add('note');
         noteCard.style.width = (todoList.offsetWidth/3.3) + 'px';
+        noteCard.setAttribute('note-id', note.id);
         const noteTitle = document.createElement('div');
         noteTitle.classList.add('note-title');
         noteTitle.contentEditable = true;
@@ -142,9 +146,4 @@ const allNotes = (starred) => {
 
 }
 
-const adjustNotes = () => {
-    console.log('adjusting notes');
-    masonry.layout();
-}
-
-export { showAllNotes, allNotes }
+export { showAllNotes, allNotes, handleNotes }

@@ -15,7 +15,7 @@ import { project } from './functions/project';
 import showAllProject from './pages/projectUI';
 import { handleProject } from './pages/projectUI';
 import { projectFormValidation, noteFormValidation } from './functions/form';
-import { showAllNotes } from './pages/notesUI';
+import { showAllNotes, handleNotes } from './pages/notesUI';
 console.log('I get called from print.js!');
 
 let highlight;
@@ -44,6 +44,9 @@ document.querySelector('#content').addEventListener('click', (e) => {
     const starImg = e.target.closest('.todo-item .star img')
     if (e.target.closest('.todo-item')) {
         itemsEventHandler(e);
+    }
+    if (e.target.closest('.note')) {
+        handleNotes(e);
     }
     if (e.target.closest('.add-btn')){
         if (document.querySelector('.box:nth-of-type(1) .item.active') || document.querySelector('.project-title')){
