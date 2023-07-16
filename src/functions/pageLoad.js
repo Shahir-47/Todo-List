@@ -4,6 +4,7 @@ import footer from './footer.js';
 import createPopupContainers from './popup.js';
 import { addForm, addProjectForm, addNoteForm } from './popup.js';
 import { add } from 'date-fns';
+import { allNotes } from '../pages/notesUI.js'
 
 
 const pageContent = () => {
@@ -41,6 +42,10 @@ const adjustPageContent = () => {
     pageContent.style.marginTop = top;
     pageContent.style.minHeight = 'calc(100vh - ' + (top + bottom + 'px') + ')';
     pageContent.style.width = 'calc(100vw - ' + (width + 'px') + ')';
+
+    if (document.querySelector('.notes-list')) {
+            allNotes(false);
+    }
 }
 
 const pageLoad = () => {

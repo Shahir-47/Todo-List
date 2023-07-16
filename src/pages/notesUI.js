@@ -3,6 +3,8 @@ import del from '../assets/img/del.svg';
 import star from '../assets/img/star.svg';
 import Masonry from 'masonry-layout';
 
+let masonry;
+
 const handleNotes = (event) => {
     if (event.target.closest('.note .del-btn')) {}}
 
@@ -83,11 +85,12 @@ const allNotes = (starred) => {
 
 
     // ];
+
     notesList.reverse(); // Reverse the order of the array
     notesList.forEach((note, index) => {
         const noteCard = document.createElement('div');
         noteCard.classList.add('note');
-
+        noteCard.style.width = (todoList.offsetWidth/3.3) + 'px';
         const noteTitle = document.createElement('div');
         noteTitle.classList.add('note-title');
         noteTitle.contentEditable = true;
@@ -126,7 +129,7 @@ const allNotes = (starred) => {
     });
 
     // Initialize Masonry.js and specify the container element
-    let masonry = new Masonry(todoList, {
+    masonry = new Masonry(todoList, {
         itemSelector: '.note',
         columnWidth: '.note',
         gutter: 10,
@@ -137,6 +140,11 @@ const allNotes = (starred) => {
         masonry.layout();
     }, 0);
 
+}
+
+const adjustNotes = () => {
+    console.log('adjusting notes');
+    masonry.layout();
 }
 
 export { showAllNotes, allNotes }

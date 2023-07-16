@@ -76,7 +76,6 @@
 }
 
 .note {
-    width: 300px;
     padding: 10px;
     background-color: rgb(89 107 160 / 15%);
     color: var(--content-text-color);
