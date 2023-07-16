@@ -1,13 +1,13 @@
 import { project } from './project';
+import { notes } from './notes';
 
 const formValidation = (event, id = null) => {
 
-    // Prevent form from submitting to the server
-    event.preventDefault();
-    
-    let form = event.target;
-  
-    // Get the form fields
+  // Prevent form from submitting to the server
+  event.preventDefault();
+  let form = event.target;
+
+  // Get the form fields
   if (form.checkValidity()) {
     let formData = new FormData(form);
     if (form.id == 'todo-form') {
@@ -44,5 +44,16 @@ const projectFormValidation = (event) => {
   }
 }
 
+const noteFormValidation = (event) => {
+  event.preventDefault();
+  let form = event.target;
+  if (form.checkValidity()) {
+    let formData = new FormData(form);
+    notes.addNote(formData.get('note-title'), formData.get('note-details'));
+  }
+  form.reset();
+  document.getElementById('popupFormContainer').style.display = 'none';
+}
+
 export default formValidation;
-export { projectFormValidation };
+export { projectFormValidation, noteFormValidation };

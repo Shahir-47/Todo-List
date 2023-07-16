@@ -45,41 +45,41 @@ const allNotes = (starred) => {
     const todoList = document.querySelector('.notes-list');
     todoList.innerHTML = '';
 
-    // let notesList = storage.getNotes()[0].list;
-    let notesList = [
-        {
-            title: 'Note 1',
-            description: 'This is a note',
-            starred: false,
-            id: 1
-        },
-        {
-            title: 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
-            description: 'This is a note',
-            starred: true,
-            id: 2
-        },
-        {
-            title: 'Note 3',
-            description: 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
-            starred: true,
-            id: 3
-        },
-        {
-            title: 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
-            description: 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
-            starred: false,
-            id: 4
-        },
-        {
-            title: Array(72).fill('f').join(''),
-            description: Array(276).fill('f').join(''),
-            starred: false,
-            id: 5
-        },
+    let notesList = storage.getNotes()[0].list;
+    // let notesList = [
+    //     {
+    //         title: 'Note 1',
+    //         description: 'This is a note',
+    //         starred: false,
+    //         id: 1
+    //     },
+    //     {
+    //         title: 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
+    //         description: 'This is a note',
+    //         starred: true,
+    //         id: 2
+    //     },
+    //     {
+    //         title: 'Note 3',
+    //         description: 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
+    //         starred: true,
+    //         id: 3
+    //     },
+    //     {
+    //         title: 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
+    //         description: 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
+    //         starred: false,
+    //         id: 4
+    //     },
+    //     {
+    //         title: Array(72).fill('f').join(''),
+    //         description: Array(276).fill('f').join(''),
+    //         starred: false,
+    //         id: 5
+    //     },
 
 
-    ];
+    // ];
     notesList.reverse(); // Reverse the order of the array
     notesList.forEach((note, index) => {
         const noteCard = document.createElement('div');

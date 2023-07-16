@@ -6,7 +6,7 @@ import fullStar from './assets/img/fullStar.svg';
 import star from './assets/img/star.svg';
 import {handleSidebar} from './functions/sidebar.js';
 import pageLoad from './functions/pageLoad';
-import { changeTheme, showForm, closeForm, showProjectForm } from './functions/pageLoad';
+import { changeTheme, showForm, closeForm, showProjectForm, showNoteForm } from './functions/pageLoad';
 import allUI, { displayAllItems } from './pages/all';
 import showPage from './pages/homePages';
 import formValidation from './functions/form';
@@ -14,7 +14,7 @@ import { itemsEventHandler, sortItems } from './pages/all';
 import { project } from './functions/project';
 import showAllProject from './pages/projectUI';
 import { handleProject } from './pages/projectUI';
-import { projectFormValidation } from './functions/form';
+import { projectFormValidation, noteFormValidation } from './functions/form';
 import { showAllNotes } from './pages/notesUI';
 console.log('I get called from print.js!');
 
@@ -52,6 +52,9 @@ document.querySelector('#content').addEventListener('click', (e) => {
         } else if (document.querySelector('.todo-list-project') && document.querySelector('.project-title') === null) {
             showProjectForm();
             document.querySelector('#project-form').addEventListener('submit', projectFormValidation);
+        } else if (document.querySelector('.notes-list')) {
+            showNoteForm();
+            document.querySelector('#note-form').addEventListener('submit', noteFormValidation);
         }
     }
     if (e.target.closest('.menu-button')) {

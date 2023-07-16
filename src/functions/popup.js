@@ -418,6 +418,33 @@ const addProjectForm = () => {
     todoForm.appendChild(okBtn);
 }
 
+const addNoteForm = () => {
+    const todoForm = document.querySelector('#popupForm .todo-form');
+    todoForm.setAttribute('id', 'note-form');
+    todoForm.innerHTML = '';
+
+    const detailsInput = document.createElement('textarea');
+    detailsInput.classList.add('note-title-input');
+    detailsInput.placeholder = `Enter Note Title: Grocery List`;
+    detailsInput.id = 'note-title';
+    detailsInput.name = 'note-title';
+    detailsInput.setAttribute('required', 'true');
+
+    const detailsInput2 = document.createElement('textarea');
+    detailsInput2.classList.add('note-details-input');
+    detailsInput2.placeholder = `Enter Note Description (Optional): \n\nMilk, Eggs, Bread, etc...`;
+    detailsInput2.id = 'note-details';
+    detailsInput2.name = 'note-details';
+
+    const okBtn = document.createElement('button');
+    okBtn.classList.add('note-add-btn');
+    okBtn.textContent = 'Add Note';
+
+    todoForm.appendChild(detailsInput);
+    todoForm.appendChild(detailsInput2);
+    todoForm.appendChild(okBtn);
+}
+
 // helper function for creating new todo, project, and note icons on the sidebar
 const newItem  = (text, img, imgText) => {
     const newTodoBox = document.createElement('div');
@@ -441,4 +468,4 @@ const createPopupContainers = () => {
 }
 
 export default createPopupContainers;
-export {addForm, addProjectForm};
+export {addForm, addProjectForm, addNoteForm};

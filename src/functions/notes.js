@@ -1,5 +1,6 @@
 import { storage } from './storage';
 import { v4 as uuidv4 } from 'uuid';
+import { allNotes } from '../pages/notesUI';
 
 const notes = (() => {
     let notesList = storage.getNotes();
@@ -8,16 +9,15 @@ const notes = (() => {
         notesList = storage.getNotes();
     }
 
-    const addNote = (title, description) => {
+    const addNote = (title, description, starred = false) => {
         let noteList = notesList[0].list;
-        let starred = false;
         let id = 'note' + '~' + uuidv4();
         let note = {title, description, starred, id};
         noteList.push(note);
         storage.saveNotes(notesList);
         updateNotesList();
 
-        //displayNote here
+        allNotes(starred);
     }
 
     const editNote = (id, title, description) => {
@@ -54,3 +54,5 @@ const notes = (() => {
     return { addNote, editNote, getNotesList, deleteNote, starNote }
 
 })();
+
+export { notes }

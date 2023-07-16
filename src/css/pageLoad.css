@@ -586,6 +586,21 @@ footer img {
     grid-row: 1 / 3;
 }
 
+.note-details-input {
+    outline: none;
+    background-color: var(--search-box-bg-color);
+    border: hsl(0, 0%, 18.82%);
+    color: var(--search-input-color);
+    width: calc(100% - 1rem);
+    height: calc(100% - 1rem);
+    resize: none;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.5rem;
+    border-radius: 0.4375rem;
+    grid-row: 2 / 4;
+}
+
 .details-input {
     outline: none;
     background-color: var(--search-box-bg-color);
@@ -598,6 +613,18 @@ footer img {
     font-weight: 500;
     padding: 0.5rem;
     border-radius: 0.4375rem;
+}
+
+.note-title-input{
+    outline: none;
+    background-color: var(--search-box-bg-color);
+    border: hsl(0, 0%, 18.82%);
+    color: var(--search-input-color);
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.5rem;
+    border-radius: 0.4375rem;
+    resize: none;
 }
 
 .title-input {
@@ -721,6 +748,7 @@ form label {
     transition: all 0.3s ease;
 }
 
+.note-add-btn,
 .proj-add-btn {
     align-self: center;
     display: inline-block;

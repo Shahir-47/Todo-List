@@ -2,7 +2,7 @@ import {sidebar} from './sidebar.js';
 import header from './header.js';
 import footer from './footer.js';
 import createPopupContainers from './popup.js';
-import { addForm, addProjectForm } from './popup.js';
+import { addForm, addProjectForm, addNoteForm } from './popup.js';
 import { add } from 'date-fns';
 
 
@@ -67,6 +67,15 @@ const showForm = () => {
     document.querySelector('.new-todo-box:nth-of-type(3)').classList.remove('active');
 }
 
+const showNoteForm = () => {
+    addNoteForm();
+    document.getElementById('popupFormContainer').style.display = 'block';
+    document.querySelector('.new-todo-box:nth-of-type(1)').classList.remove('active');
+    document.querySelector('.new-todo-box:nth-of-type(2)').classList.remove('active');
+    document.querySelector('.new-todo-box:nth-of-type(3)').classList.add('active');
+}
+
+
 const showProjectForm = () => {
     addProjectForm();
     document.getElementById('popupFormContainer').style.display = 'block';
@@ -81,4 +90,4 @@ const closeForm = () => {
 }
 
 export default pageLoad;
-export {adjustPageContent, changeTheme, showForm, closeForm, showProjectForm};
+export {adjustPageContent, changeTheme, showForm, closeForm, showProjectForm, showNoteForm};
