@@ -110,8 +110,8 @@ const allProject = (starred) => {
     }
 
     // add the projects to the list
-    // reverse the order of the array so that the most recent project is at the top
-    projectList.reverse(); // Reverse the order of the array
+    projectList = projectList.filter(project => project.name !== 'default'); // remove the default project
+    projectList.reverse(); // reverse the order of the array so that the most recent project is at the top
     projectList.forEach((project) => {
         let projectName = project.displayName;
         let starred = project.starred;
