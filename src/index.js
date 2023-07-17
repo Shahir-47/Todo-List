@@ -216,7 +216,7 @@ document.querySelector('#content').addEventListener('click', (e) => {
 // Sort all the tasks based on the sort selected
 document.querySelector('#content').addEventListener('change', (e) => {
     if (e.target.closest('.sort #sort-selection')) {
-        console.log(e.target.value);
+        
         sortItems(e.target.value);
     }
 });
@@ -224,7 +224,7 @@ document.querySelector('#content').addEventListener('change', (e) => {
 document.querySelector('#content').addEventListener('input', (e) => {
     // if editing note title or description, update the note
     if (e.target.closest('.note-title') || e.target.closest('.note-description')) {
-        console.log(e.target.textContent);
+        
         notes.editNote(e.target.closest('.note').getAttribute('note-id'), e.target.closest('.note').querySelector('.note-title').textContent, e.target.closest('.note').querySelector('.note-description').textContent);
     }
     // if searching for a task, filter the tasks based on the search query and highlight the search query

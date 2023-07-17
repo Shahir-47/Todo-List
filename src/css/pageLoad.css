@@ -297,6 +297,10 @@ div#content {
     filter: brightness(1.2);
 }
 
+.logo-box.light-theme:hover {
+    filter: opacity(0.6);
+}
+
 .logo-box a h1 {
     font-size: 1.6rem;
     font-weight: 700;

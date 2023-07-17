@@ -30,6 +30,7 @@ const createDetailContainer = () => {
     document.querySelector('#content').appendChild(popupFormContainer);
 }
 
+//pop up form for editing a project
 const editProjectContainer = () => {
     const popupFormContainer = document.createElement('div');
     popupFormContainer.setAttribute('id', 'editProjectFormContainer');
@@ -268,6 +269,7 @@ const formUI = () => {
     document.querySelector('div#content').appendChild(popupFormContainer);
 }
 
+// add todo form
 const addForm = () => {
     const todoForm = document.querySelector('#popupForm .todo-form');
     todoForm.setAttribute('id', 'todo-form');
@@ -400,6 +402,7 @@ const addForm = () => {
     todoForm.appendChild(thirdRow);
 }
 
+// add project form
 const addProjectForm = () => {
     const todoForm = document.querySelector('#popupForm .todo-form');
     todoForm.setAttribute('id', 'project-form');
@@ -422,6 +425,7 @@ const addProjectForm = () => {
     todoForm.appendChild(okBtn);
 }
 
+// add note form
 const addNoteForm = () => {
     const todoForm = document.querySelector('#popupForm .todo-form');
     todoForm.setAttribute('id', 'note-form');
@@ -465,6 +469,7 @@ const newItem  = (text, img, imgText) => {
     return newTodoBox;
 }
 
+// creating all popup form needed
 const createPopupContainers = () => {
     createDetailContainer();
     createEditContainer();

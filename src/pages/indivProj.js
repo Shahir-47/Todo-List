@@ -6,7 +6,7 @@ const displayProject = (name) => {
 
     let projectList = storage.getFromLocalStorage();
     projectList = projectList.filter(project => project.name === name)[0];
-    console.log(projectList.displayName);
+    
     let showName = projectList.displayName;
 
 

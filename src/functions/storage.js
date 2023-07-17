@@ -52,7 +52,7 @@ const storage = (() => {
             localStorage.setItem('notes', notesString);
         } else {
             // If localStorage is not available, log a message to the console
-            console.log('Local storage not available');
+            
         }
     }
 
@@ -66,7 +66,7 @@ const storage = (() => {
             localStorage.setItem('projectList', projectListString);
         } else {
             // If localStorage is not available, log a message to the console
-            console.log('Local storage not available');
+            
         }
     }   
 
@@ -105,10 +105,10 @@ const storage = (() => {
         if (checkLocalStorage()) {
             // if projectList already exists in localStorage, return
             if (localStorage.getItem('projectList') !== null) {
-                console.log('projectList already exists in localStorage');
+                
                 return;
             }
-            console.log('Creating projectList in localStorage');
+            
             // create projectList in localStorage
             let projectList = [{
                 displayName: 'default',
@@ -120,7 +120,7 @@ const storage = (() => {
             saveToLocalStorage(projectList);
         } else {
             // If localStorage is not available, log a message to the console
-            console.log('Local storage not available');
+            
         }
     }
 
@@ -130,10 +130,10 @@ const storage = (() => {
         if (checkLocalStorage()) {
             // if notes already exists in localStorage, return
             if (localStorage.getItem('notes') !== null) {
-                console.log('notes already exists in localStorage');
+                
                 return;
             }
-            console.log('Creating notes in localStorage');
+            
             // create notes in localStorage
             let notes = [
                 {
@@ -144,7 +144,7 @@ const storage = (() => {
             saveNotes(notes); // save notes to localStorage
         } else {
             // If localStorage is not available, log a message to the console
-            console.log('Local storage not available');
+            
         }
     }
 

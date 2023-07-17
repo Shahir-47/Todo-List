@@ -22,15 +22,14 @@ const displayTheRightPage = () => {
     }
 }
 
-const timeDiff = (item) => {
+const formatTime = (item) => {
     // create date for the a item
     let [year, month, day] =  item.dueDate.split('-');
     let dueDate = new Date(year, month - 1, day);
     let [hours, minutes] = item.dueTime.split(':');
     dueDate.setHours(hours);
     dueDate.setMinutes(minutes);
-    return formatDistanceToNow(dueDate, { addSuffix: true });
-
+    return dueDate;
 }
 
 const project = (() => {
@@ -129,7 +128,7 @@ const project = (() => {
 
     // add a new todo item to a project
     const addToProjectItem = (title, details, dueDate, dueTime, priority, name = 'default') => {
-        console.log(projectList);
+        
         // check if the todo item is important, if so, set the starred attribute to true
         let important = false;
         if (document.querySelector('.box:nth-of-type(1) .item:nth-of-type(4).active') || document.querySelector('.selection input[id="Important"]:checked')) {
@@ -153,7 +152,7 @@ const project = (() => {
 
     const editProjectItem = (index, title, details, dueDate, dueTime, priority) => {
         let name = index.split('~')[0]; // get the name of the project
-        console.log(index.split('~')[1]); 
+         
         let defaultProject = projectList.find(project => project.name == name);
         // if the project is not the default project, edit the todo item in the default project as well
         if (name != 'default') {
@@ -218,7 +217,7 @@ const project = (() => {
             let deleteIndex = project.todoList.findIndex(item => item.index == index); // get the index of the todo item
             project.todoList.splice(deleteIndex, 1); // delete the todo item from the default project
         }
-        console.log(deletedProj.todoList.findIndex(item => item.index == index));
+        
         let deleteIndex = deletedProj.todoList.findIndex(item => item.index == index); // get the index of the todo item
         deletedProj.todoList.splice(deleteIndex, 1); // delete the todo item from the project
         storage.saveToLocalStorage(projectList); // save the projectList to localStorage
@@ -253,7 +252,7 @@ const project = (() => {
     */
     const sort = (name = 'default') => {
         let defaultProject = projectList.find(project => project.name === name); // get the project 
-        console.log(defaultProject);
+        
         // if the project does not exist, return
         if (defaultProject.todoList.length == 0) {
             return;
@@ -266,8 +265,8 @@ const project = (() => {
         const notDelayItems = incompleteItems.filter(item => (item.dueTime && new Date(item.dueDate + ' ' + item.dueTime) >= new Date()) || (!item.dueTime && (differenceInCalendarDays(new Date(item.dueDate.slice(0, 4), item.dueDate.slice(5, 7)-1, item.dueDate.slice(8, 10)), new Date()) >= 0)));
         sortByTime(notDelayItems); // sort the items that are not past their due time
         sortDelayItems(delayItems); // sort the items that are past their due time
-        console.log(notDelayItems);
-        console.log(delayItems);
+        
+        
         // sorted incomplete items that are not past their due time
         // are on top of the sorted incomplete items that are past their due time
         incompleteItems = notDelayItems.concat(delayItems);
@@ -277,7 +276,7 @@ const project = (() => {
         // the sorted incomplete items are above the sorted completed items
         defaultProject.todoList = incompleteItems.concat(completeItems);
 
-        console.log(defaultProject.todoList);
+        
         storage.saveToLocalStorage(projectList); // save the projectList to localStorage
         updateProjectList(); // update the projectList
     }
@@ -321,16 +320,20 @@ const project = (() => {
             // first check which one has the recent due time
             // if same, check which one has the higher priority
             if (a.dueTime && b.dueTime) {
-                console.log('c5');
+                
+                // create date for the item in the desired format for comparison
+                let aDueDate = formatTime(a);
+                let bDueDate = formatTime(b);
+
                 // Calculate the time difference between the current date/time and the task due date
-                let aDistance = timeDiff(a);
-                let bDistance = timeDiff(b);
+                let aDistance = formatDistanceToNow(aDueDate, { addSuffix: true });
+                let bDistance = formatDistanceToNow(bDueDate, { addSuffix: true });
                 aDistance = aDistance.split(' ');
                 bDistance = bDistance.split(' ');
                 // if both items are due within 24 hours, compare time.
                 // if same time, then compare priority
                 if (((parseInt(aDistance[1]) <= 24 && (aDistance[2] == 'hour' || aDistance[2] == 'hours')) || (aDistance.includes('minute') || aDistance.includes('minutes'))) && ((parseInt(bDistance[1]) <= 24 && (bDistance[2] == 'hour' || bDistance[2] == 'hours')) || (bDistance.includes('minute') || bDistance.includes('minutes')))) {
-                    console.log(compareDesc(aDueDate, bDueDate));
+                    
                     if (compareDesc(aDueDate, bDueDate) == 0) {
                         return comparePriority(a, b);
                     }
@@ -346,9 +349,8 @@ const project = (() => {
                 }
             // if a has a due time but b does not
             } else if (a.dueTime && !b.dueTime) {
-                console.log('c6');
                 // Calculate the time difference between the current date/time and the task due date
-                let distance = timeDiff(a);
+                let distance = formatDistanceToNow(formatTime(a), { addSuffix: true });;
                 distance = distance.split(' ');
                 // if item a is due within 24 hours, it is higher priority
                 if ((parseInt(distance[1]) <= 24 && (distance[2] == 'hour' || distance[2] == 'hours')) || (distance.includes('minute') || distance.includes('minutes'))) {
@@ -361,9 +363,8 @@ const project = (() => {
                 return compareDesc(new Date(a.dueDate), new Date(b.dueDate));
             // if b has a due time but 'a' does not
             } else if (!a.dueTime && b.dueTime) {
-                console.log('c7');;
                 // Calculate the time difference between the current date/time and the task due date
-                let distance = timeDiff(b);
+                let distance = formatDistanceToNow(formatTime(b), { addSuffix: true });
                 distance = distance.split(' ');
                 // if item b is due within 24 hours, it is higher priority
                 if ((parseInt(distance[1]) <= 24 && (distance[2] == 'hour' || distance[2] == 'hours')) || (distance.includes('minute') || distance.includes('minutes'))) {
@@ -393,9 +394,9 @@ const project = (() => {
             * else, b is higher priority
             */
             if (a.dueTime && !b.dueTime && isSameDay(new Date(b.dueDate.slice(0, 4), b.dueDate.slice(5, 7)-1, b.dueDate.slice(8, 10)), new Date())) {
-                console.log('a');
+                
                 // Calculate the time difference between the current date/time and the task due date
-                let distance = timeDiff(a);
+                let distance = formatDistanceToNow(formatTime(a), { addSuffix: true });
                 distance = distance.split(' ');
                 // if item a is due within 24 hours, it is higher priority
                 if ((parseInt(distance[2]) <= 24 && (distance[3] == 'hour' || distance[3] == 'hours')) || (distance.includes('minute') || distance.includes('minutes'))) {
@@ -407,9 +408,9 @@ const project = (() => {
             // If b has a due time and a is due Today,
             // then check if b is due within 24 hours, if so, b is higher priority
             if (!a.dueTime && b.dueTime && isSameDay(new Date(a.dueDate.slice(0, 4), a.dueDate.slice(5, 7)-1, a.dueDate.slice(8, 10)), new Date())) {
-                console.log('b');
+                
                 // Calculate the time difference between the current date/time and the task due date
-                let distance = timeDiff(b);
+                let distance = formatDistanceToNow(formatTime(b), { addSuffix: true });
                 distance = distance.split(' ');
                 // if item b is due within 24 hours, it is higher priority
                 if ((parseInt(distance[2]) <= 24 && (distance[3] == 'hour' || distance[3] == 'hours')) || (distance.includes('minute') || distance.includes('minutes'))) {
@@ -424,15 +425,17 @@ const project = (() => {
             // if b is due within 24 hours and a is not, b is higher priority
             // if both are not due within 24 hours, then compare by due date
             if (a.dueTime && b.dueTime) {
-                console.log('c');
+                
                 // Calculate the time difference between the current date/time and the task due date
-                let aDistance = timeDiff(a);
-                let bDistance = timeDiff(b);
+                let aDueDate = formatTime(a);
+                let bDueDate = formatTime(b);
+                let aDistance = formatDistanceToNow(aDueDate, { addSuffix: true });
+                let bDistance = formatDistanceToNow(bDueDate, { addSuffix: true });
                 aDistance = aDistance.split(' ');
                 bDistance = bDistance.split(' ');
                 // if both items are due within 24 hours, compare time.
                 if (((parseInt(aDistance[2]) <= 24 && (aDistance[3] == 'hour' || aDistance[3] == 'hours')) || (aDistance.includes('minute') || aDistance.includes('minutes'))) && ((parseInt(bDistance[2]) <= 24 && (bDistance[3] == 'hour' || bDistance[3] == 'hours')) || (bDistance.includes('minute') || bDistance.includes('minutes')))) {
-                    console.log(compareAsc(aDueDate, bDueDate));
+                    
                     // if both items have the same time, then compare priority
                     if (compareAsc(aDueDate, bDueDate) == 0) {
                         return comparePriority(a, b);

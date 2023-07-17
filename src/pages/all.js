@@ -36,7 +36,7 @@ const itemsEventHandler = (event) => {
         });
         // submit the edit form
         document.querySelector('#edit-form').addEventListener('submit', (e) => {
-            console.log(e.target.getAttribute('data-id'));
+            
             formValidation(e.target, e.target.getAttribute('data-id'));
         });
     }
@@ -224,7 +224,7 @@ const sortItems = (event) => {
     } else {
         filter = document.querySelector('.selection input[name="selection"]:checked').value;
     }
-    console.log(filter);
+    
     // taking both sort and filter into account, display the right items
     if (event == 'Time') {
         if (document.querySelector('.project-title')){
@@ -262,7 +262,7 @@ const displayAllItems = (name = 'default', sortBy = 'Time', filter = 'All') => {
     let defaultProject = projectList.find(project => project.name == name);
 
     console.log()
-    console.log(defaultProject.todoList);
+    
     // filter the sorted list based on the filter parameter
     let list = []
     if (filter == 'All') {

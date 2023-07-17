@@ -3,18 +3,16 @@ import header from './header.js';
 import footer from './footer.js';
 import createPopupContainers from './popup.js';
 import { addForm, addProjectForm, addNoteForm } from './popup.js';
-import { add } from 'date-fns';
 import { allNotes } from '../pages/notesUI.js'
 
-
+//create div where all the page content will be displayed
 const pageContent = () => {
     const sidebarContent = document.querySelector('.sidebar-content');
     let width = sidebarContent.offsetWidth;
-    console.log(width);
+    
     let top = sidebarContent.style.marginTop;
     const footerH = document.querySelector('footer');
     let bottom = footerH.offsetHeight;
-    const height = document.querySelector('.nav-bar').offsetHeight;
 
     const pageContent = document.createElement('div');
     pageContent.id = 'page-content';
@@ -28,10 +26,11 @@ const pageContent = () => {
     document.querySelector('div#content').appendChild(pageContent);
 }
 
+// adjust the page content when the sidebar is toggled
 const adjustPageContent = () => {
     const sidebarContent = document.querySelector('.sidebar-content');
     let width = sidebarContent.offsetWidth;
-    console.log(width);
+    
     let top = sidebarContent.style.marginTop;
     let height = sidebarContent.style.height;
     const footerH = document.querySelector('footer');
@@ -43,52 +42,61 @@ const adjustPageContent = () => {
     pageContent.style.minHeight = 'calc(100vh - ' + (top + bottom + 'px') + ')';
     pageContent.style.width = 'calc(100vw - ' + (width + 'px') + ')';
 
+    // since notes uses masonry.js, we need to reload the page content for the notes page
     if (document.querySelector('.notes-list')) {
             allNotes(false);
     }
 }
 
+// load the initial page
 const pageLoad = () => {
-    header();
-    sidebar();
-    footer();
-    createPopupContainers();
-    pageContent();
+    header(); // create the header
+    sidebar(); // create the sidebar
+    footer(); // create the footer
+    createPopupContainers(); // create the popup forms
+    pageContent(); // create the page content
 }
 
 // Change color theme
 const changeTheme = () => {
     document.body.classList.toggle('light-theme');
+    document.querySelector('.logo-box').classList.toggle('light-theme');
     document.querySelector('.search-box').classList.toggle('light-theme');
     document.querySelector('footer').classList.toggle('light-theme');
 }
 
+// Show the add todo form
 const showForm = () => {
     addForm();
     document.querySelector('.priority-container #low').checked = true;
     document.getElementById('popupFormContainer').style.display = 'block';
+    // add the highlight to the correct sidebar item
     document.querySelector('.new-todo-box:nth-of-type(1)').classList.add('active');
     document.querySelector('.new-todo-box:nth-of-type(2)').classList.remove('active');
     document.querySelector('.new-todo-box:nth-of-type(3)').classList.remove('active');
 }
 
+// Show the add note form
 const showNoteForm = () => {
     addNoteForm();
+    // add the highlight to the correct sidebar item
     document.getElementById('popupFormContainer').style.display = 'block';
     document.querySelector('.new-todo-box:nth-of-type(1)').classList.remove('active');
     document.querySelector('.new-todo-box:nth-of-type(2)').classList.remove('active');
     document.querySelector('.new-todo-box:nth-of-type(3)').classList.add('active');
 }
 
-
+// Show the add project form
 const showProjectForm = () => {
     addProjectForm();
+    // add the highlight to the correct sidebar item
     document.getElementById('popupFormContainer').style.display = 'block';
     document.querySelector('.new-todo-box:nth-of-type(1)').classList.remove('active');
     document.querySelector('.new-todo-box:nth-of-type(2)').classList.add('active');
     document.querySelector('.new-todo-box:nth-of-type(3)').classList.remove('active');
 }
-    
+
+// Close the add forms
 const closeForm = () => {
     document.querySelector('.todo-form').reset();
     document.getElementById('popupFormContainer').style.display = 'none';

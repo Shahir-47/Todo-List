@@ -1,14 +1,16 @@
-import Icon from '../assets/img/icon.svg';
 import menu from '../assets/img/menu.svg';
 import search from '../assets/img/search.svg';
 
+// Create the header
 const header = () => {
     const bar = document.createElement('div');
     bar.classList.add('nav-bar');
 
+    // items on the left side of the header
     const leftBox = document.createElement('div');
     leftBox.classList.add('left-box');
 
+    // Create the menu button
     const menuButton = document.createElement('button');
     menuButton.classList.add('menu-button');
     const menuIcon = document.createElement('img');
@@ -17,13 +19,16 @@ const header = () => {
     menuButton.appendChild(menuIcon);
     leftBox.appendChild(menuButton);
 
+    // Create the logo
     const logoBox = document.createElement('div');
     logoBox.classList.add('logo-box');
 
+    // logo icon
     const completed = document.createElement('div');
     completed.classList.add('logo-img');
     completed.textContent = '✓';
 
+    // logo text
     const logoLink = document.createElement('a');
     logoLink.appendChild(completed);
     logoBox.appendChild(logoLink);
@@ -36,6 +41,7 @@ const header = () => {
 
     bar.appendChild(leftBox);
 
+    // search bar
     const searchBox = document.createElement('div');
     searchBox.classList.add('search-box');
     const searchInput = document.createElement('input');
@@ -55,6 +61,7 @@ const header = () => {
 
     bar.appendChild(searchBox);
 
+    // toggle switch for dark theme
     const toggleBox = document.createElement('div');
     toggleBox.classList.add('toggle-switch');
     const checkBox = document.createElement('input');
