@@ -80,10 +80,12 @@ const allNotes = (starred) => {
     // filter the notes list based on the starred parameter
     if (starred) {
         document.querySelector('.search-input').placeholder = 'Search starred notes';
+        document.querySelector('.search-input').value = '';
         notesList = notesList.filter(note => note.starred === true);
         todoList.setAttribute('starred', 'true');
     } else {
         document.querySelector('.search-input').placeholder = 'Search all notes';
+        document.querySelector('.search-input').value = '';
         todoList.setAttribute('starred', 'false');
     }
 
