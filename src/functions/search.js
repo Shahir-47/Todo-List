@@ -1,4 +1,5 @@
 import noTask from '../assets/img/taskSearch.svg';
+import { displayTheRightPage } from './project';
 
 let noItem = document.querySelector('.no-item'); // Get the existing noItem element
 
@@ -36,25 +37,31 @@ const searchTask = (query, type) => {
 
     // Check if no match is found and show/hide no-result icon
     if (!matchFound) {
-        if (!noItem) {
-            noItem = document.createElement('div');
-            noItem.classList.add('no-item');
-            todoList.classList.add('no-item');
-            const noItemIcon = document.createElement('img');
-            noItemIcon.src = noTask;
-            noItemIcon.alt = 'No results icon';
-            noItemIcon.draggable = false;
-            noItem.appendChild(noItemIcon);
-            const noItemText = document.createElement('p');
-            noItemText.textContent = 'No tasks found!';
-            noItem.appendChild(noItemText);
-            todoList.appendChild(noItem);
-        } else {
-            noItem.classList.remove('hide');
-            noItem.classList.add('no-item');
-            todoList.classList.add('no-item');
-            noItem.querySelector('img').src = noTask;
-            noItem.querySelector('p').textContent = 'No tasks found!';
+        console.log();
+        if (query !== '') {
+            if (!document.querySelector('.no-item')) {
+                noItem = document.createElement('div');
+                noItem.classList.add('no-item');
+                todoList.classList.add('no-item');
+                const noItemIcon = document.createElement('img');
+                noItemIcon.src = noTask;
+                noItemIcon.alt = 'No results icon';
+                noItemIcon.draggable = false;
+                noItem.appendChild(noItemIcon);
+                const noItemText = document.createElement('p');
+                noItemText.textContent = 'No tasks found!';
+                noItem.appendChild(noItemText);
+                todoList.appendChild(noItem);
+            } else {
+                let noItem = document.querySelector('.no-item');
+                noItem.classList.remove('hide');
+                noItem.classList.add('no-item');
+                todoList.classList.add('no-item');
+                noItem.querySelector('img').src = noTask;
+                noItem.querySelector('p').textContent = 'No tasks found!';
+            }
+        } else if (query === '') {
+            displayTheRightPage();
         }
     } else if (noItem) {
         todoList.classList.remove('no-item');

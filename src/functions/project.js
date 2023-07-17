@@ -466,4 +466,4 @@ const project = (() => {
 
 
 
-export { project };
+export { project, displayTheRightPage };
