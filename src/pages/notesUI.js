@@ -86,11 +86,13 @@ const allNotes = (starred) => {
         const noteTitle = document.createElement('div');
         noteTitle.classList.add('note-title');
         noteTitle.contentEditable = true;
+        noteTitle.spellcheck=false;
         noteTitle.textContent = note.title;
 
         const noteDescription = document.createElement('div');
         noteDescription.classList.add('note-description');
         noteDescription.contentEditable = true;
+        noteDescription.spellcheck=false;
         noteDescription.textContent = note.description;
 
         const buttons = document.createElement('div');

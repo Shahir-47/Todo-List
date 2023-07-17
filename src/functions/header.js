@@ -19,11 +19,13 @@ const header = () => {
 
     const logoBox = document.createElement('div');
     logoBox.classList.add('logo-box');
-    const logo = document.createElement('img');
-    logo.src = Icon;
-    logo.alt = 'Todo List logo';
+
+    const completed = document.createElement('div');
+    completed.classList.add('logo-img');
+    completed.textContent = '✓';
+
     const logoLink = document.createElement('a');
-    logoLink.appendChild(logo);
+    logoLink.appendChild(completed);
     logoBox.appendChild(logoLink);
     const logoText = document.createElement('h1');
     logoText.textContent = 'Todo List';

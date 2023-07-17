@@ -22,6 +22,13 @@ let previousScrollPosition = 0;
 pageLoad();
 allUI();
 
+const links = document.querySelectorAll('.logo-box a');
+links.forEach((link) => {
+    link.addEventListener('click', (e) => {
+        document.querySelector('#page-content').innerHTML = '';
+        allUI();
+    });
+});
 
 // Event listener to change color theme
 const themeToggle = document.getElementById('theme-toggle');
@@ -184,6 +191,7 @@ document.querySelector('#content').addEventListener('change', (e) => {
 });
 
 document.querySelector('#content').addEventListener('input', (e) => {
+    
     if (e.target.closest('.note-title') || e.target.closest('.note-description')) {
         console.log(e.target.textContent);
         notes.editNote(e.target.closest('.note').getAttribute('note-id'), e.target.closest('.note').querySelector('.note-title').textContent, e.target.closest('.note').querySelector('.note-description').textContent);

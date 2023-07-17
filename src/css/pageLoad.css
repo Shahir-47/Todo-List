@@ -17,6 +17,13 @@ body {
     --form-scroll-box-bg-color: #9e9e9e21;
     --todo-item-bg-color: #192734;
     --todo-item-hover-color: #2d3d4d;
+    --back-btn-color: #3F51B5;
+    --form-input-color: #192734;
+    --header-color: #dddddd;
+    --note-color: #ffffff;
+    --note-header: #90CAF9;
+    --note-out-of-focus: #dddddd;
+    --highlight: #5369e5;
     background-color: #15202b;
     margin: 0;
     padding: 0;
@@ -45,6 +52,13 @@ body.light-theme{
     --form-scroll-box-bg-color: #9e9e9e57;
     --todo-item-bg-color: #31303014;
     --todo-item-hover-color: #ffffff;
+    --back-btn-color: #90CAF9;
+    --form-input-color: rgb(203 199 199 / 30%);
+    --header-color: #ffffff;
+    --note-out-of-focus: #292929c7;
+    --note-color: #000000;
+    --note-header: red;
+    --highlight: yellow;
 }
 
 body.light-theme img:not(.logo-box img){
@@ -275,11 +289,6 @@ div#content {
     align-items: center;
     gap: 0.5rem;
     cursor: pointer;
-}
-
-.logo-box img {
-    width: 2.5rem;
-    height: auto;
 }
 
 
@@ -573,7 +582,7 @@ footer img {
 
 .project-title-input{
     outline: none;
-    background-color: var(--search-box-bg-color);
+    background-color: var(--form-input-color);
     border: hsl(0, 0%, 18.82%);
     color: var(--search-input-color);
     width: calc(100% - 1rem);
@@ -588,7 +597,7 @@ footer img {
 
 .note-details-input {
     outline: none;
-    background-color: var(--search-box-bg-color);
+    background-color: var(--form-input-color);
     border: hsl(0, 0%, 18.82%);
     color: var(--search-input-color);
     width: calc(100% - 1rem);
@@ -603,7 +612,7 @@ footer img {
 
 .details-input {
     outline: none;
-    background-color: var(--search-box-bg-color);
+    background-color: var(--form-input-color);
     border: hsl(0, 0%, 18.82%);
     color: var(--search-input-color);
     width: calc(100% - 1rem);
@@ -617,7 +626,7 @@ footer img {
 
 .note-title-input{
     outline: none;
-    background-color: var(--search-box-bg-color);
+    background-color: var(--form-input-color);
     border: hsl(0, 0%, 18.82%);
     color: var(--search-input-color);
     font-size: 1rem;
@@ -629,7 +638,7 @@ footer img {
 
 .title-input {
     outline: none;
-    background-color: var(--search-box-bg-color);
+    background-color: var(--form-input-color);
     border: hsl(0, 0%, 18.82%);
     color: var(--search-input-color);
     font-size: 1rem;

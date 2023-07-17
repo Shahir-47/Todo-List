@@ -45,7 +45,7 @@
     justify-content: center;
     padding: 1rem 2rem;
     background-color: var(--add-btn-color);
-    color: var(--content-text-color);
+    color: var(--header-color);
     /* border-top-left-radius: 12px; */
     /* border-top-right-radius: 12px; */
     border-radius: 12px;
@@ -113,15 +113,17 @@
     background-color: rgb(89 107 160 / 25%);
 }
 
+.note:focus-within .note-title,
 .note-title:focus,
 .note:hover .note-title {
-    color: var(--add-btn-bg-color);
+    color: var(--note-header);
     font-size: 1.3rem;
 }
 
+.note:focus-within .note-description,
 .note-description:focus,
 .note:hover .note-description {
-    color: white;
+    color: var(--note-color);
 }
 
 .note-description {
@@ -129,6 +131,7 @@
     outline: none;
     resize: none;
     min-height: 25px;
+    color: var(--note-out-of-focus);
 }
 
 .note-title {
@@ -300,6 +303,22 @@
     filter: brightness(1.2);
 }
 
+.logo-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid #3F51B5;
+    background-color: #90CAF9;
+    color: #3F51B5;
+    font-weight: 600;
+    border-radius: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 1.4rem;
+    margin-bottom: 4px;
+}
+
+
 .completed {
     width: 2rem;
     height: 2rem;
@@ -450,7 +469,7 @@
 }
 
 .highlight {
-    background-color: #5369e5;
+    background-color: var(--highlight);
     font-weight: bold;
 }
 
@@ -586,7 +605,7 @@
     flex-direction: row;
     gap: 1rem;
     align-items: center;
-    color: var(--add-btn-bg-color);
+    color: #90CAF9;
     font-size: 18px;
     font-weight: 900;
 }
@@ -595,14 +614,14 @@
     display: inline-block;
     padding: 10px 20px;
     border-radius: 4px;
-    color: var(--add-btn-bg-color);
+    color: #90CAF9;
     background-color: transparent;
     font-size: 16px;
     font-weight: 900;
     cursor: pointer;
     transition: all 0.3s ease;
     outline: none;
-    border: 1px solid var(--add-btn-bg-color);
+    border: 1px solid #90CAF9;
 }
 
 .sort-selection:hover {
@@ -722,6 +741,7 @@
     font-weight: 900;
     text-align: center;
     background-color: var(--add-btn-color);
+    color: var(--header-color);
     padding: 1rem;
 }
 
@@ -729,7 +749,7 @@
     display: inline-block;
     padding: 10px 20px;
     border-radius: 12px;
-    color: var(--add-btn-bg-color);
+    color: var(--back-btn-color);
     background-color: transparent;
     border: 3px solid var(--add-btn-color);
     font-size: 55px;
