@@ -4,6 +4,7 @@ import del from '../assets/img/del.svg';
 import star from '../assets/img/star.svg';
 import fullStar from '../assets/img/fullStar.svg';
 import Masonry from 'masonry-layout';
+import { searchNote } from '../functions/search';
 
 let masonry;
 
@@ -63,13 +64,16 @@ const showAllNotes = (starred = false) => {
 }
 
 const allNotes = (starred) => {
+    const searchBar = document.getElementById('search');
     const todoList = document.querySelector('.notes-list');
     let notesList = storage.getNotes()[0].list;
     todoList.innerHTML = '';
     if (starred) {
+        document.querySelector('.search-input').placeholder = 'Search starred notes';
         notesList = notesList.filter(note => note.starred === true);
         todoList.setAttribute('starred', 'true');
     } else {
+        document.querySelector('.search-input').placeholder = 'Search all notes';
         todoList.setAttribute('starred', 'false');
     }
 
@@ -119,6 +123,10 @@ const allNotes = (starred) => {
 
         todoList.appendChild(noteCard);
     });
+    
+    if (searchBar.value !== '') {
+        searchNote(searchBar.value);
+    }
 
     // Initialize Masonry.js and specify the container element
     masonry = new Masonry(todoList, {

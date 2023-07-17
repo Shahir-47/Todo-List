@@ -6,6 +6,7 @@ import fullStar from '../assets/img/fullStar.svg';
 import displayProject from './indivProj';
 import { project } from '../functions/project';
 import { projectFormValidation } from '../functions/form';
+import searchTask from '../functions/search';
 
 const handleProject = (event) => {
     if (event.target.closest('.todo-project .todo-delete')) {
@@ -51,8 +52,10 @@ const showAllProject = (starred = false) => {
     });
 
     if (!starred && document.querySelector('.box:nth-of-type(2) .item:nth-of-type(1)')){
+        document.querySelector('.search-input').placeholder = 'Search all projects';
         document.querySelector('.box:nth-of-type(2) .item:nth-of-type(1)').classList.add('active');
     } else if (starred && document.querySelector('.box:nth-of-type(2) .item:nth-of-type(2)')) {
+        document.querySelector('.search-input').placeholder = 'Search starred projects';
         document.querySelector('.box:nth-of-type(2) .item:nth-of-type(2)').classList.add('active');
     }
 
@@ -78,6 +81,7 @@ const showAllProject = (starred = false) => {
 }
 
 const allProject = (starred) => {
+    const searchBar = document.getElementById('search');
     const todoList = document.querySelector('.todo-list-project');
     todoList.innerHTML = '';
 
@@ -154,6 +158,11 @@ const allProject = (starred) => {
         todoItem.appendChild(todoRight);
         todoList.appendChild(todoItem);        
     });
+
+    if (searchBar.value !== '') {
+        searchTask(searchBar.value, 'project');
+    }
+
 }
 
 export default showAllProject;

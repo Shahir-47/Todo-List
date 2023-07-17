@@ -12,6 +12,8 @@ import { handleProject } from './pages/projectUI';
 import { projectFormValidation, noteFormValidation } from './functions/form';
 import { showAllNotes, handleNotes } from './pages/notesUI';
 import { notes } from './functions/notes';
+import searchTask from './functions/search';
+import { searchNote } from './functions/search';
 
 let highlight;
 let previousScrollPosition = 0;
@@ -185,6 +187,16 @@ document.querySelector('#content').addEventListener('input', (e) => {
     if (e.target.closest('.note-title') || e.target.closest('.note-description')) {
         console.log(e.target.textContent);
         notes.editNote(e.target.closest('.note').getAttribute('note-id'), e.target.closest('.note').querySelector('.note-title').textContent, e.target.closest('.note').querySelector('.note-description').textContent);
+    }
+    if (e.target.closest('.search-input')) {
+        const searchBar = document.getElementById('search');
+        if (document.querySelector('.todo-list')){
+            searchTask(searchBar.value, 'list');
+        } else if (document.querySelector('.todo-list-project')) {
+            searchTask(searchBar.value, 'project');
+        } else if (document.querySelector('.notes-list')) {
+            searchNote(searchBar.value);
+        }
     }
 });
 

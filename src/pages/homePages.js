@@ -8,12 +8,16 @@ const showPage = (page) => {
     });
 
     if (page == 'Today') {
+        document.querySelector('.search-input').placeholder = 'Search today\'s tasks';
         document.querySelector('.box:nth-of-type(1) .item:nth-of-type(2)').classList.add('active');
     } else if (page == 'Week') {
+        document.querySelector('.search-input').placeholder = 'Search this week\'s tasks';
         document.querySelector('.box:nth-of-type(1) .item:nth-of-type(3)').classList.add('active');
     } else if (page == 'Important') {
+        document.querySelector('.search-input').placeholder = 'Search important tasks';
         document.querySelector('.box:nth-of-type(1) .item:nth-of-type(4)').classList.add('active');
     } else if (page == 'Completed') {
+        document.querySelector('.search-input').placeholder = 'Search completed tasks';
         document.querySelector('.box:nth-of-type(1) .item:nth-of-type(5)').classList.add('active');
     }
 

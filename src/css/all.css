@@ -445,6 +445,15 @@
 
 }
 
+.hide {
+    display: none;
+}
+
+.highlight {
+    background-color: #5369e5;
+    font-weight: bold;
+}
+
 #edit-project-form {
     display: grid;
     gap: 1rem;

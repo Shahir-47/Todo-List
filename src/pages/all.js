@@ -6,6 +6,7 @@ import formValidation from '../functions/form';
 import { formatDistanceToNow, isSameDay, addDays, differenceInCalendarDays, format, parseISO, parse, set } from 'date-fns';
 import { storage } from '../functions/storage';
 import { project } from '../functions/project';
+import searchTask from '../functions/search';
 
 // const handle todo item events
 const itemsEventHandler = (event) => {
@@ -234,6 +235,7 @@ const sortItems = (event) => {
 }
 
 const displayAllItems = (name = 'default', sortBy = 'Time', filter = 'All') => {
+    const searchBar = document.getElementById('search');
     const todoList = document.querySelector('.todo-list');
     todoList.innerHTML = '';
 
@@ -256,8 +258,10 @@ const displayAllItems = (name = 'default', sortBy = 'Time', filter = 'All') => {
     // Access the todoList property of the default project
     let list = []
     if (filter == 'All') {
+        searchBar.placeholder = 'Search all tasks';
         list = defaultProject.todoList;
     } else if (filter == 'Today') {
+        searchBar.placeholder = 'Search today\'s tasks';
         list = defaultProject.todoList.filter(item => !item.done.flag);
         list = list.filter(item => (item.dueTime && new Date(item.dueDate + ' ' + item.dueTime) >= new Date()) || (!item.dueTime && (differenceInCalendarDays(new Date(item.dueDate.slice(0, 4), item.dueDate.slice(5, 7)-1, item.dueDate.slice(8, 10)), new Date()) >= 0)));
         list = list.filter(item => {
@@ -282,19 +286,27 @@ const displayAllItems = (name = 'default', sortBy = 'Time', filter = 'All') => {
             }
         })
     } else if (filter == 'Week') {
+        searchBar.placeholder = 'Search this week\'s tasks';
         list = defaultProject.todoList.filter(item => !item.done.flag);
         list = list.filter(item => (item.dueTime && new Date(item.dueDate + ' ' + item.dueTime) >= new Date()) || (!item.dueTime && (differenceInCalendarDays(new Date(item.dueDate.slice(0, 4), item.dueDate.slice(5, 7)-1, item.dueDate.slice(8, 10)), new Date()) >= 0)));
         list = list.filter(item => (item.dueTime && differenceInCalendarDays(new Date(item.dueDate + ' ' + item.dueTime), new Date()) <= 7) || (!item.dueTime && (differenceInCalendarDays(new Date(item.dueDate.slice(0, 4), item.dueDate.slice(5, 7)-1, item.dueDate.slice(8, 10)), new Date()) <= 7)));
     } else if (filter == 'Important') {
+        searchBar.placeholder = 'Search important tasks';
         list = defaultProject.todoList.filter(item => item.starred == true);
     } else if (filter == 'Completed'){
+        searchBar.placeholder = 'Search completed tasks';
         list = defaultProject.todoList.filter(item => item.done.flag == true);
     } else if (filter == 'High') {
+        searchBar.placeholder = 'Search high priority tasks';
         list = defaultProject.todoList.filter(item => item.priority == 'high');
     }
 
     for (let i = 0; i < list.length; i++) {
         displayTodoItem(list[i]);
+    }
+
+    if (searchBar.value !== '') {
+        searchTask(searchBar.value, 'list');
     }
 }
 
