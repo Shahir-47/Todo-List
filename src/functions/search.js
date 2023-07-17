@@ -1,4 +1,3 @@
-import { allNotes } from "../pages/notesUI";
 const searchTask = (query, type) => {
     let tasks;
     if (type == 'list') {
@@ -40,7 +39,6 @@ const searchNote = (query) => {
             note.classList.add('hide');  // Hide task if it does not match the search query
         }
       }
-    allNotes(document.querySelector('.notes-list').getAttribute('starred') == 'false' ? false : true);
 };
 
 export default searchTask;
