@@ -2,6 +2,8 @@ import edit from '../assets/img/edit.svg';
 import del from '../assets/img/del.svg';
 import star from '../assets/img/star.svg';
 import fullStar from '../assets/img/fullStar.svg';
+import sad from '../assets/img/sad.svg';
+import noTask from '../assets/img/noTask.svg';
 import formValidation from '../functions/form';
 import { formatDistanceToNow, isSameDay, addDays, differenceInCalendarDays, format, parseISO, parse, set } from 'date-fns';
 import { storage } from '../functions/storage';
@@ -314,9 +316,41 @@ const displayAllItems = (name = 'default', sortBy = 'Time', filter = 'All') => {
         list = defaultProject.todoList.filter(item => item.priority == 'high');
     }
 
-    // display the filtered list
-    for (let i = 0; i < list.length; i++) {
-        displayTodoItem(list[i]);
+    // if the list is empty, display the no item icon
+    if (list.length == 0) {
+        todoList.classList.add('no-item')
+        const noItem = document.createElement('div');
+        noItem.classList.add('no-item');
+        const noItemIcon = document.createElement('img');
+        noItemIcon.src = noTask;
+        noItemIcon.alt = 'No task icon';
+        noItemIcon.draggable = false;
+        noItem.appendChild(noItemIcon);
+        const noItemText = document.createElement('p');
+        if (filter == 'All') {
+            noItemText.textContent = 'Yaay! No tasks left!';
+        } else if (filter == 'Today') {
+            noItemText.textContent = 'Yaay! No tasks left today!';
+        } else if (filter == 'Week') {
+            noItemText.textContent = 'Yaay! No tasks left this week!';
+        } else if (filter == 'Important') {
+            noItemText.textContent = 'Yaay! No important tasks left!';
+        } else if (filter == 'Completed') {
+            noItemIcon.src = sad;
+            noItemText.textContent = 'Unfortunately, no completed tasks yet!';
+        } else if (filter == 'High') {
+            noItemText.textContent = 'Yaay! No high priority tasks left!';
+        }
+        noItem.appendChild(noItemText);
+        todoList.appendChild(noItem);
+
+    // if the list is not empty, display the list
+    } else {
+        todoList.classList.remove('no-item')
+        // display the filtered list
+        for (let i = 0; i < list.length; i++) {
+            displayTodoItem(list[i]);
+        }
     }
 
     // filter the displayed list based on the search bar value
@@ -608,6 +642,7 @@ const allUI = () => {
     // dynamically adjust the height and margins of the list
     const todoList = document.createElement('div');
     todoList.classList.add('todo-list');
+    todoList.style.minHeight = pageContent.offsetHeight - (footer.offsetHeight * 2) - display.offsetHeight - 16 + 'px';
     todoList.style.maxHeight = pageContent.offsetHeight - (footer.offsetHeight * 2) - display.offsetHeight - 16 + 'px';
     todoList.style.marginRight = addBtn.offsetWidth + 64 + 'px';
     display.style.marginRight = addBtn.offsetWidth + 72 + 'px';

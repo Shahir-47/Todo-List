@@ -291,6 +291,40 @@ div#content {
     cursor: pointer;
 }
 
+.no-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+    padding-left: 6.25rem;
+}
+
+.no-item img {
+    width: 10rem;
+    height: auto;
+}
+
+.no-item-icon {
+    padding-right: 6.25rem;
+}
+
+.no-item {
+    user-select: none; /* Prevents text highlighting */
+    -webkit-user-drag: none; /* Disables dragging in WebKit browsers */
+    -khtml-user-drag: none; /* Disables dragging in Konqueror browser */
+    -moz-user-select: none; /* Prevents text highlighting in Firefox */
+    -moz-user-drag: none; /* Disables dragging in Firefox */
+    -ms-user-select: none; /* Prevents text highlighting in Internet Explorer/Edge */
+    -ms-user-drag: none; /* Disables dragging in Internet Explorer/Edge */
+}
+
+.no-item p {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin: 0;
+}
 
 .logo-box:hover,
 .logo-box:active {

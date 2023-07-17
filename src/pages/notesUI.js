@@ -3,6 +3,7 @@ import { storage } from '../functions/storage';
 import del from '../assets/img/del.svg';
 import star from '../assets/img/star.svg';
 import fullStar from '../assets/img/fullStar.svg';
+import empty from '../assets/img/emptyNote.svg';
 import Masonry from 'masonry-layout';
 import { searchNote } from '../functions/search';
 
@@ -60,6 +61,7 @@ const showAllNotes = (starred = false) => {
     // dynamically set the height and margins of the notes list
     const todoList = document.createElement('div');
     todoList.classList.add('notes-list');
+    todoList.style.minHeight = pageContent.offsetHeight - (footer.offsetHeight*2) - (projectTitle.offsetHeight*1.5) - 16 + 'px';
     todoList.style.maxHeight = pageContent.offsetHeight - (footer.offsetHeight*2) - (projectTitle.offsetHeight*1.5) - 16 + 'px';
     todoList.style.marginRight = addBtn.offsetWidth + 64 + 'px';
     projectTitle.style.marginRight = addBtn.offsetWidth + 72 + 'px';
@@ -84,57 +86,83 @@ const allNotes = (starred) => {
         document.querySelector('.search-input').placeholder = 'Search all notes';
         todoList.setAttribute('starred', 'false');
     }
-    // reverse the order of the notes list so that the newest notes are displayed first
-    notesList.reverse(); // Reverse the order of the array
-    notesList.forEach((note) => {
-        const noteCard = document.createElement('div');
-        noteCard.classList.add('note');
-        // dynamically set the width of the note card based on the width of the list
-        noteCard.style.width = (todoList.offsetWidth/3.3) + 'px';
-        noteCard.setAttribute('note-id', note.id);
-        const noteTitle = document.createElement('div');
-        noteTitle.classList.add('note-title');
-        // make the note title and description editable
-        noteTitle.contentEditable = true;
-        noteTitle.spellcheck=false;
-        noteTitle.textContent = note.title;
 
-        const noteDescription = document.createElement('div');
-        noteDescription.classList.add('note-description');
-        noteDescription.contentEditable = true;
-        noteDescription.spellcheck=false;
-        noteDescription.textContent = note.description;
-
-        const buttons = document.createElement('div');
-        buttons.classList.add('buttons');
-
-        const delBtn = document.createElement('button');
-        delBtn.classList.add('del-btn');
-        const delImg = document.createElement('img');
-        delImg.src = del;
-        delImg.alt = 'Delete Note';
-        delBtn.appendChild(delImg);
-
-        const starBtn = document.createElement('button');
-        starBtn.classList.add('star-btn');
-        const starIcon = document.createElement('img');
-        if (note.starred) {
-            starIcon.src = fullStar;
+    // if there are no notes, display the empty notes image
+    if (notesList.length === 0) {
+        todoList.classList.add('no-item')
+        const noItem = document.createElement('div');
+        noItem.classList.add('no-item-icon');
+        noItem.classList.add('no-item');
+        const noItemIcon = document.createElement('img');
+        noItemIcon.src = empty;
+        noItemIcon.alt = 'No notes icon';
+        noItemIcon.draggable = false;
+        noItem.appendChild(noItemIcon);
+        const noItemText = document.createElement('p');
+        if (starred) {
+            noItemText.textContent = 'No starred notes yet!';
         } else {
-            starIcon.src = star;
+            noItemText.textContent = 'No notes yet!';
         }
-        starIcon.alt = 'Star icon';
-        starBtn.appendChild(starIcon);
-    
-        buttons.appendChild(starBtn);
-        buttons.appendChild(delBtn);
+        noItem.appendChild(noItemText);
+        todoList.appendChild(noItem);
 
-        noteCard.appendChild(noteTitle);
-        noteCard.appendChild(noteDescription);
-        noteCard.appendChild(buttons);
+    // otherwise, display the notes
+    } else {
 
-        todoList.appendChild(noteCard);
-    });
+
+        // reverse the order of the notes list so that the newest notes are displayed first
+        notesList.reverse(); // Reverse the order of the array
+        notesList.forEach((note) => {
+            const noteCard = document.createElement('div');
+            noteCard.classList.add('note');
+            // dynamically set the width of the note card based on the width of the list
+            noteCard.style.width = (todoList.offsetWidth/3.3) + 'px';
+            noteCard.setAttribute('note-id', note.id);
+            const noteTitle = document.createElement('div');
+            noteTitle.classList.add('note-title');
+            // make the note title and description editable
+            noteTitle.contentEditable = true;
+            noteTitle.spellcheck=false;
+            noteTitle.textContent = note.title;
+
+            const noteDescription = document.createElement('div');
+            noteDescription.classList.add('note-description');
+            noteDescription.contentEditable = true;
+            noteDescription.spellcheck=false;
+            noteDescription.textContent = note.description;
+
+            const buttons = document.createElement('div');
+            buttons.classList.add('buttons');
+
+            const delBtn = document.createElement('button');
+            delBtn.classList.add('del-btn');
+            const delImg = document.createElement('img');
+            delImg.src = del;
+            delImg.alt = 'Delete Note';
+            delBtn.appendChild(delImg);
+
+            const starBtn = document.createElement('button');
+            starBtn.classList.add('star-btn');
+            const starIcon = document.createElement('img');
+            if (note.starred) {
+                starIcon.src = fullStar;
+            } else {
+                starIcon.src = star;
+            }
+            starIcon.alt = 'Star icon';
+            starBtn.appendChild(starIcon);
+        
+            buttons.appendChild(starBtn);
+            buttons.appendChild(delBtn);
+
+            noteCard.appendChild(noteTitle);
+            noteCard.appendChild(noteDescription);
+            noteCard.appendChild(buttons);
+
+            todoList.appendChild(noteCard);
+        });
+    }
     
     // if the search bar has a value, search the notes list
     if (searchBar.value !== '') {

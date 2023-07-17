@@ -3,6 +3,7 @@ import edit from '../assets/img/edit.svg';
 import del from '../assets/img/del.svg';
 import star from '../assets/img/star.svg';
 import fullStar from '../assets/img/fullStar.svg';
+import empty from '../assets/img/emptyFolder.svg';
 import displayProject from './indivProj';
 import { project } from '../functions/project';
 import { projectFormValidation } from '../functions/form';
@@ -81,6 +82,7 @@ const showAllProject = (starred = false) => {
     // adjust the height and margins of the list dynamically
     const todoList = document.createElement('div');
     todoList.classList.add('todo-list-project');
+    todoList.style.minHeight = pageContent.offsetHeight - (footer.offsetHeight * 2.5) - (projectTitle.offsetHeight*3) - 16 + 'px';
     todoList.style.maxHeight = pageContent.offsetHeight - (footer.offsetHeight * 2.5) - (projectTitle.offsetHeight*3) - 16 + 'px';
     todoList.style.marginRight = addBtn.offsetWidth + 64 + 'px';
     projectTitle.style.marginRight = addBtn.offsetWidth + 72 + 'px';
@@ -109,72 +111,93 @@ const allProject = (starred) => {
         todoList.setAttribute('starred', 'false');
     }
 
-    // add the projects to the list
     projectList = projectList.filter(project => project.name !== 'default'); // remove the default project
-    projectList.reverse(); // reverse the order of the array so that the most recent project is at the top
-    projectList.forEach((project) => {
-        let projectName = project.displayName;
-        let starred = project.starred;
-        const todoItem = document.createElement('div');
-        todoItem.classList.add('todo-project');
-        todoItem.setAttribute('project-key', project.name);
-        todoItem.setAttribute('display-name', projectName);
-        const colorPane = document.createElement('div');
-        colorPane.style.backgroundColor = 'var(--add-btn-color)';
-        colorPane.classList.add('color-pane');
-        
-        const wordContainer = document.createElement('div');
-        wordContainer.classList.add('word-name-container');
-        const todoTitle = document.createElement('h2');
-        // if the project name is too long, truncate it
-        if (projectName != null) {
-            if (projectName.length > 50) {
-                todoTitle.textContent = projectName.slice(0, 50) + '...';
-            } else {
-                todoTitle.textContent = projectName;
-            }
-            ///Add NO task or something
-        }
-        wordContainer.appendChild(todoTitle);
-
-        const todoRight = document.createElement('div');
-        todoRight.classList.add('todo-right-project');
-
-        // Render the star, edit, and delete buttons
-        const starBtn = document.createElement('button');
-        starBtn.classList.add('star');
-        const starIcon = document.createElement('img');
+    // if there are no projects, display a message
+    if (projectList.length === 0) {
+        todoList.classList.add('no-item')
+        const noItem = document.createElement('div');
+        noItem.classList.add('no-item');
+        const noItemIcon = document.createElement('img');
+        noItemIcon.src = empty;
+        noItemIcon.alt = 'No projects icon';
+        noItemIcon.draggable = false;
+        noItem.appendChild(noItemIcon);
+        const noItemText = document.createElement('p');
         if (starred) {
-            starIcon.src = fullStar;
+            noItemText.textContent = 'No starred projects yet!';
         } else {
-            starIcon.src = star;
+            noItemText.textContent = 'No projects yet!';
         }
-        starIcon.alt = 'Star icon';
-        starBtn.appendChild(starIcon);
-    
-        const todoEdit = document.createElement('button');
-        todoEdit.classList.add('todo-edit');
-        const todoEditIcon = document.createElement('img');
-        todoEditIcon.src = edit;
-        todoEditIcon.alt = 'Edit icon';
-        todoEdit.appendChild(todoEditIcon);
-    
-        const todoDelete = document.createElement('button');
-        todoDelete.classList.add('todo-delete');
-        const todoDeleteIcon = document.createElement('img');
-        todoDeleteIcon.src = del;
-        todoDeleteIcon.alt = 'Delete icon';
-        todoDelete.appendChild(todoDeleteIcon);
+        noItem.appendChild(noItemText);
+        todoList.appendChild(noItem);
 
-        todoRight.appendChild(starBtn);
-        todoRight.appendChild(todoEdit);
-        todoRight.appendChild(todoDelete);
-    
-        todoItem.appendChild(colorPane);
-        todoItem.appendChild(wordContainer);
-        todoItem.appendChild(todoRight);
-        todoList.appendChild(todoItem);        
-    });
+    // otherwise, display all the projects
+    } else {
+        projectList.reverse(); // reverse the order of the array so that the most recent project is at the top
+        projectList.forEach((project) => {
+            let projectName = project.displayName;
+            let starred = project.starred;
+            const todoItem = document.createElement('div');
+            todoItem.classList.add('todo-project');
+            todoItem.setAttribute('project-key', project.name);
+            todoItem.setAttribute('display-name', projectName);
+            const colorPane = document.createElement('div');
+            colorPane.style.backgroundColor = 'var(--add-btn-color)';
+            colorPane.classList.add('color-pane');
+            
+            const wordContainer = document.createElement('div');
+            wordContainer.classList.add('word-name-container');
+            const todoTitle = document.createElement('h2');
+            // if the project name is too long, truncate it
+            if (projectName != null) {
+                if (projectName.length > 50) {
+                    todoTitle.textContent = projectName.slice(0, 50) + '...';
+                } else {
+                    todoTitle.textContent = projectName;
+                }
+                ///Add NO task or something
+            }
+            wordContainer.appendChild(todoTitle);
+
+            const todoRight = document.createElement('div');
+            todoRight.classList.add('todo-right-project');
+
+            // Render the star, edit, and delete buttons
+            const starBtn = document.createElement('button');
+            starBtn.classList.add('star');
+            const starIcon = document.createElement('img');
+            if (starred) {
+                starIcon.src = fullStar;
+            } else {
+                starIcon.src = star;
+            }
+            starIcon.alt = 'Star icon';
+            starBtn.appendChild(starIcon);
+        
+            const todoEdit = document.createElement('button');
+            todoEdit.classList.add('todo-edit');
+            const todoEditIcon = document.createElement('img');
+            todoEditIcon.src = edit;
+            todoEditIcon.alt = 'Edit icon';
+            todoEdit.appendChild(todoEditIcon);
+        
+            const todoDelete = document.createElement('button');
+            todoDelete.classList.add('todo-delete');
+            const todoDeleteIcon = document.createElement('img');
+            todoDeleteIcon.src = del;
+            todoDeleteIcon.alt = 'Delete icon';
+            todoDelete.appendChild(todoDeleteIcon);
+
+            todoRight.appendChild(starBtn);
+            todoRight.appendChild(todoEdit);
+            todoRight.appendChild(todoDelete);
+        
+            todoItem.appendChild(colorPane);
+            todoItem.appendChild(wordContainer);
+            todoItem.appendChild(todoRight);
+            todoList.appendChild(todoItem);        
+        });
+    }
 
     // show only the projects that match the search query
     if (searchBar.value !== '') {

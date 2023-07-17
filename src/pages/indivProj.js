@@ -95,6 +95,7 @@ const displayProject = (name) => {
     display.style.padding = '0';
     const todoList = document.createElement('div');
     todoList.classList.add('todo-list');
+    todoList.style.minHeight = pageContent.offsetHeight - (footer.offsetHeight * 2) - display.offsetHeight - titleContainer.offsetHeight - 16 + 'px';
     todoList.style.maxHeight = pageContent.offsetHeight - (footer.offsetHeight * 2) - display.offsetHeight - titleContainer.offsetHeight - 16 + 'px';
     todoList.style.marginRight = addBtn.offsetWidth + 64 + 'px';
     titleContainer.style.marginRight = addBtn.offsetWidth + 72 + 'px';

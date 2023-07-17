@@ -1,6 +1,12 @@
+import noTask from '../assets/img/taskSearch.svg';
+
+let noItem = document.querySelector('.no-item'); // Get the existing noItem element
+
 // filter project or todo items based on the search query and highlight the matching text
 const searchTask = (query, type) => {
-    let tasks;
+    let tasks; // List of tasks
+    let matchFound = false; // Flag to track if a match is found
+    const todoList = document.querySelector('.todo-list'); // Todo list container
     // see if it is a project list or a todo list
     if (type == 'list') {
         tasks = document.querySelectorAll('.todo-item');
@@ -22,10 +28,38 @@ const searchTask = (query, type) => {
 
         if (taskName.includes(query.toLowerCase())) {
             task.classList.remove('hide');  // Show task if it matches the search query
+            matchFound = true; // Set flag to true if a match is found
         } else {
             task.classList.add('hide');  // Hide task if it does not match the search query
         }
-      }
+    }
+
+    // Check if no match is found and show/hide no-result icon
+    if (!matchFound) {
+        if (!noItem) {
+            noItem = document.createElement('div');
+            noItem.classList.add('no-item');
+            todoList.classList.add('no-item');
+            const noItemIcon = document.createElement('img');
+            noItemIcon.src = noTask;
+            noItemIcon.alt = 'No results icon';
+            noItemIcon.draggable = false;
+            noItem.appendChild(noItemIcon);
+            const noItemText = document.createElement('p');
+            noItemText.textContent = 'No tasks found!';
+            noItem.appendChild(noItemText);
+            todoList.appendChild(noItem);
+        } else {
+            noItem.classList.remove('hide');
+            noItem.classList.add('no-item');
+            todoList.classList.add('no-item');
+            noItem.querySelector('img').src = noTask;
+            noItem.querySelector('p').textContent = 'No tasks found!';
+        }
+    } else if (noItem) {
+        todoList.classList.remove('no-item');
+        noItem.classList.add('hide'); // Hide existing no-result icon if a match is found
+    }
 };
 
 // filter notes based on the search query and highlight the matching text

@@ -37,6 +37,7 @@ const showPage = (page) => {
 
     const todoList = document.createElement('div');
     todoList.classList.add('todo-list');
+    todoList.style.minHeight = pageContent.offsetHeight - (footer.offsetHeight * 2) - 16 + 'px';
     todoList.style.maxHeight = pageContent.offsetHeight - (footer.offsetHeight * 2) - 16 + 'px';
     // adjust the margin of the list based on the page
     if (page != 'Completed') {

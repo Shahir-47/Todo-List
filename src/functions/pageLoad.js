@@ -44,7 +44,8 @@ const adjustPageContent = () => {
 
     // since notes uses masonry.js, we need to reload the page content for the notes page
     if (document.querySelector('.notes-list')) {
-            allNotes(false);
+        let star = document.querySelector('.notes-list').getAttribute('starred') == 'true' ? true : false;
+        allNotes(star);
     }
 }
 
