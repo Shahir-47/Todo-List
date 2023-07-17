@@ -6,31 +6,35 @@ import fullStar from '../assets/img/fullStar.svg';
 import Masonry from 'masonry-layout';
 import { searchNote } from '../functions/search';
 
-let masonry;
-
+// handle the note buttons
 const handleNotes = (event) => {
+    // Delete note
     if (event.target.closest('.note .del-btn')) {
         notes.deleteNote(event.target.closest('.note').getAttribute('note-id'));
     }
+    // toggle the note's star status
     if (event.target.closest('.note .star-btn')) {
         const starImg = event.target.closest('.note .star-btn img');
         const currentSrc = starImg.src;
+        // based on the note's current star status, change the star icon
         if (currentSrc === fullStar) {
             starImg.src = star;
         } else {
             starImg.src = fullStar;
         }
-
+        // toggle the note's star attribute
         notes.starNote(event.target.closest('.note').getAttribute('note-id'));
     }
 }
 
+// Renders the all notes or starred notes page based on the starred parameter
 const showAllNotes = (starred = false) => {
+    // remove the highlight from all sidebar items
     const allSidebarItems = document.querySelectorAll('.item');
     allSidebarItems.forEach(item => {
         item.classList.remove('active');
     });
-
+    // add the highlight to the correct sidebar item
     if (!starred && document.querySelector('.box:nth-of-type(3) .item:nth-of-type(1)')){
         document.querySelector('.box:nth-of-type(3) .item:nth-of-type(1)').classList.add('active');
     } else if (starred && document.querySelector('.box:nth-of-type(3) .item:nth-of-type(2)')) {
@@ -53,6 +57,7 @@ const showAllNotes = (starred = false) => {
     addBtn.textContent = '+';
     pageContent.appendChild(addBtn);
 
+    // dynamically set the height and margins of the notes list
     const todoList = document.createElement('div');
     todoList.classList.add('notes-list');
     todoList.style.maxHeight = pageContent.offsetHeight - (footer.offsetHeight*2) - (projectTitle.offsetHeight*1.5) - 16 + 'px';
@@ -63,11 +68,14 @@ const showAllNotes = (starred = false) => {
     allNotes(starred);
 }
 
+// helper method to display all the notes, based on the starred parameter
 const allNotes = (starred) => {
     const searchBar = document.getElementById('search');
     const todoList = document.querySelector('.notes-list');
     let notesList = storage.getNotes()[0].list;
+    // clear the notes list
     todoList.innerHTML = '';
+    // filter the notes list based on the starred parameter
     if (starred) {
         document.querySelector('.search-input').placeholder = 'Search starred notes';
         notesList = notesList.filter(note => note.starred === true);
@@ -76,15 +84,17 @@ const allNotes = (starred) => {
         document.querySelector('.search-input').placeholder = 'Search all notes';
         todoList.setAttribute('starred', 'false');
     }
-
+    // reverse the order of the notes list so that the newest notes are displayed first
     notesList.reverse(); // Reverse the order of the array
-    notesList.forEach((note, index) => {
+    notesList.forEach((note) => {
         const noteCard = document.createElement('div');
         noteCard.classList.add('note');
+        // dynamically set the width of the note card based on the width of the list
         noteCard.style.width = (todoList.offsetWidth/3.3) + 'px';
         noteCard.setAttribute('note-id', note.id);
         const noteTitle = document.createElement('div');
         noteTitle.classList.add('note-title');
+        // make the note title and description editable
         noteTitle.contentEditable = true;
         noteTitle.spellcheck=false;
         noteTitle.textContent = note.title;
@@ -126,18 +136,20 @@ const allNotes = (starred) => {
         todoList.appendChild(noteCard);
     });
     
+    // if the search bar has a value, search the notes list
     if (searchBar.value !== '') {
         searchNote(searchBar.value);
     }
 
-    // Initialize Masonry.js and specify the container element
-    masonry = new Masonry(todoList, {
+    // Using masonry to display the notes in a grid that makes the layout based on the
+    // content of the notes
+    let masonry = new Masonry(todoList, {
         itemSelector: '.note',
         columnWidth: '.note',
         gutter: 10,
     });
 
-    // Call masonry.layout() after adding the notes to the container
+    // Calling masonry.layout() after adding the notes to the list
     setTimeout(() => {
         masonry.layout();
     }, 0);

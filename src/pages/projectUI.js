@@ -8,10 +8,13 @@ import { project } from '../functions/project';
 import { projectFormValidation } from '../functions/form';
 import searchTask from '../functions/search';
 
+// Handles the project buttons
 const handleProject = (event) => {
+    // Delete project
     if (event.target.closest('.todo-project .todo-delete')) {
         project.removeFromProjectList(event.target.closest('.todo-project').getAttribute('project-key'));
     }
+    // Star project
     if (event.target.closest('.todo-project .star img')) {
         const starImg = event.target.closest('.todo-project .star img');
         const currentSrc = starImg.src;
@@ -23,6 +26,7 @@ const handleProject = (event) => {
         project.starredProject(event.target.closest('.todo-project').getAttribute('project-key'));
         // project.projectItemStarred(event.target.closest('.todo-item').id);
     }
+    // Edit project
     if (event.target.closest('.todo-project .todo-edit')) {
         document.querySelector('#edit-project-form').setAttribute('project-codename', event.target.closest('.todo-project').getAttribute('project-key'));
         document.querySelector('#editProjectFormContainer').style.display = 'block';
@@ -37,6 +41,7 @@ const handleProject = (event) => {
         });
 
     }
+    // Display project
     if (event.target.closest('.todo-project') && !event.target.closest('.todo-project .todo-delete') && !event.target.closest('.todo-project .todo-edit') && !event.target.closest('.todo-project .star')) {
         // displayProject(event.target.closest('.todo-item').id);
         document.querySelector('#page-content').innerHTML = '';
@@ -45,12 +50,14 @@ const handleProject = (event) => {
 
 };
 
+// Renders the all project or starred project page based on the starred parameter
 const showAllProject = (starred = false) => {
+    // remove the highlight from all sidebar items
     const allSidebarItems = document.querySelectorAll('.item');
     allSidebarItems.forEach(item => {
         item.classList.remove('active');
     });
-
+    // add the highlight to the correct sidebar item
     if (!starred && document.querySelector('.box:nth-of-type(2) .item:nth-of-type(1)')){
         document.querySelector('.search-input').placeholder = 'Search all projects';
         document.querySelector('.box:nth-of-type(2) .item:nth-of-type(1)').classList.add('active');
@@ -58,7 +65,8 @@ const showAllProject = (starred = false) => {
         document.querySelector('.search-input').placeholder = 'Search starred projects';
         document.querySelector('.box:nth-of-type(2) .item:nth-of-type(2)').classList.add('active');
     }
-
+    
+    // Render the page
     const projectTitle = document.createElement('h1');
     projectTitle.classList.add('project-header');
     const pageContent = document.querySelector('#page-content');
@@ -70,6 +78,7 @@ const showAllProject = (starred = false) => {
     addBtn.textContent = '+';
     pageContent.appendChild(addBtn);
 
+    // adjust the height and margins of the list dynamically
     const todoList = document.createElement('div');
     todoList.classList.add('todo-list-project');
     todoList.style.maxHeight = pageContent.offsetHeight - (footer.offsetHeight * 2.5) - (projectTitle.offsetHeight*3) - 16 + 'px';
@@ -77,16 +86,20 @@ const showAllProject = (starred = false) => {
     projectTitle.style.marginRight = addBtn.offsetWidth + 72 + 'px';
     pageContent.appendChild(todoList);
 
+    // add all the projects to the list
     allProject(starred);
 }
 
+// helper method to display all the projects, based on the starred parameter
 const allProject = (starred) => {
     const searchBar = document.getElementById('search');
+    // clear the list
     const todoList = document.querySelector('.todo-list-project');
     todoList.innerHTML = '';
 
     const projectTitle = document.querySelector('.project-header');
     let projectList = storage.getFromLocalStorage();
+    // filter the list based on the starred parameter
     if (starred) {
         projectTitle.textContent = 'Starred Projects';
         todoList.setAttribute('starred', 'true');
@@ -96,8 +109,10 @@ const allProject = (starred) => {
         todoList.setAttribute('starred', 'false');
     }
 
+    // add the projects to the list
+    // reverse the order of the array so that the most recent project is at the top
     projectList.reverse(); // Reverse the order of the array
-    projectList.forEach((project, index) => {
+    projectList.forEach((project) => {
         let projectName = project.displayName;
         let starred = project.starred;
         const todoItem = document.createElement('div');
@@ -111,6 +126,7 @@ const allProject = (starred) => {
         const wordContainer = document.createElement('div');
         wordContainer.classList.add('word-name-container');
         const todoTitle = document.createElement('h2');
+        // if the project name is too long, truncate it
         if (projectName != null) {
             if (projectName.length > 50) {
                 todoTitle.textContent = projectName.slice(0, 50) + '...';
@@ -124,6 +140,7 @@ const allProject = (starred) => {
         const todoRight = document.createElement('div');
         todoRight.classList.add('todo-right-project');
 
+        // Render the star, edit, and delete buttons
         const starBtn = document.createElement('button');
         starBtn.classList.add('star');
         const starIcon = document.createElement('img');
@@ -159,6 +176,7 @@ const allProject = (starred) => {
         todoList.appendChild(todoItem);        
     });
 
+    // show only the projects that match the search query
     if (searchBar.value !== '') {
         searchTask(searchBar.value, 'project');
     }

@@ -8,7 +8,7 @@ import { storage } from '../functions/storage';
 import { project } from '../functions/project';
 import searchTask from '../functions/search';
 
-// const handle todo item events
+//handle actions on the todo items
 const itemsEventHandler = (event) => {
     // if event target is the completed checkbox
     if (event.target.closest('.todo-item .completed')) {
@@ -18,6 +18,7 @@ const itemsEventHandler = (event) => {
     if (event.target.closest('.todo-item .todo-delete')) {
         project.projectItemDeleted( event.target.closest('.todo-item').id);
     }
+    // if event target is the star button
     if (event.target.closest('.todo-item .star img')) {
         const starImg = event.target.closest('.todo-item .star img');
         starImg.src = star ? fullStar : star;
@@ -25,6 +26,7 @@ const itemsEventHandler = (event) => {
     }
     // if event target is the edit button
     if (event.target.closest('.todo-item .todo-edit')) {
+        // set the the item's id as the form's data-id attribute
         document.querySelector('#edit-form').setAttribute('data-id', event.target.closest('.todo-item').id);
         document.getElementById('editFormContainer').style.display = 'block';
         editItems(event.target.closest('.todo-item').id);
@@ -50,6 +52,7 @@ const itemsEventHandler = (event) => {
     }
 }
 
+// add the data of the item to the edit form
 const editItems = (index) => {
     let name = index.split('~')[0];
 
@@ -75,6 +78,7 @@ const editItems = (index) => {
 
 }
 
+// show the detail of the item
 const displayDetail = (index) => {
 
     const detailBody = document.querySelector('.detail-body');
@@ -211,7 +215,9 @@ const displayDetail = (index) => {
     }
 }
 
+// sort item based on the sort dropdown value
 const sortItems = (event) => {
+    // account for which filter is selected
     let filter;
     if (document.querySelector('.project-title')){
         filter = document.querySelector('.selection input[name="proj-selection"]:checked').value;
@@ -219,6 +225,7 @@ const sortItems = (event) => {
         filter = document.querySelector('.selection input[name="selection"]:checked').value;
     }
     console.log(filter);
+    // taking both sort and filter into account, display the right items
     if (event == 'Time') {
         if (document.querySelector('.project-title')){
             displayAllItems(document.querySelector('.project-title').textContent, 'Time', filter);
@@ -234,9 +241,11 @@ const sortItems = (event) => {
     }
 }
 
+// displays todo items from all or specific project, and then filters and sorts those todo items
 const displayAllItems = (name = 'default', sortBy = 'Time', filter = 'All') => {
     const searchBar = document.getElementById('search');
     const todoList = document.querySelector('.todo-list');
+    // clear the todo list
     todoList.innerHTML = '';
 
     // get the right list and then sort it
@@ -254,15 +263,16 @@ const displayAllItems = (name = 'default', sortBy = 'Time', filter = 'All') => {
 
     console.log()
     console.log(defaultProject.todoList);
-    // debugger;
-    // Access the todoList property of the default project
+    // filter the sorted list based on the filter parameter
     let list = []
     if (filter == 'All') {
         searchBar.placeholder = 'Search all tasks';
-        list = defaultProject.todoList;
+        list = defaultProject.todoList; // nothing changes, show all items
     } else if (filter == 'Today') {
         searchBar.placeholder = 'Search today\'s tasks';
+        // filter for incomplete items first
         list = defaultProject.todoList.filter(item => !item.done.flag);
+        // then filter for items with due date today or in the future, or a due time in the past no less than a day ago
         list = list.filter(item => (item.dueTime && new Date(item.dueDate + ' ' + item.dueTime) >= new Date()) || (!item.dueTime && (differenceInCalendarDays(new Date(item.dueDate.slice(0, 4), item.dueDate.slice(5, 7)-1, item.dueDate.slice(8, 10)), new Date()) >= 0)));
         list = list.filter(item => {
             if (item.dueTime) {
@@ -287,8 +297,11 @@ const displayAllItems = (name = 'default', sortBy = 'Time', filter = 'All') => {
         })
     } else if (filter == 'Week') {
         searchBar.placeholder = 'Search this week\'s tasks';
+        // filter for incomplete items first
         list = defaultProject.todoList.filter(item => !item.done.flag);
+        // then filter for items with due date today or in the future, or a due time in the past no less than a day ago
         list = list.filter(item => (item.dueTime && new Date(item.dueDate + ' ' + item.dueTime) >= new Date()) || (!item.dueTime && (differenceInCalendarDays(new Date(item.dueDate.slice(0, 4), item.dueDate.slice(5, 7)-1, item.dueDate.slice(8, 10)), new Date()) >= 0)));
+        // then filter for items with due date within a week from now
         list = list.filter(item => (item.dueTime && differenceInCalendarDays(new Date(item.dueDate + ' ' + item.dueTime), new Date()) <= 7) || (!item.dueTime && (differenceInCalendarDays(new Date(item.dueDate.slice(0, 4), item.dueDate.slice(5, 7)-1, item.dueDate.slice(8, 10)), new Date()) <= 7)));
     } else if (filter == 'Important') {
         searchBar.placeholder = 'Search important tasks';
@@ -301,18 +314,20 @@ const displayAllItems = (name = 'default', sortBy = 'Time', filter = 'All') => {
         list = defaultProject.todoList.filter(item => item.priority == 'high');
     }
 
+    // display the filtered list
     for (let i = 0; i < list.length; i++) {
         displayTodoItem(list[i]);
     }
 
+    // filter the displayed list based on the search bar value
     if (searchBar.value !== '') {
         searchTask(searchBar.value, 'list');
     }
 }
 
+// display a todo item and update the due time every second
 const displayTodoItem = (item) => {
     let title = item.title;
-    let details = item.details;
     let dueDate = item.dueDate;
     let dueTime = item.dueTime;
     let priority = item.priority;
@@ -327,6 +342,7 @@ const displayTodoItem = (item) => {
     todoItem.classList.add('todo-item');
     todoItem.id = item.index;
 
+    // color code items based on priority
     const colorPane = document.createElement('div');
     let color = priority === 'low' ? 'green' : priority === 'medium' ? 'orange' : 'red';
     colorPane.style.backgroundColor = color;
@@ -343,6 +359,7 @@ const displayTodoItem = (item) => {
     const wordContainer = document.createElement('div');
     wordContainer.classList.add('word-container');
     const todoTitle = document.createElement('h2');
+    // if the title is too long, truncate it
     if (title.length > 43) {
         todoTitle.textContent = title.slice(0, 43) + '...';
     } else {
@@ -362,6 +379,7 @@ const displayTodoItem = (item) => {
 
     let interval;
 
+    // Update the time displayed
     function updateTime() {
 
         // Get the due date of the task
@@ -465,6 +483,7 @@ const displayTodoItem = (item) => {
 
     colorPane.classList.add('color-pane');
 
+    // check if the item is completed already
     if (done) {
         todoItem.classList.add('checked-item');
         completed.classList.add('checked');
@@ -474,6 +493,7 @@ const displayTodoItem = (item) => {
 
 }
 
+// update the UI when a task is marked as done
 const taskDoneUI = (id) => {
     const item = document.getElementById(id);
     const box = item.querySelector('.completed');
@@ -488,11 +508,13 @@ const taskDoneUI = (id) => {
     item.querySelector('.todo-left h2').classList.toggle('checked-text');
 }
 
+// remove the item from the UI
 const removeTodoItemUI = (id) => {
     const item = document.getElementById(id);
     item.parentNode.removeChild(item);
 }
 
+// helper methods to create radio buttons for filtering the todo items
 const createRadioBtn = (name, value, id, checked = false) => {
     const prioritySelection1 = document.createElement('div');
     prioritySelection1.classList.add('priority-selection');
@@ -512,12 +534,14 @@ const createRadioBtn = (name, value, id, checked = false) => {
     return prioritySelection1;
 }
 
+// sets up the UI for the all page
 const allUI = () => {
-
+    // remove the active class from all sidebar items
     const allSidebarItems = document.querySelectorAll('.item');
     allSidebarItems.forEach(item => {
         item.classList.remove('active');
     });
+    // add the active class to the all sidebar item
     document.querySelector('.box:nth-of-type(1) .item:nth-of-type(1)').classList.add('active');
 
     const pageContent = document.querySelector('#page-content');
@@ -537,25 +561,16 @@ const allUI = () => {
     const all = createRadioBtn('selection', 'All', 'All', true);
     const today = createRadioBtn('selection', 'Today', 'Today');
     const week = createRadioBtn('selection', 'Week', 'Week');
-    const month = createRadioBtn('selection', 'Month', 'Month');
     const important = createRadioBtn('selection', 'Important', 'Important');
     const completed = createRadioBtn('selection', 'Completed', 'Completed');
-    const starred = createRadioBtn('selection', 'Starred', 'Starred');
     const high = createRadioBtn('selection', 'High', 'High');
-    const medium = createRadioBtn('selection', 'Medium', 'Medium');
-    const low = createRadioBtn('selection', 'Low', 'Low');
 
     selection.appendChild(all);
     selection.appendChild(today);
     selection.appendChild(week);
-    // selection.appendChild(month);
     selection.appendChild(important);
     selection.appendChild(completed);
-    // selection.appendChild(starred);
     selection.appendChild(high);
-    // selection.appendChild(medium);
-    // selection.appendChild(low);
-
     display.appendChild(selection);
 
     const right = document.createElement('div');
@@ -587,13 +602,10 @@ const allUI = () => {
     sort.appendChild(sortSelection);
 
     right.appendChild(sort);
-
     display.appendChild(right);
-
-
-
     pageContent.appendChild(display);
 
+    // dynamically adjust the height and margins of the list
     const todoList = document.createElement('div');
     todoList.classList.add('todo-list');
     todoList.style.maxHeight = pageContent.offsetHeight - (footer.offsetHeight * 2) - display.offsetHeight - 16 + 'px';
@@ -601,9 +613,11 @@ const allUI = () => {
     display.style.marginRight = addBtn.offsetWidth + 72 + 'px';
     pageContent.appendChild(todoList);
 
+    // display all items, when all page is loaded
     displayAllItems();
 };
 
+// Check if any item was recently is due, So that item can be pushed to the bottom of the list
 setInterval(() => {
     document.querySelectorAll('.todo-item .todo-due-date').forEach(item => {
       if (item.textContent == 'Due less than a minute ago' || item.textContent == 'Due 1 minute ago') {
@@ -618,5 +632,4 @@ setInterval(() => {
 }, 24 * 60 * 60 * 1000); // 24 hours in milliseconds
   
 export default allUI;
-
 export { displayTodoItem, taskDoneUI, itemsEventHandler, removeTodoItemUI, sortItems, displayAllItems, createRadioBtn };

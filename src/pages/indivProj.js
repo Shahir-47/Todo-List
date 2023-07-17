@@ -1,6 +1,7 @@
 import { createRadioBtn, displayAllItems } from './all';
 import { storage } from '../functions/storage';
 
+// create the page to display tasks of a specific project
 const displayProject = (name) => {
 
     let projectList = storage.getFromLocalStorage();
@@ -46,24 +47,16 @@ const displayProject = (name) => {
     const all = createRadioBtn('proj-selection', 'All', 'All', true);
     const today = createRadioBtn('proj-selection', 'Today', 'Today');
     const week = createRadioBtn('proj-selection', 'Week', 'Week');
-    const month = createRadioBtn('proj-selection', 'Month', 'Month');
     const important = createRadioBtn('proj-selection', 'Important', 'Important');
     const completed = createRadioBtn('proj-selection', 'Completed', 'Completed');
-    const starred = createRadioBtn('proj-selection', 'Starred', 'Starred');
     const high = createRadioBtn('proj-selection', 'High', 'High');
-    const medium = createRadioBtn('proj-selection', 'Medium', 'Medium');
-    const low = createRadioBtn('proj-selection', 'Low', 'Low');
 
     selection.appendChild(all);
     selection.appendChild(today);
     selection.appendChild(week);
-    // selection.appendChild(month);
     selection.appendChild(important);
     selection.appendChild(completed);
-    // selection.appendChild(starred);
     selection.appendChild(high);
-    // selection.appendChild(medium);
-    // selection.appendChild(low);
 
     display.appendChild(selection);
 
@@ -96,15 +89,10 @@ const displayProject = (name) => {
     sort.appendChild(sortSelection);
 
     right.appendChild(sort);
-
     display.appendChild(right);
 
-
-
     pageContent.appendChild(display);
-
     display.style.padding = '0';
-
     const todoList = document.createElement('div');
     todoList.classList.add('todo-list');
     todoList.style.maxHeight = pageContent.offsetHeight - (footer.offsetHeight * 2) - display.offsetHeight - titleContainer.offsetHeight - 16 + 'px';
@@ -112,22 +100,9 @@ const displayProject = (name) => {
     titleContainer.style.marginRight = addBtn.offsetWidth + 72 + 'px';
     pageContent.appendChild(todoList);
 
+    //Show all todo items after the page is set up
     displayAllItems(showName, 'Time', 'All');
+
 };
-
-
-//update in real time
-// setInterval(() => {
-//     document.querySelectorAll('.todo-item .todo-due-date').forEach(item => {
-//       if (item.textContent == 'Due less than a minute ago' || item.textContent == 'Due 1 minute ago') {
-//         displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
-//       }
-//     });
-// }, 60000);
-
-// //Update the todo list every 24 hours
-// setInterval(() => {
-//     displayAllItems(name, document.querySelector('.sort #sort-selection').value, document.querySelector('.selection input[name="selection"]:checked').value);
-// }, 24 * 60 * 60 * 1000); // 24 hours in milliseconds
 
 export default displayProject;

@@ -15,6 +15,7 @@ import { adjustFooter } from './footer';
 const createSidebarItems = (icon, text, barType) => { 
     const item = document.createElement('div');
     item.classList.add('item');
+    // if sidebar is mini, change the layout of the item
     if (barType === 'mini') {
         item.classList.remove('item-row');
         item.classList.add('item-column');
@@ -39,57 +40,74 @@ const createSidebarItems = (icon, text, barType) => {
 // All the data u want to display in the sidebar gets added and accessed from here
 const sidebarData = (() => {
     
+    // The sidebar data is stored in an array of objects
     let sidebarLog = []
 
+    // Get the sidebar data
     const getSidebarData = () => sidebarLog;
 
+    // Remove all the sidebar data
     const removeAll = () => {
         sidebarLog = [];
     }
 
+    // Remove a sidebar category
     const removeSidebarCategory = (title) => {
+        // check if the title is a string
         if (typeof title !== 'string') {
             throw new Error('Title must be a string');
         }
         sidebarLog = sidebarLog.filter((category) => category.title !== title);
     }
 
+    // Remove a sidebar item
     const removeSidebarItem = (title, text) => {
+        // check if the title is a strings
         if (typeof title !== 'string') {
             throw new Error('Title must be a string');
         }
+        // check if the text is a string
         if (typeof text !== 'string') {
             throw new Error('Text must be a string');
         }
         const category = sidebarLog.find((category) => category.title === title);
+        // check if the category exists
         if (!category) {
             throw new Error('Category not found');
         }
         category.items = category.items.filter((item) => item.text !== text);
     }
 
+    // Add a sidebar category
     const addSidebarCategory = (title, items = []) => {
+        // check if the title is a string
         if (typeof title !== 'string') {
             throw new Error('Title must be a string');
         }
+        // check if the items is an array
         if (!Array.isArray(items)) {
             throw new Error('Items must be an array');
         }
-        sidebarLog.push({ title, items });
+        sidebarLog.push({ title, items }); // add the category to the sidebar
     }
 
+    // Add a sidebar item
     const addSidebarItem = (title, icon, text) => {
+        // check if the title is a string
         if (typeof title !== 'string') {
             throw new Error('Title must be a string');
         }
+        // check if the icon is a string
         if (typeof icon !== 'string') {
             throw new Error('Icon must be a string');
         }
+        // check if the text is a string
         if (typeof text !== 'string') {
             throw new Error('Text must be a string');
         }
         
         const category = sidebarLog.find((category) => category.title === title);
+        // check if the category exists
         if (!category) {
             throw new Error('Category not found');
         }
@@ -100,6 +118,7 @@ const sidebarData = (() => {
 
 })();
 
+// Create a sidebar category
 const createSidebarCategory = (data, barType = "full") => {
     // find the height of the nav-bar
     const top = document.querySelector('.nav-bar').offsetHeight;
@@ -110,6 +129,7 @@ const createSidebarCategory = (data, barType = "full") => {
     sidebarContent.style.height = 'calc(100vh - ' + (top - 0.5) + 'px)';
     sidebarContent.style.marginTop = (top - 0.5) + 'px';
 
+    // adjust the width and padding according to the sidebar type
     if (barType === 'mini') {
         sidebarContent.classList.add('mini');
         sidebarContent.classList.remove('full');
@@ -154,6 +174,7 @@ const createSidebarCategory = (data, barType = "full") => {
 
 }
 
+// Create a sidebar
 const sidebar = () => {
 
     if (document.querySelector('.sidebar-content')) {
@@ -184,6 +205,7 @@ const sidebar = () => {
     document.querySelector('#content').appendChild(createSidebarCategory(sidebarData.getSidebarData()));
 }
 
+// Create a mini sidebar
 const miniSidebar = () => {
 
     if (document.querySelector('.sidebar-content')) {
@@ -205,14 +227,18 @@ const miniSidebar = () => {
     
 }
 
+// maximize or minimize the sidebar when the sidebar button is clicked
 const handleSidebar = (previousScrollPosition) => {
     const sidebarContent = document.querySelector('.sidebar-content');
+    // if the sidebar is full, minimize it and adjust the page content and footer
     if (sidebarContent.classList.contains('full')) {
         miniSidebar();
         adjustPageContent();
         adjustFooter();
+        
+        // if the sidebar is mini, maximize it and adjust the page content and footer
     } else if (sidebarContent.classList.contains('mini')) {
-        sidebar();
+        sidebar();                                         
         adjustPageContent();
         adjustFooter();
         document.querySelector('.sidebar-content').scrollTop = previousScrollPosition;
