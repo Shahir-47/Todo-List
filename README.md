@@ -68,7 +68,7 @@ This command will compile the source code, assets, and configurations into the `
 8. Customize the application further, add additional functionality, or make any necessary modifications to suit your needs.
 ## Credits
 - Developed by [Shahir Ahmed](https://github.com/shahir-47)
-- Source code available on [GitHub](https://github.com/shahir-47Todo-List)
+- Source code available on [GitHub](https://github.com/Shahir-47/Todo-List)
 ## License
 
 This project is licensed under the [MIT License](LICENSE). Feel free to use, modify, and distribute the code according to the terms of the license.
