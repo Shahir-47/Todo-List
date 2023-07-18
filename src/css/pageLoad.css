@@ -83,6 +83,7 @@ div#content {
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    justify-content: space-evenly;
     padding: 0;
     padding-left: 1rem;
     position: fixed;
