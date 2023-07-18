@@ -262,8 +262,6 @@ const displayAllItems = (name = 'default', sortBy = 'Time', filter = 'All') => {
     // now get the sorted data and then filter it
     projectList = storage.getFromLocalStorage();
     let defaultProject = projectList.find(project => project.name == name);
-
-    console.log()
     
     // filter the sorted list based on the filter parameter
     let list = []

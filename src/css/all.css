@@ -258,9 +258,9 @@
 .todo-details {
     display: inline-block;
     padding: 10px 20px;
-    color: var(--add-btn-bg-color);
+    color: #90CAF9;
     background-color: transparent;
-    border: 1px solid var(--add-btn-bg-color);
+    border: 1px solid #90CAF9;
     font-size: 16px;
     font-weight: 900;
     cursor: pointer;

@@ -274,6 +274,8 @@ const addForm = () => {
     const todoForm = document.querySelector('#popupForm .todo-form');
     todoForm.setAttribute('id', 'todo-form');
     todoForm.setAttribute('onsubmit', "return false;");
+    const titleDiv = document.createElement('div');
+    titleDiv.classList.add('title-div');
 
     todoForm.innerHTML = '';
     const titleInput = document.createElement('input');
@@ -285,6 +287,16 @@ const addForm = () => {
     titleInput.name = 'title';
     titleInput.maxLength = 100;
 
+    const remainingCharacters = document.createElement('p');
+    remainingCharacters.classList.add('remaining-characters');
+    remainingCharacters.id = 'remaining-characters';
+    remainingCharacters.textContent = '100 characters remaining';
+
+    titleDiv.appendChild(titleInput);
+    titleDiv.appendChild(remainingCharacters);
+
+    const detailDiv = document.createElement('div');
+    detailDiv.classList.add('detail-div');
     const detailsInput = document.createElement('textarea');
     detailsInput.classList.add('details-input');
     detailsInput.placeholder = `Details (Optional):\n\nRent, Electricity, Water, Internet, etc...`;
@@ -292,6 +304,13 @@ const addForm = () => {
     detailsInput.name = 'details';
     detailsInput.maxLength = 500;
 
+    const remainingCharacters_two = document.createElement('p');
+    remainingCharacters_two.classList.add('remaining-characters');
+    remainingCharacters_two.id = 'remaining-characters-two';
+    remainingCharacters_two.textContent = '500 characters remaining';
+
+    detailDiv.appendChild(detailsInput);
+    detailDiv.appendChild(remainingCharacters_two);
 
     const thirdRow = document.createElement('div');
     thirdRow.classList.add('third-row');
@@ -397,9 +416,11 @@ const addForm = () => {
     thirdRow.appendChild(thirdRowUpper);
     thirdRow.appendChild(selectionContainer);
 
-    todoForm.appendChild(titleInput);
-    todoForm.appendChild(detailsInput);
+    todoForm.appendChild(titleDiv);
+    todoForm.appendChild(detailDiv);
     todoForm.appendChild(thirdRow);
+
+    todoForm.style.gridTemplateRows = 'min-content 3fr 2fr';
 }
 
 // add project form
@@ -409,6 +430,8 @@ const addProjectForm = () => {
     todoForm.setAttribute('onsubmit', "return false;");
     todoForm.innerHTML = '';
 
+    const div = document.createElement('div');
+    div.classList.add('title-div');
     const detailsInput = document.createElement('textarea');
     detailsInput.classList.add('project-title-input');
     detailsInput.placeholder = `Enter Project Title:`;
@@ -417,12 +440,22 @@ const addProjectForm = () => {
     detailsInput.maxLength = 100;
     detailsInput.setAttribute('required', 'true');
 
+    const remainingCharacters = document.createElement('p');
+    remainingCharacters.classList.add('remaining-characters');
+    remainingCharacters.id = 'remaining-characters-three';
+    remainingCharacters.textContent = '100 characters remaining';
+
+    div.appendChild(detailsInput);
+    div.appendChild(remainingCharacters);
+
     const okBtn = document.createElement('button');
     okBtn.classList.add('proj-add-btn');
     okBtn.textContent = 'Add Project';
 
-    todoForm.appendChild(detailsInput);
+    todoForm.appendChild(div);
     todoForm.appendChild(okBtn);
+
+    todoForm.style.gridTemplateRows = '2fr min-content';
 }
 
 // add note form
@@ -452,6 +485,26 @@ const addNoteForm = () => {
     todoForm.appendChild(detailsInput);
     todoForm.appendChild(detailsInput2);
     todoForm.appendChild(okBtn);
+
+    todoForm.style.gridTemplateRows = 'min-content 2fr min-content';
+}
+
+// show the remaining characters left for the user
+function updateRemainingCharacters(item, remainingCharacters) {
+    const threshold = 50; // threshold for when to turn the text red
+    const inputValue = item.value;
+    const inputRemaining = item.maxLength - inputValue.length;
+    remainingCharacters.textContent = `${inputRemaining} characters left`;
+    if (inputRemaining <= 0) {
+        remainingCharacters.textContent = `No characters left`;
+    } else if (inputRemaining === 1) {
+        remainingCharacters.textContent = `${inputRemaining} character left`;
+    }
+    if (inputRemaining <= threshold) {
+        remainingCharacters.classList.add('red-text');
+    } else {
+        remainingCharacters.classList.remove('red-text');
+    }
 }
 
 // helper function for creating new todo, project, and note icons on the sidebar
@@ -478,4 +531,4 @@ const createPopupContainers = () => {
 }
 
 export default createPopupContainers;
-export {addForm, addProjectForm, addNoteForm};
+export {addForm, addProjectForm, addNoteForm, updateRemainingCharacters};

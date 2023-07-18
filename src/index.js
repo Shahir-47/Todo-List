@@ -14,6 +14,7 @@ import { showAllNotes, handleNotes } from './pages/notesUI';
 import { notes } from './functions/notes';
 import searchTask from './functions/search';
 import { searchNote } from './functions/search';
+import { updateRemainingCharacters } from './functions/popup';
 
 let highlight;
 let previousScrollPosition = 0;
@@ -151,7 +152,6 @@ document.querySelector('#content').addEventListener('click', (e) => {
     // Filter all the tasks in a particular project based on the filter selected
     if (document.querySelector('.project-title')) {
         if (e.target.closest('#All')) {
-            console.log(document.querySelector('.project-title').textContent)
             displayAllItems(document.querySelector('.project-title').textContent, document.querySelector('.sort #sort-selection').value, 'All');
         } else if (e.target.closest('#Today')) {
             displayAllItems(document.querySelector('.project-title').textContent, document.querySelector('.sort #sort-selection').value, 'Today');
@@ -237,6 +237,15 @@ document.querySelector('#content').addEventListener('input', (e) => {
         } else if (document.querySelector('.notes-list')) {
             searchNote(searchBar.value);
         }
+    }
+    if (e.target.closest('.title-input')){
+        updateRemainingCharacters(e.target.closest('.title-input'), document.querySelector('#remaining-characters'));
+    }
+    if (e.target.closest('.details-input')){
+        updateRemainingCharacters(e.target.closest('.details-input'), document.querySelector('#remaining-characters-two'));
+    }
+    if (e.target.closest('.project-title-input')){
+        updateRemainingCharacters(e.target.closest('.project-title-input'), document.querySelector('#remaining-characters-three'));
     }
 });
 
