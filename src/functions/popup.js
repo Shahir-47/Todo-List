@@ -500,6 +500,7 @@ function updateRemainingCharacters(item, remainingCharacters) {
     } else if (inputRemaining === 1) {
         remainingCharacters.textContent = `${inputRemaining} character left`;
     }
+    // Give user warning if less than 50 characters left
     if (inputRemaining <= threshold) {
         remainingCharacters.classList.add('red-text');
     } else {
