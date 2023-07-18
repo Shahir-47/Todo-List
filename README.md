@@ -25,7 +25,7 @@ Todo List offers the following key features:
 - Task Filtering: Filter tasks by categories such as today, this week, important, high priority, and completed. Additionally, tasks can be sorted based on remaining due time or priority.
 - Sidebar Control: Maximize and minimize the sidebar to optimize the usage of screen space and focus on the content.
 ## Website
-You can access the Todo List page online at: [https://shahir-47.github.io/Todo-List/](https://shahir-47.github.io/Todo-list/)
+You can access the Todo List page online at: [https://shahir-47.github.io/Todo-List/](https://shahir-47.github.io/Todo-List/)
 ## Technologies
 The Todo List application was developed using the following technologies:
 
