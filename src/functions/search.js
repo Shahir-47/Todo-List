@@ -53,7 +53,7 @@ const searchTask = (query, type) => {
     if (!matchFound) {
         // if there are items displayed prior to the search, hide them
         if (query !== '') {
-            if (!document.querySelector('.no-item')) {
+            if (!todoList.querySelector('.no-item')) {
                 noItem = document.createElement('div');
                 noItem.classList.add('no-item');
                 todoList.classList.add('no-item');
@@ -69,7 +69,7 @@ const searchTask = (query, type) => {
 
             // if there are no items prior to the search, then edit the existing noItem element
             } else {
-                let noItem = document.querySelector('.no-item');
+                let noItem = todoList.querySelector('.no-item');
                 noItem.classList.remove('hide');
                 noItem.classList.add('no-item');
                 todoList.classList.add('no-item');
@@ -127,7 +127,7 @@ const searchNote = (query) => {
     if (!matchFound) {
         // if there are items displayed prior to the search, hide them
         if (query !== '') {
-            if (!document.querySelector('.no-item')) {
+            if (!document.querySelector('.notes-list .no-item')) {
                 noItem = document.createElement('div');
                 noItem.classList.add('no-item');
                 noItem.classList.add('no-item-icon');
@@ -144,7 +144,7 @@ const searchNote = (query) => {
 
             // if there are no items prior to the search, then edit the existing noItem element
             } else {
-                let noItem = document.querySelector('.no-item');
+                let noItem = document.querySelector('.notes-list .no-item');
                 noItem.classList.remove('hide');
                 noItem.classList.add('no-item');
                 todoList.classList.add('no-item');
@@ -153,8 +153,13 @@ const searchNote = (query) => {
             }
         // if there is a match, then display the notes
         } else {
+            // todoList.classList.remove('no-item');
+            // noItem.classList.add('hide'); // Hide existing no-result icon if a match is found
             allNotes(document.querySelector('.notes-list').getAttribute('starred') == 'false' ? false : true);
         }
+    } else if (noItem) {
+        todoList.classList.remove('no-item');
+        noItem.classList.add('hide'); // Hide existing no-result icon if a match is found
     }
 };
 

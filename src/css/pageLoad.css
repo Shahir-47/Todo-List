@@ -301,7 +301,6 @@ div#content {
     justify-content: center;
     gap: 1rem;
     padding: 1rem;
-    padding-left: 6.25rem;
 }
 
 .no-item img {
@@ -310,7 +309,7 @@ div#content {
 }
 
 .no-item-icon {
-    padding-right: 6.25rem;
+    padding-left: 6.25rem;
 }
 
 .detail-div.p.red-text,
