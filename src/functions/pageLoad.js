@@ -40,7 +40,7 @@ const adjustPageContent = () => {
     pageContent.style.marginLeft = width + 'px';
     pageContent.style.marginTop = top;
     pageContent.style.minHeight = 'calc(100vh - ' + (top + bottom + 'px') + ')';
-    pageContent.style.width = 'calc(100vw - ' + (width + 'px') + ')';
+    pageContent.style.width = 'calc(100vw - ' + (width + 16 +'px') + ')';
 
     // since notes uses masonry.js, we need to reload the page content for the notes page
     if (document.querySelector('.notes-list')) {

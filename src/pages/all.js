@@ -640,10 +640,10 @@ const allUI = () => {
     // dynamically adjust the height and margins of the list
     const todoList = document.createElement('div');
     todoList.classList.add('todo-list');
-    todoList.style.minHeight = pageContent.offsetHeight - (footer.offsetHeight * 2) - display.offsetHeight - 16 + 'px';
-    todoList.style.maxHeight = pageContent.offsetHeight - (footer.offsetHeight * 2) - display.offsetHeight - 16 + 'px';
+    todoList.style.minHeight = pageContent.offsetHeight - (footer.offsetHeight * 2) - display.offsetHeight - 26 + 'px';
+    todoList.style.maxHeight = pageContent.offsetHeight - (footer.offsetHeight * 2) - display.offsetHeight - 26 + 'px';
     todoList.style.marginRight = addBtn.offsetWidth + 64 + 'px';
-    display.style.marginRight = addBtn.offsetWidth + 72 + 'px';
+    display.style.marginRight = addBtn.offsetWidth + 'px';
     pageContent.appendChild(todoList);
 
     // display all items, when all page is loaded
