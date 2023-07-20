@@ -47,7 +47,7 @@ const showPage = (page) => {
 
     // add the separator div and footer to the page
     pageContent.appendChild(separator);
-    pageContent.appendChild(footer());
+    pageContent.appendChild(footerBar);
 
     // give todo list a min and max height
     todoList.style.minHeight = 'calc(100vh - ' + (navbar.offsetHeight + footerBar.offsetHeight + 32) + 'px)';
