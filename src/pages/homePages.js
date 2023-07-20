@@ -3,11 +3,16 @@ import footer from '../functions/footer.js';
 
 // Show today, tomorrow, this week, important, and completed page based on the page parameter
 const showPage = (page) => {
+    const pageContent = document.querySelector('#page-content');
+    const navbar = document.querySelector('.nav-bar');
+    const footerBar = footer();
+
     // remove the highlight from all sidebar items
     const allSidebarItems = document.querySelectorAll('.item');
     allSidebarItems.forEach(item => {
         item.classList.remove('active');
     });
+
     // add the highlight to the correct sidebar item and update the search bar placeholder value
     if (page == 'Today') {
         document.querySelector('.search-input').placeholder = 'Search today\'s tasks';
@@ -23,11 +28,11 @@ const showPage = (page) => {
         document.querySelector('.box:nth-of-type(1) .item:nth-of-type(5)').classList.add('active');
     }
 
-    const pageContent = document.querySelector('#page-content');
-
+    // create the separator for the list and add button
     const separator = document.createElement('div');
     separator.classList.add('list-btn-separator');
 
+    // todo list
     const todoList = document.createElement('div');
     todoList.classList.add('todo-list');
     separator.appendChild(todoList);
@@ -40,21 +45,17 @@ const showPage = (page) => {
         separator.appendChild(addBtn);
     }
 
+    // add the separator div and footer to the page
     pageContent.appendChild(separator);
     pageContent.appendChild(footer());
 
-    const navbar = document.querySelector('.nav-bar');
-    console.log(navbar.offsetHeight);
-
-    const footerBar = document.querySelector('.footer');
-
-    console.log(pageContent.offsetHeight);
+    // give todo list a min and max height
     todoList.style.minHeight = 'calc(100vh - ' + (navbar.offsetHeight + footerBar.offsetHeight + 32) + 'px)';
     todoList.style.maxHeight = 'calc(100vh - ' + (navbar.offsetHeight + footerBar.offsetHeight + 32) + 'px)';
 
+    // adjust the grid template rows of the page content
     pageContent.style.gridTemplateRows = '1fr min-content';
 
-    // adjust the margin of the list based on the page 
     // display all the items based on the page
     if (page == 'Today') {
         displayAllItems('default', 'Time', 'Today');

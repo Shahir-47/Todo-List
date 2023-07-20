@@ -27,8 +27,8 @@ const footer = () => {
     gitHubProfile.appendChild(gitHubProfileImg);
     gitHubProfile.appendChild(gitHubProfileText);
 
-    const seperator = document.createElement('p');
-    seperator.textContent = '|';
+    const separator = document.createElement('p');
+    separator.textContent = '|';
 
     // Link to this source code
     const gitHubRepo = document.createElement('a');
@@ -36,7 +36,7 @@ const footer = () => {
     gitHubRepo.textContent = 'Source Code';
 
     footer.appendChild(gitHubProfile);
-    footer.appendChild(seperator);
+    footer.appendChild(separator);
     footer.appendChild(gitHubRepo);
 
     return footer;

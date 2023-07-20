@@ -569,26 +569,33 @@ const createRadioBtn = (name, value, id, checked = false) => {
 
 // sets up the UI for the all page
 const allUI = () => {
+    const pageContent = document.querySelector('#page-content');
+    const navbar = document.querySelector('.nav-bar');
+    const footerBar = footer();
+
     // remove the active class from all sidebar items
     const allSidebarItems = document.querySelectorAll('.item');
     allSidebarItems.forEach(item => {
         item.classList.remove('active');
     });
+
     // add the active class to the all sidebar item
     document.querySelector('.box:nth-of-type(1) .item:nth-of-type(1)').classList.add('active');
 
-    const pageContent = document.querySelector('#page-content');
-
+    // separate the list from the buttons
     const separator = document.createElement('div');
     separator.classList.add('list-btn-separator');
 
+    // create the add button
     const addBtn = document.createElement('button');
     addBtn.classList.add('add-btn');
     addBtn.textContent = '+';
 
+    // sorting and filtering display options go here
     const display = document.createElement('div');
     display.classList.add('display');
 
+    // filter buttons
     const selection = document.createElement('div');
     selection.classList.add('selection');
 
@@ -639,27 +646,23 @@ const allUI = () => {
     display.appendChild(right);
     pageContent.appendChild(display);
 
-    // dynamically adjust the height and margins of the list
     const todoList = document.createElement('div');
     todoList.classList.add('todo-list');
 
-    // todoList.style.marginRight = addBtn.offsetWidth + 64 + 'px';
     separator.appendChild(todoList);
     separator.appendChild(addBtn);
     pageContent.appendChild(separator);
-    pageContent.appendChild(footer());
 
-    const navbar = document.querySelector('.nav-bar');
-    console.log(navbar.offsetHeight);
+    pageContent.appendChild(footerBar);
 
-    const footerBar = document.querySelector('.footer');
-
-    console.log(pageContent.offsetHeight);
-    console.log(display.offsetHeight);
+    // give todo List a fixed height
+    console.log(footerBar.offsetHeight);
     todoList.style.minHeight = 'calc(100vh - ' + (navbar.offsetHeight + display.offsetHeight + footerBar.offsetHeight + 32) + 'px)';
     todoList.style.maxHeight = 'calc(100vh - ' + (navbar.offsetHeight + display.offsetHeight + footerBar.offsetHeight + 32) + 'px)';
 
+    // give pageContent a grid layout
     pageContent.style.gridTemplateRows = 'min-content 1fr min-content';
+
     // display all items, when all page is loaded
     displayAllItems();
 };

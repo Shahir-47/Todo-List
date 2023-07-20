@@ -1,6 +1,6 @@
-import { storage } from './storage';
 import { v4 as uuidv4 } from 'uuid';
-import { allNotes } from '../pages/notesUI';
+import { allNotes } from '../pages/notesUI.js';
+import { storage } from './storage.js';
 
 const notes = (() => {
     // get notes from localStorage

@@ -1,5 +1,5 @@
-import { project } from './project';
-import { notes } from './notes';
+import { project } from './project.js';
+import { notes } from './notes.js';
 
 // validate the add and edit todo form and sent data to project.js
 const formValidation = (form, id = null) => {

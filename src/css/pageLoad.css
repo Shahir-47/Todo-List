@@ -79,7 +79,6 @@ div#content {
 .sidebar-content {
     width: 250px;
     background-color: var(--sidebar-bg-color);
-    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -233,8 +232,6 @@ div#content {
     gap: 2rem;
     padding: 0 1rem;
     padding-top: 0.25rem;
-    /* -webkit-box-shadow: 0px 7px 8px 0px rgba(0,0,0,0.76); 
-    box-shadow: 0px 7px 8px 0px rgba(0,0,0,0.76); */
 }
 
 .search-box {
@@ -254,8 +251,6 @@ div#content {
 
 .search-box input {
     border: none;
-    /* background-color: #192734;
-    border-radius: 3.9375rem; */
     background-color: transparent;
     border: hsl(0, 0%, 18.82%);
     color: var(--search-input-color);
@@ -309,9 +304,6 @@ div.no-item {
     padding: 1rem;
 }
 
-.no-item-icon {
-}
-
 .no-item img {
     width: 10rem;
     height: auto;
@@ -330,13 +322,13 @@ div.no-item {
 }
 
 .no-item {
-    user-select: none; /* Prevents text highlighting */
-    -webkit-user-drag: none; /* Disables dragging in WebKit browsers */
-    -khtml-user-drag: none; /* Disables dragging in Konqueror browser */
-    -moz-user-select: none; /* Prevents text highlighting in Firefox */
-    -moz-user-drag: none; /* Disables dragging in Firefox */
-    -ms-user-select: none; /* Prevents text highlighting in Internet Explorer/Edge */
-    -ms-user-drag: none; /* Disables dragging in Internet Explorer/Edge */
+    user-select: none;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-select: none;
+    -moz-user-drag: none;
+    -ms-user-select: none;
+    -ms-user-drag: none;
 }
 
 .no-item p {
@@ -366,7 +358,7 @@ div.no-item {
 .container {
     display: flex;
     flex-direction: row;
-    margin-top: 50px; /* adjust as needed to prevent content from being overlapped by the header */
+    margin-top: 50px;
     flex-wrap: wrap;
   }
 
@@ -633,7 +625,6 @@ footer img {
     display: grid;
     gap: 1rem;
     padding: 1rem;
-    /* grid-template-rows: min-content 3fr 2fr; */
 }
 
 .third-row {

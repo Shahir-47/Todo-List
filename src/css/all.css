@@ -43,8 +43,6 @@
     padding: 1rem 2rem;
     background-color: var(--add-btn-color);
     color: var(--header-color);
-    /* border-top-left-radius: 12px; */
-    /* border-top-right-radius: 12px; */
     border-radius: 12px;
     line-height: 43px;
     margin-right: 7.5rem;
@@ -88,7 +86,6 @@
 }
 
 .note:focus-within {
-    /* Apply styles to the parent element when the child content editable element is focused */
     -webkit-transform: scale(1.003);
     transform: scale(1.01);
     -webkit-transform-origin: 50% 50%;
@@ -327,11 +324,10 @@
     height: 2rem;
     border: 3px solid var(--add-btn-color);
     border-radius: 50%;
-    /* transition: all 0.2s ; */
     user-select: none;
-    -moz-user-select: none; /* Firefox */
-    -webkit-user-select: none; /* Safari and Chrome */
-    -ms-user-select: none; /* Internet Explorer/Edge */
+    -moz-user-select: none;
+    -webkit-user-select: none; 
+    -ms-user-select: none; 
 }
 
 .completed:hover {

@@ -1,9 +1,9 @@
 import noTask from '../assets/img/taskSearch.svg';
 import projectSearch from '../assets/img/folderSearch.svg';
 import noNote from '../assets/img/noNote.svg';
-import { displayTheRightPage } from './project';
-import { allProject } from '../pages/projectUI';
-import { allNotes } from '../pages/notesUI';
+import { displayTheRightPage } from './project.js';
+import { allProject } from '../pages/projectUI.js';
+import { allNotes } from '../pages/notesUI.js';
 
 let noItem = document.querySelector('.no-item-icon'); // Get the existing noItem element
 
@@ -37,6 +37,7 @@ const searchTask = (query, type) => {
 
         // regex to highlight the matching text
         const regex = new RegExp(`(${query})`, 'gi');
+
         // add the highlight span class to the matching text
         const matchedText = taskName.match(regex);
         if (matchedText) {
@@ -51,7 +52,7 @@ const searchTask = (query, type) => {
 
     // Check if no match is found and show/hide no-result icon
     if (!matchFound) {
-        // if there are items displayed prior to the search, hide them
+        // if there are no matches and the search bar is not empty, then display the no-result icon
         if (query !== '') {
             if (!todoList.querySelector('.no-item-icon')) {
                 todoList.classList.add('no-item');
@@ -67,7 +68,8 @@ const searchTask = (query, type) => {
                 noItem.appendChild(noItemText);
                 todoList.appendChild(noItem);
 
-            // if there are no items prior to the search, then edit the existing noItem element
+            // if there are no matches, the search bar is not empty, and there is an existing noItem element,
+            // then edit the existing noItem element
             } else {
                 let noItem = todoList.querySelector('.no-item-icon');
                 noItem.classList.remove('hide');
@@ -75,7 +77,7 @@ const searchTask = (query, type) => {
                 noItem.querySelector('img').src = picSrc;
                 noItem.querySelector('p').textContent = picText;
             }
-        // if there is no query and there is no list, then display the missing icons
+        // if there is no query and there is no list, then display the respective missing icons
         } else {
             if (type == 'list') {
                 displayTheRightPage();
@@ -98,11 +100,13 @@ const searchNote = (query) => {
     let matchFound = false; // Flag to track if a match is found
     let todoList = document.querySelector('.notes-list'); // Todo list container
     const notes = document.querySelectorAll('.note'); // List of notes
+
     // loop through all the notes
     for (let i = 0; i < notes.length; i++) {
         const note = notes[i];
         const noteTitle = note.querySelector('.note-title').textContent;
         const noteDescription = note.querySelector('.note-description').textContent;
+
         // regex to highlight the matching text
         const regex = new RegExp(`(${query})`, 'gi');
 
@@ -124,12 +128,11 @@ const searchNote = (query) => {
 
     // Check if no match is found and show/hide no-result icon
     if (!matchFound) {
-        // if there are items displayed prior to the search, hide them
+        // if there are no matches and the search bar is not empty, then display the no-result icon
         if (query !== '') {
             if (!todoList.querySelector('.no-item-icon')) {
                 todoList.classList.add('no-item');
                 noItem = document.createElement('div');
-                // noItem.classList.add('no-item');
                 noItem.classList.add('no-item-icon');
                 const noItemIcon = document.createElement('img');
                 noItemIcon.alt = 'No results icon';
@@ -141,7 +144,8 @@ const searchNote = (query) => {
                 noItem.appendChild(noItemText);
                 todoList.appendChild(noItem);
 
-            // if there are no items prior to the search, then edit the existing noItem element
+            // if there are no matches, the search bar is not empty, and there is an existing noItem element,
+            // then edit the existing noItem element
             } else {
                 let noItem = todoList.querySelector('.no-item-icon');
                 noItem.classList.remove('hide');
@@ -150,12 +154,11 @@ const searchNote = (query) => {
                 noItem.querySelector('img').src = noNote;
                 noItem.querySelector('p').textContent = 'No notes found!';
             }
-        // if there is a no match, and no query then display the no notes icon
+        // if there is no query and there is no list, then display the respective missing icons
         } else {
-            // todoList.classList.remove('no-item');
-            // noItem.classList.add('hide'); // Hide existing no-result icon if a match is found
             allNotes(document.querySelector('.notes-list').getAttribute('starred') == 'false' ? false : true);
         }
+    // if a match is found, then remove the no-result icon
     } else if (noItem) {
         todoList.classList.remove('no-item');
         noItem.classList.add('hide'); // Hide existing no-result icon if a match is found

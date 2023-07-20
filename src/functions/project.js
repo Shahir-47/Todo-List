@@ -1,8 +1,8 @@
-import { storage } from '../functions/storage';
+import { allProject } from '../pages/projectUI.js';
+import { storage } from '../functions/storage.js';
 import { v4 as uuidv4 } from 'uuid';
-import { displayAllItems, removeTodoItemUI, taskDoneUI } from '../pages/all';
+import { displayAllItems, removeTodoItemUI, taskDoneUI } from '../pages/all.js';
 import { compareAsc, compareDesc, formatDistanceToNow, isSameDay, differenceInCalendarDays } from 'date-fns';
-import { allProject } from '../pages/projectUI';
 
 // After adding, editing, deleting, or completing a todo item, the page needs to be updated to reflect the changes.
 const displayTheRightPage = () => {

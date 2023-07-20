@@ -54,6 +54,10 @@ const handleProject = (event) => {
 
 // Renders the all project or starred project page based on the starred parameter
 const showAllProject = (starred = false) => {
+    const pageContent = document.querySelector('#page-content');
+    const navbar = document.querySelector('.nav-bar');
+    const footerBar = footer();
+
     // remove the highlight from all sidebar items
     const allSidebarItems = document.querySelectorAll('.item');
     allSidebarItems.forEach(item => {
@@ -66,57 +70,45 @@ const showAllProject = (starred = false) => {
     } else if (starred && document.querySelector('.box:nth-of-type(2) .item:nth-of-type(2)')) {
         document.querySelector('.search-input').placeholder = 'Search starred projects';
         document.querySelector('.box:nth-of-type(2) .item:nth-of-type(2)').classList.add('active');
-    }
-    
+    }  
+
+    // project title
+    const projectTitle = document.createElement('h1');
+    projectTitle.classList.add('project-header');
+    pageContent.appendChild(projectTitle);
+
+    // create the separator for the list and add button
     const separator = document.createElement('div');
     separator.classList.add('list-btn-separator');
 
-    // Render the page
-    const projectTitle = document.createElement('h1');
-    projectTitle.classList.add('project-header');
-    const pageContent = document.querySelector('#page-content');
-    pageContent.appendChild(projectTitle);
+    // todo list
+    const todoList = document.createElement('div');
+    todoList.classList.add('todo-list-project');
 
+    // add button
     const addBtn = document.createElement('button');
     addBtn.classList.add('add-btn');
     addBtn.textContent = '+';
 
-
-    // adjust the height and margins of the list dynamically
-    const todoList = document.createElement('div');
-    todoList.classList.add('todo-list-project');
-
     separator.appendChild(todoList);
     separator.appendChild(addBtn);
-
     pageContent.appendChild(separator);
-    pageContent.appendChild(footer());
+    pageContent.appendChild(footerBar);
 
-    const navbar = document.querySelector('.nav-bar');
-    console.log(navbar.offsetHeight);
-
-    const footerBar = document.querySelector('.footer');
-    pageContent.style.gridTemplateRows = 'min-content 1fr min-content';
-
-    console.log(getComputedStyle(projectTitle).lineHeight);
+    // get the height of the project title
     const lineHeight = parseInt(getComputedStyle(projectTitle).lineHeight);
-    console.log(lineHeight);
     const margin = parseFloat(getComputedStyle(projectTitle).marginBottom) + parseFloat(getComputedStyle(projectTitle).marginTop);
     const padding = parseFloat(getComputedStyle(projectTitle).paddingBottom) + parseFloat(getComputedStyle(projectTitle).paddingTop);
     const height = lineHeight + margin + padding;
 
-    console.log(height)
-    console.log(navbar.offsetHeight + footerBar.offsetHeight + height + 32);
-    console.log('calc(100vh - ' + (navbar.offsetHeight + footerBar.offsetHeight + height + 32) + 'px)');
-    console.log(window.innerHeight)
-    console.log(window.innerHeight - (navbar.offsetHeight + footerBar.offsetHeight + height + 32) + 'px')
-
+    // give todo list a fixed height
     todoList.style.minHeight = 'calc(100vh - ' + (navbar.offsetHeight + footerBar.offsetHeight + height + 32) + 'px)';
     todoList.style.maxHeight = 'calc(100vh - ' + (navbar.offsetHeight + footerBar.offsetHeight + height + 32) + 'px)';
-    // todoList.style.minHeight = 550 + 'px';
-    // todoList.style.maxHeight = 550 + 'px';
+    
+    // adjust the grid template rows of the page content
+    pageContent.style.gridTemplateRows = 'min-content 1fr min-content';
 
-    // add all the projects to the list
+    // display all the projects
     allProject(starred);
 }
 

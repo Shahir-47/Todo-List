@@ -1,9 +1,8 @@
-import {sidebar} from './sidebar.js';
 import header from './header.js';
-import footer from './footer.js';
 import createPopupContainers from './popup.js';
-import { addForm, addProjectForm, addNoteForm } from './popup.js';
+import {sidebar} from './sidebar.js';
 import { allNotes } from '../pages/notesUI.js'
+import { addForm, addProjectForm, addNoteForm } from './popup.js';
 
 //create div where all the page content will be displayed
 const pageContent = () => {
@@ -53,6 +52,7 @@ const showForm = () => {
     addForm();
     document.querySelector('.priority-container #low').checked = true;
     document.getElementById('popupFormContainer').style.display = 'block';
+
     // add the highlight to the correct sidebar item
     document.querySelector('.new-todo-box:nth-of-type(1)').classList.add('active');
     document.querySelector('.new-todo-box:nth-of-type(2)').classList.remove('active');
@@ -62,8 +62,9 @@ const showForm = () => {
 // Show the add note form
 const showNoteForm = () => {
     addNoteForm();
-    // add the highlight to the correct sidebar item
     document.getElementById('popupFormContainer').style.display = 'block';
+    
+    // add the highlight to the correct sidebar item
     document.querySelector('.new-todo-box:nth-of-type(1)').classList.remove('active');
     document.querySelector('.new-todo-box:nth-of-type(2)').classList.remove('active');
     document.querySelector('.new-todo-box:nth-of-type(3)').classList.add('active');
@@ -71,9 +72,10 @@ const showNoteForm = () => {
 
 // Show the add project form
 const showProjectForm = () => {
-    addProjectForm();
-    // add the highlight to the correct sidebar item
+    addProjectForm();    
     document.getElementById('popupFormContainer').style.display = 'block';
+        
+    // add the highlight to the correct sidebar item
     document.querySelector('.new-todo-box:nth-of-type(1)').classList.remove('active');
     document.querySelector('.new-todo-box:nth-of-type(2)').classList.add('active');
     document.querySelector('.new-todo-box:nth-of-type(3)').classList.remove('active');
