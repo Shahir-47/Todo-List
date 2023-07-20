@@ -6,6 +6,7 @@ import fullStar from '../assets/img/fullStar.svg';
 import empty from '../assets/img/emptyNote.svg';
 import Masonry from 'masonry-layout';
 import { searchNote } from '../functions/search';
+import footer from '../functions/footer';
 
 // handle the note buttons
 const handleNotes = (event) => {
@@ -42,6 +43,9 @@ const showAllNotes = (starred = false) => {
         document.querySelector('.box:nth-of-type(3) .item:nth-of-type(2)').classList.add('active');
     }
 
+    const separator = document.createElement('div');
+    separator.classList.add('list-btn-separator');
+
     const projectTitle = document.createElement('h1');
     projectTitle.classList.add('project-header');
     if (starred) {
@@ -50,22 +54,37 @@ const showAllNotes = (starred = false) => {
         projectTitle.textContent = 'All Notes';
     }
     const pageContent = document.querySelector('#page-content');
-    const footer = document.querySelector('footer');
     pageContent.appendChild(projectTitle);
 
     const addBtn = document.createElement('button');
     addBtn.classList.add('add-btn');
     addBtn.textContent = '+';
-    pageContent.appendChild(addBtn);
 
     // dynamically set the height and margins of the notes list
     const todoList = document.createElement('div');
     todoList.classList.add('notes-list');
-    todoList.style.minHeight = pageContent.offsetHeight - (footer.offsetHeight*2) - (projectTitle.offsetHeight*1.5) - 16 + 'px';
-    todoList.style.maxHeight = pageContent.offsetHeight - (footer.offsetHeight*2) - (projectTitle.offsetHeight*1.5) - 16 + 'px';
-    todoList.style.marginRight = addBtn.offsetWidth + 64 + 'px';
-    projectTitle.style.marginRight = addBtn.offsetWidth + 72 + 'px';
-    pageContent.appendChild(todoList);
+
+    separator.appendChild(todoList);
+    separator.appendChild(addBtn);
+
+    pageContent.appendChild(separator);
+    pageContent.appendChild(footer());
+
+    const navbar = document.querySelector('.nav-bar');
+    console.log(navbar.offsetHeight);
+
+    const footerBar = document.querySelector('.footer');
+    pageContent.style.gridTemplateRows = 'min-content 1fr min-content';
+
+    console.log(getComputedStyle(projectTitle).lineHeight);
+    const lineHeight = parseInt(getComputedStyle(projectTitle).lineHeight);
+    console.log(lineHeight);
+    const margin = parseFloat(getComputedStyle(projectTitle).marginBottom) + parseFloat(getComputedStyle(projectTitle).marginTop);
+    const padding = parseFloat(getComputedStyle(projectTitle).paddingBottom) + parseFloat(getComputedStyle(projectTitle).paddingTop);
+    const height = lineHeight + margin + padding;
+
+    todoList.style.minHeight = 'calc(100vh - ' + (navbar.offsetHeight + footerBar.offsetHeight + height + 32) + 'px)';
+    todoList.style.maxHeight = 'calc(100vh - ' + (navbar.offsetHeight + footerBar.offsetHeight + height + 32) + 'px)';
 
     allNotes(starred);
 }
@@ -94,7 +113,6 @@ const allNotes = (starred) => {
         todoList.classList.add('no-item')
         const noItem = document.createElement('div');
         noItem.classList.add('no-item-icon');
-        noItem.classList.add('no-item');
         const noItemIcon = document.createElement('img');
         noItemIcon.src = empty;
         noItemIcon.alt = 'No notes icon';

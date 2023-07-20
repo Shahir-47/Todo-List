@@ -39,22 +39,7 @@ const footer = () => {
     footer.appendChild(seperator);
     footer.appendChild(gitHubRepo);
 
-    document.querySelector('div#content').appendChild(footer);
-    adjustFooter(); // adjust the footer's width and paddings based on the sidebar's width
-}
-
-// Adjust the footer's width and paddings based on the sidebar's width
-const adjustFooter = () => {
-    const sidebarContent = document.querySelector('.sidebar-content');
-    let width = sidebarContent.offsetWidth;
-
-    const footer = document.querySelector('footer');
-    footer.style.marginLeft = width + 'px';
-
-    footer.style.width = 'calc(100vw - ' + (width + 114 + 'px') + ')';
-    footer.style.paddingLeft = 16 + 'px';
-    footer.style.paddingRight = 32 + 'px';
+    return footer;
 }
 
 export default footer;
-export {adjustFooter};

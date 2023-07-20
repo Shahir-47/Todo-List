@@ -9,6 +9,7 @@ import { formatDistanceToNow, isSameDay, addDays, differenceInCalendarDays, form
 import { storage } from '../functions/storage';
 import { project } from '../functions/project';
 import searchTask from '../functions/search';
+import footer from '../functions/footer.js';
 
 //handle actions on the todo items
 const itemsEventHandler = (event) => {
@@ -318,7 +319,7 @@ const displayAllItems = (name = 'default', sortBy = 'Time', filter = 'All') => {
     if (list.length == 0) {
         todoList.classList.add('no-item')
         const noItem = document.createElement('div');
-        noItem.classList.add('no-item');
+        noItem.classList.add('no-item-icon');
         const noItemIcon = document.createElement('img');
         noItemIcon.src = noTask;
         noItemIcon.alt = 'No task icon';
@@ -577,12 +578,13 @@ const allUI = () => {
     document.querySelector('.box:nth-of-type(1) .item:nth-of-type(1)').classList.add('active');
 
     const pageContent = document.querySelector('#page-content');
-    const footer = document.querySelector('footer');
+
+    const separator = document.createElement('div');
+    separator.classList.add('list-btn-separator');
 
     const addBtn = document.createElement('button');
     addBtn.classList.add('add-btn');
     addBtn.textContent = '+';
-    pageContent.appendChild(addBtn);
 
     const display = document.createElement('div');
     display.classList.add('display');
@@ -640,12 +642,24 @@ const allUI = () => {
     // dynamically adjust the height and margins of the list
     const todoList = document.createElement('div');
     todoList.classList.add('todo-list');
-    todoList.style.minHeight = pageContent.offsetHeight - (footer.offsetHeight * 2) - display.offsetHeight - 26 + 'px';
-    todoList.style.maxHeight = pageContent.offsetHeight - (footer.offsetHeight * 2) - display.offsetHeight - 26 + 'px';
-    todoList.style.marginRight = addBtn.offsetWidth + 64 + 'px';
-    display.style.marginRight = addBtn.offsetWidth + 'px';
-    pageContent.appendChild(todoList);
 
+    // todoList.style.marginRight = addBtn.offsetWidth + 64 + 'px';
+    separator.appendChild(todoList);
+    separator.appendChild(addBtn);
+    pageContent.appendChild(separator);
+    pageContent.appendChild(footer());
+
+    const navbar = document.querySelector('.nav-bar');
+    console.log(navbar.offsetHeight);
+
+    const footerBar = document.querySelector('.footer');
+
+    console.log(pageContent.offsetHeight);
+    console.log(display.offsetHeight);
+    todoList.style.minHeight = 'calc(100vh - ' + (navbar.offsetHeight + display.offsetHeight + footerBar.offsetHeight + 32) + 'px)';
+    todoList.style.maxHeight = 'calc(100vh - ' + (navbar.offsetHeight + display.offsetHeight + footerBar.offsetHeight + 32) + 'px)';
+
+    pageContent.style.gridTemplateRows = 'min-content 1fr min-content';
     // display all items, when all page is loaded
     displayAllItems();
 };

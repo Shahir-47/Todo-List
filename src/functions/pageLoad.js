@@ -8,20 +8,11 @@ import { allNotes } from '../pages/notesUI.js'
 //create div where all the page content will be displayed
 const pageContent = () => {
     const sidebarContent = document.querySelector('.sidebar-content');
-    let width = sidebarContent.offsetWidth;
-    
-    let top = sidebarContent.style.marginTop;
-    const footerH = document.querySelector('footer');
-    let bottom = footerH.offsetHeight;
 
     const pageContent = document.createElement('div');
     pageContent.id = 'page-content';
-    pageContent.style.marginLeft = width + 'px';
-    pageContent.style.marginTop = top;
-    pageContent.style.minHeight = 'calc(100vh - ' + (top + bottom + 'px') + ')';
-    pageContent.style.maxHeight = 'calc(100vh - ' + (top + bottom + 'px') + ')';
-    pageContent.style.width = 'calc(100vw - ' + (width + 'px') + ')';
-    pageContent.style.paddingBottom = (bottom + 8) + 'px';
+    pageContent.style.marginLeft = sidebarContent.offsetWidth + 'px';
+    pageContent.style.marginTop = sidebarContent.style.marginTop;
 
     document.querySelector('div#content').appendChild(pageContent);
 }
@@ -29,18 +20,10 @@ const pageContent = () => {
 // adjust the page content when the sidebar is toggled
 const adjustPageContent = () => {
     const sidebarContent = document.querySelector('.sidebar-content');
-    let width = sidebarContent.offsetWidth;
-    
-    let top = sidebarContent.style.marginTop;
-    let height = sidebarContent.style.height;
-    const footerH = document.querySelector('footer');
-    let bottom = footerH.offsetHeight;
-
     const pageContent = document.querySelector('#page-content');
-    pageContent.style.marginLeft = width + 'px';
-    pageContent.style.marginTop = top;
-    pageContent.style.minHeight = 'calc(100vh - ' + (top + bottom + 'px') + ')';
-    pageContent.style.width = 'calc(100vw - ' + (width + 16 +'px') + ')';
+
+    pageContent.style.marginLeft = sidebarContent.offsetWidth + 'px';
+    pageContent.style.marginTop = sidebarContent.style.marginTop;
 
     // since notes uses masonry.js, we need to reload the page content for the notes page
     if (document.querySelector('.notes-list')) {
@@ -53,7 +36,6 @@ const adjustPageContent = () => {
 const pageLoad = () => {
     header(); // create the header
     sidebar(); // create the sidebar
-    footer(); // create the footer
     createPopupContainers(); // create the popup forms
     pageContent(); // create the page content
 }

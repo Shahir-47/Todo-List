@@ -1,4 +1,5 @@
-import { displayAllItems } from './all';
+import { displayAllItems } from './all.js';
+import footer from '../functions/footer.js';
 
 // Show today, tomorrow, this week, important, and completed page based on the page parameter
 const showPage = (page) => {
@@ -23,29 +24,37 @@ const showPage = (page) => {
     }
 
     const pageContent = document.querySelector('#page-content');
-    const footer = document.querySelector('footer');
 
-    let width = 160;
+    const separator = document.createElement('div');
+    separator.classList.add('list-btn-separator');
+
+    const todoList = document.createElement('div');
+    todoList.classList.add('todo-list');
+    separator.appendChild(todoList);
+
     // add the add button to the page except for the completed page
     if (page != 'Completed') {
         const addBtn = document.createElement('button');
         addBtn.classList.add('add-btn');
         addBtn.textContent = '+';
-        pageContent.appendChild(addBtn);
-        width = addBtn.offsetWidth + 64;
+        separator.appendChild(addBtn);
     }
 
-    const todoList = document.createElement('div');
-    todoList.classList.add('todo-list');
-    todoList.style.minHeight = pageContent.offsetHeight - (footer.offsetHeight * 2) - 16 + 'px';
-    todoList.style.maxHeight = pageContent.offsetHeight - (footer.offsetHeight * 2) - 16 + 'px';
-    // adjust the margin of the list based on the page
-    if (page != 'Completed') {
-        todoList.style.marginRight =  width + 'px';
-    } else {
-        todoList.style.marginRight = width + 'px';
-    }  
-    pageContent.appendChild(todoList);
+    pageContent.appendChild(separator);
+    pageContent.appendChild(footer());
+
+    const navbar = document.querySelector('.nav-bar');
+    console.log(navbar.offsetHeight);
+
+    const footerBar = document.querySelector('.footer');
+
+    console.log(pageContent.offsetHeight);
+    todoList.style.minHeight = 'calc(100vh - ' + (navbar.offsetHeight + footerBar.offsetHeight + 32) + 'px)';
+    todoList.style.maxHeight = 'calc(100vh - ' + (navbar.offsetHeight + footerBar.offsetHeight + 32) + 'px)';
+
+    pageContent.style.gridTemplateRows = '1fr min-content';
+
+    // adjust the margin of the list based on the page 
     // display all the items based on the page
     if (page == 'Today') {
         displayAllItems('default', 'Time', 'Today');

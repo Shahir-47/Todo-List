@@ -1,6 +1,5 @@
 #page-content {
     display: grid;
-    grid-template-rows: min-content 1fr min-content;
     align-items: start;
     padding-left: 1rem;
     padding-right: 2rem;
@@ -14,11 +13,8 @@
 }
 
 .add-btn {
+    align-self: end;
     padding: 0;
-    position: absolute;
-    grid-row: 3;
-    right: 4rem;
-    bottom: 4rem;
     border-radius: 50%;
     width: 6rem;
     height: 6rem;
@@ -50,6 +46,8 @@
     /* border-top-left-radius: 12px; */
     /* border-top-right-radius: 12px; */
     border-radius: 12px;
+    line-height: 43px;
+    margin-right: 7.5rem;
 }
 
 .notes-list {
@@ -187,7 +185,7 @@
     padding: 1rem;
     align-items: stretch;
     overflow-x: hidden;
-
+    justify-content: flex-start;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #aaa #eee;

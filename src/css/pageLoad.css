@@ -68,7 +68,7 @@ body.light-theme img:not(.logo-box img){
 }
 
 div#content {
-    display: flex;
+    display: grid;
     flex-direction: row;
     position: relative;
     min-height: 100vh;
@@ -83,7 +83,7 @@ div#content {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    justify-content: space-evenly;
+    justify-content: space-between;
     padding: 0;
     padding-left: 1rem;
     position: fixed;
@@ -137,6 +137,12 @@ div#content {
     margin-bottom: 0.25rem;
     margin-top: 0;
     padding-left: 0.25rem;
+}
+
+.list-btn-separator {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr min-content
 }
 
 .items {
@@ -294,7 +300,7 @@ div#content {
     cursor: pointer;
 }
 
-.no-item {
+div.no-item {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -303,13 +309,19 @@ div#content {
     padding: 1rem;
 }
 
+.no-item-icon {
+}
+
 .no-item img {
     width: 10rem;
     height: auto;
 }
 
 .no-item-icon {
-    padding-left: 6.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 6rem;
 }
 
 .detail-div.p.red-text,
@@ -459,9 +471,7 @@ footer{
     justify-content: center;
     align-items: center;
     gap: 1rem;
-    position: absolute;
-    bottom: 0.5rem; 
-    height: 2.5rem;     
+    padding: 0.35rem 0rem;  
 }
 
 footer a {

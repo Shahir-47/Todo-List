@@ -8,6 +8,7 @@ import displayProject from './indivProj';
 import { project } from '../functions/project';
 import { projectFormValidation } from '../functions/form';
 import searchTask from '../functions/search';
+import footer from '../functions/footer';
 
 // Handles the project buttons
 const handleProject = (event) => {
@@ -67,26 +68,53 @@ const showAllProject = (starred = false) => {
         document.querySelector('.box:nth-of-type(2) .item:nth-of-type(2)').classList.add('active');
     }
     
+    const separator = document.createElement('div');
+    separator.classList.add('list-btn-separator');
+
     // Render the page
     const projectTitle = document.createElement('h1');
     projectTitle.classList.add('project-header');
     const pageContent = document.querySelector('#page-content');
-    const footer = document.querySelector('footer');
     pageContent.appendChild(projectTitle);
 
     const addBtn = document.createElement('button');
     addBtn.classList.add('add-btn');
     addBtn.textContent = '+';
-    pageContent.appendChild(addBtn);
+
 
     // adjust the height and margins of the list dynamically
     const todoList = document.createElement('div');
     todoList.classList.add('todo-list-project');
-    todoList.style.minHeight = pageContent.offsetHeight - (footer.offsetHeight * 2.5) - (projectTitle.offsetHeight*3) - 16 + 'px';
-    todoList.style.maxHeight = pageContent.offsetHeight - (footer.offsetHeight * 2.5) - (projectTitle.offsetHeight*3) - 16 + 'px';
-    todoList.style.marginRight = addBtn.offsetWidth + 64 + 'px';
-    projectTitle.style.marginRight = addBtn.offsetWidth + 72 + 'px';
-    pageContent.appendChild(todoList);
+
+    separator.appendChild(todoList);
+    separator.appendChild(addBtn);
+
+    pageContent.appendChild(separator);
+    pageContent.appendChild(footer());
+
+    const navbar = document.querySelector('.nav-bar');
+    console.log(navbar.offsetHeight);
+
+    const footerBar = document.querySelector('.footer');
+    pageContent.style.gridTemplateRows = 'min-content 1fr min-content';
+
+    console.log(getComputedStyle(projectTitle).lineHeight);
+    const lineHeight = parseInt(getComputedStyle(projectTitle).lineHeight);
+    console.log(lineHeight);
+    const margin = parseFloat(getComputedStyle(projectTitle).marginBottom) + parseFloat(getComputedStyle(projectTitle).marginTop);
+    const padding = parseFloat(getComputedStyle(projectTitle).paddingBottom) + parseFloat(getComputedStyle(projectTitle).paddingTop);
+    const height = lineHeight + margin + padding;
+
+    console.log(height)
+    console.log(navbar.offsetHeight + footerBar.offsetHeight + height + 32);
+    console.log('calc(100vh - ' + (navbar.offsetHeight + footerBar.offsetHeight + height + 32) + 'px)');
+    console.log(window.innerHeight)
+    console.log(window.innerHeight - (navbar.offsetHeight + footerBar.offsetHeight + height + 32) + 'px')
+
+    todoList.style.minHeight = 'calc(100vh - ' + (navbar.offsetHeight + footerBar.offsetHeight + height + 32) + 'px)';
+    todoList.style.maxHeight = 'calc(100vh - ' + (navbar.offsetHeight + footerBar.offsetHeight + height + 32) + 'px)';
+    // todoList.style.minHeight = 550 + 'px';
+    // todoList.style.maxHeight = 550 + 'px';
 
     // add all the projects to the list
     allProject(starred);
@@ -116,7 +144,7 @@ const allProject = (starred) => {
     if (projectList.length === 0) {
         todoList.classList.add('no-item')
         const noItem = document.createElement('div');
-        noItem.classList.add('no-item');
+        noItem.classList.add('no-item-icon');
         const noItemIcon = document.createElement('img');
         noItemIcon.src = empty;
         noItemIcon.alt = 'No projects icon';

@@ -9,7 +9,6 @@ import starredProjects from '../assets/img/starredProjects.svg';
 import allNotes from '../assets/img/allNotes.svg';
 import starredNotes from '../assets/img/starredNote.svg';
 import { adjustPageContent } from './pageLoad';
-import { adjustFooter } from './footer';
 
 // Create a sidebar item
 const createSidebarItems = (icon, text, barType) => { 
@@ -234,13 +233,11 @@ const handleSidebar = (previousScrollPosition) => {
     if (sidebarContent.classList.contains('full')) {
         miniSidebar();
         adjustPageContent();
-        adjustFooter();
         
         // if the sidebar is mini, maximize it and adjust the page content and footer
     } else if (sidebarContent.classList.contains('mini')) {
         sidebar();                                         
         adjustPageContent();
-        adjustFooter();
         document.querySelector('.sidebar-content').scrollTop = previousScrollPosition;
     }
 }
